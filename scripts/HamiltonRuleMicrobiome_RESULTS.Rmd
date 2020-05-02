@@ -1,0 +1,677 @@
+---
+title: "Hamilton Rule in the Microbiome"
+author: "Camille Simonet"
+date: "01/05/2020"
+output: pdf_document
+geometry: margin=1in
+extra_dependencies: ["float"]
+header-includes: #allows you to add in your own Latex packages
+- \usepackage{float} #use the 'float' package
+- \floatplacement{figure}{H} #make every figure with caption = h
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(tidy = TRUE)
+
+source("~/Documents/PhD/Research/background_scripts/basic_packages.R")
+source("~/Documents/PhD/Research/background_scripts/ggplot_themes.R")
+
+
+# DEFINING SOME FUNCTIONS TO BE USED IN THIS SCRIPT
+get.pmcmc.from.summary<- function(model, predictor_variable){
+return(as.data.frame(summary(model)$solutions)[predictor_variable,'pMCMC'])
+}
+
+dodge = position_dodge(width = 0.3, preserve = c("total", "single"))
+
+get.formula<- function(model){
+
+fixed<- paste(as.character(model$Fixed$formula)[2],
+       as.character(model$Fixed$formula)[1],
+       as.character(model$Fixed$formula)[3],
+      sep = ' ')
+random<- paste0(as.character(model$Random$formula), collapse = ' ')
+resid<- paste0(as.character(model$Residual$formula), collapse = ' ')
+
+return(list(fixed = fixed,
+            random = random,
+            resid = resid))
+}
+
+format.summary<- function(model_output){
+df<- 
+summary(model_output)$solutions %>%
+  as.data.frame()%>%
+  rownames_to_column('Predictor') %>%
+  rename(`Posterior mean` = post.mean,
+         `CI lower` = `l-95% CI`,
+         `CI upper` = `u-95% CI`,
+         `Effective Sampling` = eff.samp)
+ return(df) 
+}
+
+# LOAD ANALYSIS OUTPUT (RData object)
+load('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_1.RData')
+
+```
+
+&nbsp;
+
+Compiling all results from a given .RData object output which ran all models. We have:  
+&nbsp;
+ 
+- **Model 1**: *cooperation ~ mean relatedness + log(genome size)*. There are 5 models, one for each  cooperative trait. We then use a random effect meta-analysis to  estimate an overall effect. 
+&nbsp;
+
+- **Model 2**: *cbind(cooperation, within host relatedness) ~ phylogeny + species*. This bivariate formulation of the model allowing to account for uncertainty in the measures of relatedness.  Again there are 5 models, one for each  cooperative traits, and a random effect meta-analysis to  estimate an overall effect. 
+&nbsp;
+
+- **Model 3**: *mean relatedness ~ 1  + sporulation score + mean relative abundance*. Two ecological factor classically predicted to shape relatedness (infinite island model background). Asking if these predictions hold in the case of microbiome. 
+&nbsp;
+ 
+- **Model 4**: *cooperation ~ mean relatedness + log(genome size) + sporulation score + mean relative abundance*. Given the effect of those ecological factors on relatedness, are they the ultimate driver of cooperation (i.e. are they sufficient to explain the phylogenetic distribution of relatedness)? This model asks if relatedness retains predictive power after accounting for these two ecological factors. 
+&nbsp;
+ 
+- **Model 5**: *mean relatedness ~ cooperation + sporulation score + mean relative abundance*. This models completes the path analysis, asking if cooperative traits and ecological factor predict relatedness. 
+&nbsp;
+
+&nbsp;
+
+Additional notes on variables included in the models:  
+&nbsp;
+ 
+- **cooperation**: 5 cooperative traits. *secretome size *, measured computationally from the number of predicted secreted proteins. Then *biofilm formation, quorum-sensing, secretion systems, cooperative antibiotic degradation and siderophores production* were computed from Gene Ontologies, as the number of genes matching gene ontology terms refering to these biological functions. 
+&nbsp;
+ 
+- **gram profile**: all models run on secretome also include gram profile as a co-variate, because the algorithm to compute secretome is different for gram negative and gram positive. 
+&nbsp;
+ 
+- **mean relative abundance**: relative abundance measures taken from midas output,(**NOT** rescaled to the set of species included in the analysis), and averaged over species. 
+&nbsp;
+ 
+- **genome size**: the number of CDS not involved in the cooperative trait (following reasonning in supplementary equations).
+
+\newpage
+
+# MODEL 1
+``` {r}
+# Extracting the pMCMC from summaries to add on the dat.R table
+mod1.pmcmcs<- sapply(mods.R,
+                     get.pmcmc.from.summary,
+                     predictor_variable = c('mean_relatedness', 'log(nb_cds_not_involved_in_response)')) %>%
+  as.data.frame() %>%
+  mutate(predictor_variable = c('mean_relatedness', 'log(nb_cds_not_involved_in_response)')) %>%
+  gather('cooperative_trait', 'pMCMC', 1:6) %>%
+  mutate(cooperative_trait = gsub('_no4', '', cooperative_trait)) %>%
+  mutate(response.predictor = paste0(cooperative_trait, '.', predictor_variable)) %>%
+  select(response.predictor, pMCMC)
+
+# Format a table of models results for display in pdf
+dat.R.formatted<- 
+dat.R %>%
+  mutate(response.predictor = paste0(cooperative_trait, '.', predictor_variable)) %>%
+  left_join(mod1.pmcmcs, by = 'response.predictor') %>%
+  select(predictor_variable, cooperative_trait, effect, sd_post, hpd_lower, hpd_higher, pMCMC) %>%
+  mutate(predictor_variable = gsub('nb_cds_not_involved_in_response', 'genome size', predictor_variable)) %>%
+  rename(`Predictor` = predictor_variable,
+         `Response` = cooperative_trait,
+         `Posterior mean` = effect,
+         `Posterior sd` = sd_post,
+         `HMP lower` = hpd_lower,
+         `HMP higher` = hpd_higher) %>%
+  mutate_if(is.numeric, funs(formatC(., digit = 3, format = 'f')))
+
+
+# Format a table of Meta-analysis results for display
+MA.MODELS_1.formatted<- 
+MA.MODELS_1 %>%
+  as.data.frame() %>%
+  mutate(predictor = gsub('nb_cds_not_involved_in_response', 'genome size', predictor)) %>%
+  rename(`Predictor` = predictor,
+         `Estimate` = estimate,
+         `Std. Error` = se,
+         `Z value` = z.value,
+         `P value` = p.value,
+         `CI lower` = ci.lower,
+         `CI upper` = ci.upper)
+  
+
+# Append meta-analysisoutput to model results output to get a common table used for plotting
+ma.1.df<- data.frame(cooperative_trait = 'Meta-analysis',
+           effect = as.numeric(MA.MODELS_1[which(MA.MODELS_1[,1] == 'mean_relatedness'),'estimate']),
+           hpd_lower = as.numeric(MA.MODELS_1[which(MA.MODELS_1[,1] == 'mean_relatedness'),'ci.lower']),
+           hpd_higher = as.numeric(MA.MODELS_1[which(MA.MODELS_1[,1] == 'mean_relatedness'),'ci.upper']))
+
+dat.R.relatedness<- 
+  rbind(dat.R[dat.R$predictor_variable == 'mean_relatedness',c('cooperative_trait', 'effect', 'hpd_lower', 'hpd_higher')],
+        ma.1.df)
+
+dat.R.relatedness$cooperative_trait <- factor(dat.R.relatedness$cooperative_trait, levels = c('secretome', 'secretion_system', 'biofilm', 'quorum_sensing', 'siderophores', 'ab_degradation', 'Meta-analysis'))
+
+p.mod1<- ggplot(dat.R.relatedness, aes(x = cooperative_trait, y = effect))+
+  geom_point(position = dodge, size = 2)+
+  xlab('')+
+  scale_color_manual(values = c('black'))+
+  geom_hline(yintercept = 0, linetype = 'dashed')+
+  geom_errorbar(aes(ymin=hpd_lower, ymax=hpd_higher), width=.1, position=dodge)+
+  coord_flip()+mytheme
+
+```
+
+```{r, echo=FALSE, fig.align='center', fig.width=5, fig.height=4, fig.cap='Mean relatedness model effects coefficients, Models 1'}
+print(p.mod1)
+```
+
+```{r, echo = FALSE}
+kable(dat.R.formatted, caption = "Mean relatedness model summary", row.names = FALSE)
+```
+
+```{r, echo = FALSE}
+kable(MA.MODELS_1.formatted, caption = "Mean relatedness model Meta-analysis summary", row.names = FALSE)
+```
+
+\newpage
+
+# MODEL 2
+
+``` {r}
+# Extracting the pMCMC from summaries to add on the dat.R table
+mod2.pmcmcs<- sapply(mods.R.RA.SPO,
+                     get.pmcmc.from.summary,
+                     predictor_variable = c('mean_relatedness','mean_relative_abundance', 'sporulation_score', 'log(nb_cds_not_involved_in_response)')) %>%
+  as.data.frame() %>%
+  mutate(predictor_variable = c('mean_relatedness', 'mean_relative_abundance', 'sporulation_score', 'log(nb_cds_not_involved_in_response)')) %>%
+  gather('cooperative_trait', 'pMCMC', 1:6) %>%
+  mutate(cooperative_trait = gsub('_no4', '', cooperative_trait)) %>%
+  mutate(response.predictor = paste0(cooperative_trait, '.', predictor_variable)) %>%
+  select(response.predictor, pMCMC)
+
+# proportion of posterior below 0, times 2
+
+
+get.pmcmc.from.posterior<- function(model){
+  
+  relatedness.post<- mcmc(rowSums(model$VCV[,c(2,6)])/rowSums(model$VCV[,c(4,8)]))
+  genomeSize.post<- model$Sol[,grep('nb_cds_not_involved_in_response', colnames(model$Sol))]
+
+  pMCMC.relatedness<- (2*sum(relatedness.post<0))/length(relatedness.post)
+  pMCMC.genomeSize<- (2*sum(genomeSize.post<0))/length(genomeSize.post)
+  
+  return(c(`Within host relatedness` = pMCMC.relatedness,
+           `Genome size` = pMCMC.genomeSize))
+
+}
+
+
+mod2.pmcmcs<- sapply(mods.R.UNCERTAINTY,
+                     get.pmcmc.from.posterior) %>%
+  as.data.frame() %>%
+  rownames_to_column('predictor_variable') %>%
+  gather('cooperative_trait', 'pMCMC', 2:7) %>%
+  mutate(cooperative_trait = gsub('_no4', '', cooperative_trait)) %>%
+  mutate(response.predictor = paste0(cooperative_trait, '.', predictor_variable)) %>%
+  select(response.predictor, pMCMC)
+
+
+dat.R.UNCERTAINTY.formatted<-
+dat.R.UNCERTAINTY %>%
+  mutate(cooperative_trait = gsub('_no4', '', cooperative_trait)) %>%
+  mutate(response.predictor = paste0(cooperative_trait, '.', predictor_variable)) %>%
+  left_join(mod2.pmcmcs, by = 'response.predictor') %>%
+  select(predictor_variable, cooperative_trait, effect, sd_post, hpd_lower, hpd_higher, pMCMC) %>%
+  rename(`Predictor` = predictor_variable,
+         `Response` = cooperative_trait,
+         `Posterior mean` = effect,
+         `Posterior sd` = sd_post,
+         `HMP lower` = hpd_lower,
+         `HMP higher` = hpd_higher) %>%
+  mutate_if(is.numeric, funs(formatC(., digit = 3, format = 'f')))
+
+
+# Format a table of Meta-analysis results for display
+MA.MODELS_2.formatted<- 
+MA.MODELS_2 %>%
+  as.data.frame() %>%
+  mutate(predictor = gsub('Genome size', 'genome size', predictor)) %>%
+  rename(`Predictor` = predictor,
+         `Estimate` = estimate,
+         `Std. Error` = se,
+         `Z value` = z.value,
+         `P value` = p.value,
+         `CI lower` = ci.lower,
+         `CI upper` = ci.upper)
+  
+
+# Append meta-analysis output to model results output to get a common table used for plotting
+ma.2.df<- data.frame(cooperative_trait = 'Meta-analysis',
+           effect = as.numeric(MA.MODELS_2[which(MA.MODELS_2[,1] == 'Within host relatedness'),'estimate']),
+           hpd_lower = as.numeric(MA.MODELS_2[which(MA.MODELS_2[,1] == 'Within host relatedness'),'ci.lower']),
+           hpd_higher = as.numeric(MA.MODELS_2[which(MA.MODELS_2[,1] == 'Within host relatedness'),'ci.upper']))
+
+
+dat.R.UNCERTAINTY.relatedness<- 
+  rbind(dat.R.UNCERTAINTY[dat.R.UNCERTAINTY$predictor_variable == 'Within host relatedness',c('cooperative_trait', 'effect', 'hpd_lower', 'hpd_higher')],
+        ma.2.df) %>%
+    mutate(cooperative_trait = gsub('_no4', '', cooperative_trait))
+
+  
+dat.R.UNCERTAINTY.relatedness$cooperative_trait <- factor(dat.R.UNCERTAINTY.relatedness$cooperative_trait, levels = c('secretome', 'secretion_system', 'biofilm', 'quorum_sensing', 'siderophores', 'ab_degradation', 'Meta-analysis'))
+
+p.mod2<- ggplot(dat.R.UNCERTAINTY.relatedness, aes(x = cooperative_trait, y = effect))+
+  geom_point(position = dodge, size = 2)+
+  xlab('')+
+  scale_color_manual(values = c('black'))+
+  geom_hline(yintercept = 0, linetype = 'dashed')+
+  geom_errorbar(aes(ymin=hpd_lower, ymax=hpd_higher), width=.1, position=dodge)+
+  coord_flip()+mytheme
+
+```
+
+
+```{r, echo=FALSE, fig.align='center', fig.width=5, fig.height=4, fig.cap='Within host relatedness model effects coefficients'}
+print(p.mod2)
+```
+
+```{r, echo = FALSE}
+kable(dat.R.UNCERTAINTY.formatted, caption = "Within host relatedness model summary", row.names = FALSE)
+```
+
+```{r, echo = FALSE}
+kable(MA.MODELS_2.formatted, caption = "Within host relatedness model Meta-analysis summary", row.names = FALSE)
+```
+
+\newpage
+
+
+# MODEL 3
+
+```{r, echo = FALSE}
+
+mod3.summary.formatted<- format.summary(m3.mean) %>%
+  mutate_if(is.numeric, funs(formatC(., digit = 3, format = 'f')))
+
+
+kable(mod3.summary.formatted, caption = "Abundance and sporulation drivers of relatedness model summary", row.names = FALSE)
+```
+
+\newpage
+
+# MODEL 4
+
+``` {r}
+# Extracting the pMCMC from summaries to add on the dat.R table
+mod4.pmcmcs<- sapply(mods.R.RA.SPO,
+                     get.pmcmc.from.summary,
+                     predictor_variable = c('mean_relatedness','mean_relative_abundance', 'sporulation_score', 'log(nb_cds_not_involved_in_response)')) %>%
+  as.data.frame() %>%
+  mutate(predictor_variable = c('mean_relatedness', 'mean_relative_abundance', 'sporulation_score', 'log(nb_cds_not_involved_in_response)')) %>%
+  gather('cooperative_trait', 'pMCMC', 1:6) %>%
+  mutate(cooperative_trait = gsub('_no4', '', cooperative_trait)) %>%
+  mutate(response.predictor = paste0(cooperative_trait, '.', predictor_variable)) %>%
+  select(response.predictor, pMCMC)
+
+# Format a table of models results for display in pdf
+dat.R.RA.SPO.formatted<- 
+dat.R.RA.SPO %>%
+  mutate(response.predictor = paste0(cooperative_trait, '.', predictor_variable)) %>%
+  left_join(mod4.pmcmcs, by = 'response.predictor') %>%
+  select(predictor_variable, cooperative_trait, effect, sd_post, hpd_lower, hpd_higher, pMCMC) %>%
+  mutate(predictor_variable = gsub('nb_cds_not_involved_in_response', 'genome size', predictor_variable)) %>%
+  rename(`Predictor` = predictor_variable,
+         `Response` = cooperative_trait,
+         `Posterior mean` = effect,
+         `Posterior sd` = sd_post,
+         `HMP lower` = hpd_lower,
+         `HMP higher` = hpd_higher) %>%
+  mutate_if(is.numeric, funs(formatC(., digit = 3, format = 'f')))
+
+
+
+# Format a table of Meta-analysis results for display
+MA.MODELS_4.formatted<- 
+MA.MODELS_4 %>%
+  as.data.frame() %>%
+  mutate(predictor = gsub('nb_cds_not_involved_in_response', 'genome size', predictor)) %>%
+  rename(`Predictor` = predictor,
+         `Estimate` = estimate,
+         `Std. Error` = se,
+         `Z value` = z.value,
+         `P value` = p.value,
+         `CI lower` = ci.lower,
+         `CI upper` = ci.upper)
+  
+
+# Append meta-analysisoutput to model results output to get a common table used for plotting
+ma.4.df<- data.frame(cooperative_trait = 'Meta-analysis',
+           effect = as.numeric(MA.MODELS_4[which(MA.MODELS_4[,1] %in% c('mean_relatedness', 'mean_relative_abundance', 'sporulation_score')),'estimate']),
+           hpd_lower = as.numeric(MA.MODELS_4[which(MA.MODELS_4[,1]  %in% c('mean_relatedness', 'mean_relative_abundance', 'sporulation_score')),'ci.lower']),
+           hpd_higher = as.numeric(MA.MODELS_4[which(MA.MODELS_4[,1]  %in% c('mean_relatedness', 'mean_relative_abundance', 'sporulation_score')),'ci.upper']),
+           predictor_variable = c('mean_relatedness', 'mean_relative_abundance', 'sporulation_score'))
+
+
+dat.R.RA.SPO.relatedness<- 
+  rbind(dat.R.RA.SPO[dat.R.RA.SPO$predictor_variable %in% c('mean_relatedness', 'mean_relative_abundance', 'sporulation_score'),c('cooperative_trait', 'effect', 'hpd_lower', 'hpd_higher', 'predictor_variable')],
+        ma.4.df)
+
+dat.R.RA.SPO.relatedness$cooperative_trait <- factor(dat.R.RA.SPO.relatedness$cooperative_trait, levels = c('secretome', 'secretion_system', 'biofilm', 'quorum_sensing', 'siderophores', 'ab_degradation', 'Meta-analysis'))
+
+dat.R.RA.SPO.relatedness$predictor_variable <- factor(dat.R.RA.SPO.relatedness$predictor_variable, levels = c('sporulation_score', 'mean_relative_abundance', 'mean_relatedness'))
+
+p.mod4.1<- ggplot(dat.R.RA.SPO.relatedness %>% filter(predictor_variable == 'mean_relatedness'), aes(x = cooperative_trait, y = effect))+
+  geom_point(position = dodge, size = 2)+
+  xlab('')+
+  scale_color_manual(values = c('black'))+
+  geom_hline(yintercept = 0, linetype = 'dashed')+
+  geom_errorbar(aes(ymin=hpd_lower, ymax=hpd_higher), width=.1, position=dodge)+
+  coord_flip()+mytheme
+
+p.mod4.2<- ggplot(dat.R.RA.SPO.relatedness, aes(x = cooperative_trait, y = effect, col = predictor_variable))+
+  geom_point(position = dodge, size = 2)+
+  xlab('')+
+  scale_color_manual(values = c('orange', 'dodgerblue', 'black'))+
+  geom_hline(yintercept = 0, linetype = 'dashed')+
+  geom_errorbar(aes(ymin=hpd_lower, ymax=hpd_higher), width=.1, position=dodge)+
+  coord_flip()+
+  theme_bw()+
+  theme(legend.position="top",
+    panel.border= element_blank(),
+    axis.text.y = element_text(face="bold", colour="black", size=10),
+    axis.text.x = element_text(face="bold", colour="black", size=11),
+    axis.title.y = element_text(face="bold", colour="black", size=11),
+    axis.title.x = element_text(face="bold", colour="black", size=11),
+    axis.line.y = element_line(color="black", size = 0.5),
+    axis.line.x = element_line(color="black", size = 0.5),
+    plot.title = element_text(lineheight=.8, face="bold", hjust = 0.5))
+
+```
+
+```{r, echo=FALSE, fig.align='center', fig.width=5, fig.height=4, fig.cap='Mean relatedness model including relative abundance and sporulation scores in predictors, focus on relatedness effect coefficients'}
+print(p.mod4.1)
+```
+
+```{r, echo=FALSE, fig.align='center', fig.width=5, fig.height=4, fig.cap='Mean relatedness model including relative abundance and sporulation scores in predictors, all predictors effect coefficients'}
+print(p.mod4.2)
+```
+
+```{r, echo = FALSE}
+kable(dat.R.RA.SPO.formatted, caption = "Mean relatedness model including relative abundance and sporulation scores in predictors model summary", row.names = FALSE)
+```
+
+```{r, echo = FALSE}
+kable(MA.MODELS_4.formatted, caption = "Mean relatedness model including relative abundance and sporulation scores in predictors Meta-analysis summary", row.names = FALSE)
+```
+
+\newpage
+
+# MODEL 5
+
+```{r}
+
+mods5.summary.formatted<- 
+rbind(
+format.summary(m.5.ss),
+format.summary(m.5.biofilm),
+format.summary(m.5.siderophores),
+format.summary(m.5.ab),
+format.summary(m.5.QS),
+format.summary(m.5.SSyst)) %>%
+  mutate_if(is.numeric, funs(formatC(., digit = 3, format = 'f')))
+
+
+mod5.pmcmcs<- 
+rbind(
+get.pmcmc.from.summary(mods.5$ab_degradation, c('ab_degradation', 'mean_relative_abundance', 'sporulation_score')),
+get.pmcmc.from.summary(mods.5$biofilm, c('biofilm', 'mean_relative_abundance', 'sporulation_score')),
+get.pmcmc.from.summary(mods.5$siderophores, c('siderophores', 'mean_relative_abundance', 'sporulation_score')),
+get.pmcmc.from.summary(mods.5$quorum_sensing, c('quorum_sensing', 'mean_relative_abundance', 'sporulation_score')),
+get.pmcmc.from.summary(mods.5$secretion_system_no4, c('secretion_system', 'mean_relative_abundance', 'sporulation_score')),
+get.pmcmc.from.summary(mods.5$secretome, c('nb_extracellular', 'mean_relative_abundance', 'sporulation_score'))
+) %>%
+  as.data.frame() %>%
+  rename(cooperation = V1,
+         mean_relative_abundance = V2,
+         sporulation_score = V3) %>%
+  mutate(`Cooperative trait` = c('ab_degradation', 'biofilm', 'siderophores', 'quorum_sensing','secretion_system', 'secretome')) %>%
+  gather('predictor_variable', 'pMCMC', 1:3) %>%
+  mutate(trait.predictor = paste0(`Cooperative trait`, '.', predictor_variable)) %>%
+  select(trait.predictor, pMCMC)
+
+
+dat.mod5.formatted<-
+  dat.mod5 %>%
+  mutate(trait.predictor = paste0(cooperative_trait, '.', predictor_variable)) %>%
+  left_join(mod5.pmcmcs, by = 'trait.predictor') %>%
+  select(predictor_variable, cooperative_trait, effect, sd_post, hpd_lower, hpd_higher, pMCMC) %>%
+  rename(`Predictor` = predictor_variable,
+         `Cooperative trait` = cooperative_trait,
+         `Posterior mean` = effect,
+         `Posterior sd` = sd_post,
+         `HMP lower` = hpd_lower,
+         `HMP higher` = hpd_higher) %>%
+  mutate_if(is.numeric, funs(formatC(., digit = 3, format = 'f'))) %>%
+  arrange(`Cooperative trait`, Predictor)
+  
+
+
+# Format a table of Meta-analysis results for display
+MA.MODELS_5.formatted<- 
+MA.MODELS_5 %>%
+  as.data.frame() %>%
+  rename(`Predictor` = predictor,
+         `Estimate` = estimate,
+         `Std. Error` = se,
+         `Z value` = z.value,
+         `P value` = p.value,
+         `CI lower` = ci.lower,
+         `CI upper` = ci.upper)
+
+```
+
+
+
+```{r, echo = FALSE}
+kable(dat.mod5.formatted, caption = "Cooperation, abundance and sporulation drivers of relatedness models summary", row.names = FALSE)
+```
+
+
+```{r, echo = FALSE}
+kable(MA.MODELS_5.formatted, caption = "Cooperation, abundance and sporulation drivers of relatedness models Meta-analysis summary", row.names = FALSE)
+```
+
+
+\newpage
+
+# Gelman-Rubin Tests
+
+```{r, eval = TRUE}
+# Clear and re-load environment everytime because otherwise this is too big to load
+library("R.utils")
+remove(list = ls())
+run_gelman_rubin_test<- function(chains, model_id){
+  
+Sol.chains<- vector('list', length = length(chains))
+vcv.chains<- vector('list', length = length(chains))
+
+for(i in 1:length(chains)){
+  
+Sol.chains[[i]]<- chains[[i]][[model_id]]$Sol
+vcv.chains[[i]]<- chains[[i]][[model_id]]$VCV
+
+}
+
+sol.psrd<- gelman.diag(mcmc.list(Sol.chains))$psrf[,2]
+vcv.psrd<- gelman.diag(mcmc.list(vcv.chains))$psrf[,2]
+
+gelman_results<- data.frame(model_id = model_id,
+                            fixed.effects.max.upperCI.psrf = max(sol.psrd),
+                            vcv.effects.max.upperCI.psrf = max(vcv.psrd))
+
+return(gelman_results)
+
+}
+
+
+# GR-test on model 1
+mods.R.chain1 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_1.RData')[[c('mods.R')]]
+mods.R.chain2 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_2.RData')[['mods.R']]
+#mods.R.chain3 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_3.RData')[['mods.R']]
+
+mods.R.chains<- list(mods.R.chain1, mods.R.chain2)
+
+gr.test.model1<- 
+rbind(
+run_gelman_rubin_test(mods.R.chains, 'secretome'),
+run_gelman_rubin_test(mods.R.chains, 'ab_degradation'),
+run_gelman_rubin_test(mods.R.chains, 'biofilm'),
+run_gelman_rubin_test(mods.R.chains, 'secretion_system_no4'),
+run_gelman_rubin_test(mods.R.chains, 'siderophores'),
+run_gelman_rubin_test(mods.R.chains, 'quorum_sensing')) %>%
+  mutate(model = 'model 1')
+
+rm(list = c("mods.R.chain1",
+            "mods.R.chain2",
+            #"mods.R.chain3",
+            "mods.R.chains"))
+
+
+# GR-test on model 2 
+# Not running it --> it's only a side SI model
+
+
+# GR-test on model 3
+model3.chain1<- list(model_3 = loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_1.RData')[[c('m3.mean')]])
+model3.chain2<- list(model_3 = loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_2.RData')[[c('m3.mean')]])
+#model3.chain3<- list(model_3 = loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_3.RData')[[c('m3.mean')]])
+
+model3.chains<- list(model3.chain1, model3.chain2)
+
+
+gr.test.model3<- run_gelman_rubin_test(model3.chains, 'model_3') %>%
+  mutate(model = 'model 3')
+
+rm(list = c("model3.chain1",
+            "model3.chain2",
+            #"model3.chain3",
+            "model3.chains"))
+
+
+
+# GR-test on model 4
+mods.R.RA.SPO.chain1 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_1.RData')[[c('mods.R.RA.SPO')]]
+mods.R.RA.SPO.chain2 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_2.RData')[['mods.R.RA.SPO']]
+#mods.R.RA.SPO.chain3 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_3.RData')[['mods.R.RA.SPO']]
+
+mods.R.RA.SPO.chains<- list(mods.R.RA.SPO.chain1, mods.R.RA.SPO.chain2)
+
+gr.test.model4<- 
+rbind(
+run_gelman_rubin_test(mods.R.RA.SPO.chains, 'secretome'),
+run_gelman_rubin_test(mods.R.RA.SPO.chains, 'ab_degradation'),
+run_gelman_rubin_test(mods.R.RA.SPO.chains, 'biofilm'),
+run_gelman_rubin_test(mods.R.RA.SPO.chains, 'secretion_system_no4'),
+run_gelman_rubin_test(mods.R.RA.SPO.chains, 'siderophores'),
+run_gelman_rubin_test(mods.R.RA.SPO.chains, 'quorum_sensing')) %>%
+  mutate(model = 'model 4')
+
+
+rm(list = c("mods.R.RA.SPO.chain1",
+            "mods.R.RA.SPO.chain2",
+            #"mods.R.RA.SPO.chain3",
+            "mods.R.RA.SPO.chains"))
+
+
+# GR-test on model 5
+mods.5.chain1 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_1.RData')[[c('mods.5')]]
+mods.5.chain2 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_2.RData')[['mods.5']]
+#mods.5.chain3 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_3.RData')[['mods.5']]
+
+mods.5.chains<- list(mods.5.chain1, mods.5.chain2)
+
+gr.test.model5<- 
+rbind(
+run_gelman_rubin_test(mods.5.chains, 'secretome'),
+run_gelman_rubin_test(mods.5.chains, 'ab_degradation'),
+run_gelman_rubin_test(mods.5.chains, 'biofilm'),
+run_gelman_rubin_test(mods.5.chains, 'secretion_system_no4'),
+run_gelman_rubin_test(mods.5.chains, 'siderophores'),
+run_gelman_rubin_test(mods.5.chains, 'quorum_sensing')) %>%
+  mutate(model = 'model 5')
+
+
+rm(list = c("mods.5.chain1",
+            "mods.5.chain2",
+            #"mods.5.chain3",
+            "mods.5.chains"))
+
+
+gr.test.all<-
+  rbind(gr.test.model1,
+        #gr.test.model2,
+        gr.test.model3,
+        gr.test.model4,
+        gr.test.model5) %>%
+  select(model, model_id, fixed.effects.max.upperCI.psrf, vcv.effects.max.upperCI.psrf) %>%
+  rename(specific.model = model_id)
+
+```
+
+Reporting here the results of Gelman-Rubin tests. The values are the **maximum observed upper 95% CI** across all fixed and vcv effects for each model.
+
+```{r, echo = FALSE, eval = TRUE}
+kable(gr.test.all, caption = "Gelman-Rubin tests of all model.", row.names = FALSE)
+```
+
+\newpage
+
+# Models formulations
+The "response of interest" term is one of the cooperative trait. The code replaces whichever cooperative trait the model is ran over by this term to have a general dataframe to be used in a code wrapper function.
+
+## Model 1
+```{r}
+
+get.formula<- function(model){
+
+fixed<- paste(as.character(model$Fixed$formula)[2],
+       as.character(model$Fixed$formula)[1],
+       as.character(model$Fixed$formula)[3],
+      sep = ' ')
+random<- paste0(as.character(model$Random$formula), collapse = ' ')
+resid<- paste0(as.character(model$Residual$formula), collapse = ' ')
+
+return(list(fixed = fixed,
+            random = random,
+            resid = resid))
+}
+
+load('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_1.RData')
+
+
+get.formula(mods.R$secretome)
+```
+
+## Model 2
+```{r}
+get.formula(mods.R.UNCERTAINTY$secretome)
+```
+
+## Model 3
+```{r}
+get.formula(m3.mean)
+```
+
+## Model 4
+```{r}
+get.formula(mods.R.RA.SPO$secretome)
+```
+
+## Model 5
+```{r}
+get.formula(mods.5$secretome)
+```
+
+
