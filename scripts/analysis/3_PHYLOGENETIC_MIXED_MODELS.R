@@ -654,10 +654,3 @@ save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobio
 
 print("section 5 done :)")
 
-
-
-
-
-
-
-
