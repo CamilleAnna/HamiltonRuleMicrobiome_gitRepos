@@ -55,8 +55,12 @@ summary(model_output)$solutions %>%
  return(df) 
 }
 
-# LOAD ANALYSIS OUTPUT (RData object)
-load('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_1.RData')
+
+load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL1_CHAIN_1.RData")
+load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL2_CHAIN_1.RData")
+load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL3_CHAIN_1.RData")
+load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL4_CHAIN_1.RData")
+load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_1.RData")
 
 ```
 
@@ -71,13 +75,13 @@ Compiling all results from a given .RData object output which ran all models. We
 - **Model 2**: *cbind(cooperation, within host relatedness) ~ phylogeny + species*. This bivariate formulation of the model allowing to account for uncertainty in the measures of relatedness.  Again there are 5 models, one for each  cooperative traits, and a random effect meta-analysis to  estimate an overall effect. 
 &nbsp;
 
-- **Model 3**: *mean relatedness ~ 1  + sporulation score + mean relative abundance*. Two ecological factor classically predicted to shape relatedness (infinite island model background). Asking if these predictions hold in the case of microbiome. 
+- **Model 3**: *within host relatedness ~ 1  + sporulation score + within host relative abundance*. Two ecological factor classically predicted to shape relatedness (infinite island model background). Asking if these predictions hold in the case of microbiome. 
 &nbsp;
  
 - **Model 4**: *cooperation ~ mean relatedness + log(genome size) + sporulation score + mean relative abundance*. Given the effect of those ecological factors on relatedness, are they the ultimate driver of cooperation (i.e. are they sufficient to explain the phylogenetic distribution of relatedness)? This model asks if relatedness retains predictive power after accounting for these two ecological factors. 
 &nbsp;
  
-- **Model 5**: *mean relatedness ~ cooperation + sporulation score + mean relative abundance*. This models completes the path analysis, asking if cooperative traits and ecological factor predict relatedness. 
+- **Model 5**: *within host relatedness ~ cooperation + sporulation score + within host relative abundance + secretome size + biofilm + antibiotic degradation + siderophores + quorum sensing*. This models completes the path analysis, asking if cooperative traits and ecological factor predict relatedness. 
 &nbsp;
 
 &nbsp;
@@ -100,6 +104,7 @@ Additional notes on variables included in the models:
 
 # MODEL 1
 ``` {r}
+
 # Extracting the pMCMC from summaries to add on the dat.R table
 mod1.pmcmcs<- sapply(mods.R,
                      get.pmcmc.from.summary,
@@ -180,19 +185,8 @@ kable(MA.MODELS_1.formatted, caption = "Mean relatedness model Meta-analysis sum
 # MODEL 2
 
 ``` {r}
-# Extracting the pMCMC from summaries to add on the dat.R table
-mod2.pmcmcs<- sapply(mods.R.RA.SPO,
-                     get.pmcmc.from.summary,
-                     predictor_variable = c('mean_relatedness','mean_relative_abundance', 'sporulation_score', 'log(nb_cds_not_involved_in_response)')) %>%
-  as.data.frame() %>%
-  mutate(predictor_variable = c('mean_relatedness', 'mean_relative_abundance', 'sporulation_score', 'log(nb_cds_not_involved_in_response)')) %>%
-  gather('cooperative_trait', 'pMCMC', 1:6) %>%
-  mutate(cooperative_trait = gsub('_no4', '', cooperative_trait)) %>%
-  mutate(response.predictor = paste0(cooperative_trait, '.', predictor_variable)) %>%
-  select(response.predictor, pMCMC)
 
 # proportion of posterior below 0, times 2
-
 
 get.pmcmc.from.posterior<- function(model){
   
@@ -292,8 +286,8 @@ kable(MA.MODELS_2.formatted, caption = "Within host relatedness model Meta-analy
 
 ```{r, echo = FALSE}
 
-mod3.summary.formatted<- format.summary(m3.mean) %>%
-  mutate_if(is.numeric, funs(formatC(., digit = 3, format = 'f')))
+mod3.summary.formatted<- format.summary(m3) %>%
+  mutate_if(is.numeric, funs(formatC(., digit = 2, format = 'e')))
 
 
 kable(mod3.summary.formatted, caption = "Abundance and sporulation drivers of relatedness model summary", row.names = FALSE)
@@ -304,6 +298,7 @@ kable(mod3.summary.formatted, caption = "Abundance and sporulation drivers of re
 # MODEL 4
 
 ``` {r}
+
 # Extracting the pMCMC from summaries to add on the dat.R table
 mod4.pmcmcs<- sapply(mods.R.RA.SPO,
                      get.pmcmc.from.summary,
@@ -412,75 +407,25 @@ kable(MA.MODELS_4.formatted, caption = "Mean relatedness model including relativ
 
 ```{r}
 
-mods5.summary.formatted<- 
-rbind(
-format.summary(m.5.ss),
-format.summary(m.5.biofilm),
-format.summary(m.5.siderophores),
-format.summary(m.5.ab),
-format.summary(m.5.QS),
-format.summary(m.5.SSyst)) %>%
+mod5.summary.formatted<- format.summary(m5) %>%
   mutate_if(is.numeric, funs(formatC(., digit = 3, format = 'f')))
 
 
-mod5.pmcmcs<- 
-rbind(
-get.pmcmc.from.summary(mods.5$ab_degradation, c('ab_degradation', 'mean_relative_abundance', 'sporulation_score')),
-get.pmcmc.from.summary(mods.5$biofilm, c('biofilm', 'mean_relative_abundance', 'sporulation_score')),
-get.pmcmc.from.summary(mods.5$siderophores, c('siderophores', 'mean_relative_abundance', 'sporulation_score')),
-get.pmcmc.from.summary(mods.5$quorum_sensing, c('quorum_sensing', 'mean_relative_abundance', 'sporulation_score')),
-get.pmcmc.from.summary(mods.5$secretion_system_no4, c('secretion_system', 'mean_relative_abundance', 'sporulation_score')),
-get.pmcmc.from.summary(mods.5$secretome, c('nb_extracellular', 'mean_relative_abundance', 'sporulation_score'))
-) %>%
-  as.data.frame() %>%
-  rename(cooperation = V1,
-         mean_relative_abundance = V2,
-         sporulation_score = V3) %>%
-  mutate(`Cooperative trait` = c('ab_degradation', 'biofilm', 'siderophores', 'quorum_sensing','secretion_system', 'secretome')) %>%
-  gather('predictor_variable', 'pMCMC', 1:3) %>%
-  mutate(trait.predictor = paste0(`Cooperative trait`, '.', predictor_variable)) %>%
-  select(trait.predictor, pMCMC)
-
-
-dat.mod5.formatted<-
-  dat.mod5 %>%
-  mutate(trait.predictor = paste0(cooperative_trait, '.', predictor_variable)) %>%
-  left_join(mod5.pmcmcs, by = 'trait.predictor') %>%
-  select(predictor_variable, cooperative_trait, effect, sd_post, hpd_lower, hpd_higher, pMCMC) %>%
-  rename(`Predictor` = predictor_variable,
-         `Cooperative trait` = cooperative_trait,
-         `Posterior mean` = effect,
-         `Posterior sd` = sd_post,
-         `HMP lower` = hpd_lower,
-         `HMP higher` = hpd_higher) %>%
-  mutate_if(is.numeric, funs(formatC(., digit = 3, format = 'f'))) %>%
-  arrange(`Cooperative trait`, Predictor)
-  
-
-
-# Format a table of Meta-analysis results for display
-MA.MODELS_5.formatted<- 
-MA.MODELS_5 %>%
-  as.data.frame() %>%
-  rename(`Predictor` = predictor,
-         `Estimate` = estimate,
-         `Std. Error` = se,
-         `Z value` = z.value,
-         `P value` = p.value,
-         `CI lower` = ci.lower,
-         `CI upper` = ci.upper)
-
 ```
 
 
 
 ```{r, echo = FALSE}
-kable(dat.mod5.formatted, caption = "Cooperation, abundance and sporulation drivers of relatedness models summary", row.names = FALSE)
+kable(mod5.summary.formatted, caption = "Cooperation, abundance and sporulation drivers of relatedness models summary", row.names = FALSE)
 ```
 
 
 ```{r, echo = FALSE}
-kable(MA.MODELS_5.formatted, caption = "Cooperation, abundance and sporulation drivers of relatedness models Meta-analysis summary", row.names = FALSE)
+m5.joint.test.formatted<- data.frame(Chi2 = round(m5.joint.test, 3)[1],
+           df = round(m5.joint.test, 3)[2],
+           `P value` = round(m5.joint.test, 3)[3])
+
+kable(m5.joint.test.formatted, caption = "Cooperation traits joint test effect (wald test)", row.names = FALSE)
 ```
 
 
@@ -488,7 +433,7 @@ kable(MA.MODELS_5.formatted, caption = "Cooperation, abundance and sporulation d
 
 # Gelman-Rubin Tests
 
-```{r, eval = TRUE}
+```{r}
 # Clear and re-load environment everytime because otherwise this is too big to load
 library("R.utils")
 remove(list = ls())
@@ -515,11 +460,14 @@ return(gelman_results)
 
 }
 
+```
+
+```{r, eval = FALSE}
 
 # GR-test on model 1
-mods.R.chain1 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_1.RData')[[c('mods.R')]]
-mods.R.chain2 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_2.RData')[['mods.R']]
-#mods.R.chain3 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_3.RData')[['mods.R']]
+mods.R.chain1 <- loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL1_CHAIN_1.RData")[[c('mods.R')]]
+mods.R.chain2 <- loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL1_CHAIN_2.RData")[[c('mods.R')]]
+
 
 mods.R.chains<- list(mods.R.chain1, mods.R.chain2)
 
@@ -544,9 +492,11 @@ rm(list = c("mods.R.chain1",
 
 
 # GR-test on model 3
-model3.chain1<- list(model_3 = loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_1.RData')[[c('m3.mean')]])
-model3.chain2<- list(model_3 = loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_2.RData')[[c('m3.mean')]])
-#model3.chain3<- list(model_3 = loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_3.RData')[[c('m3.mean')]])
+
+model3.chain1<- list(model_3 = loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL3_CHAIN_1.RData")[[c('m3')]])
+
+model3.chain2 <- list(model_3 = loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL3_CHAIN_2.RData")[[c('m3')]])
+
 
 model3.chains<- list(model3.chain1, model3.chain2)
 
@@ -562,9 +512,8 @@ rm(list = c("model3.chain1",
 
 
 # GR-test on model 4
-mods.R.RA.SPO.chain1 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_1.RData')[[c('mods.R.RA.SPO')]]
-mods.R.RA.SPO.chain2 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_2.RData')[['mods.R.RA.SPO']]
-#mods.R.RA.SPO.chain3 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_3.RData')[['mods.R.RA.SPO']]
+mods.R.RA.SPO.chain1 <- loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL4_CHAIN_1.RData")[[c('mods.R.RA.SPO')]]
+mods.R.RA.SPO.chain2 <- loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL4_CHAIN_2.RData")[[c('mods.R.RA.SPO')]]
 
 mods.R.RA.SPO.chains<- list(mods.R.RA.SPO.chain1, mods.R.RA.SPO.chain2)
 
@@ -586,25 +535,21 @@ rm(list = c("mods.R.RA.SPO.chain1",
 
 
 # GR-test on model 5
-mods.5.chain1 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_1.RData')[[c('mods.5')]]
-mods.5.chain2 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_2.RData')[['mods.5']]
-#mods.5.chain3 <- loadToEnv('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_3.RData')[['mods.5']]
+model5.chain1<- list(model_5 = loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_1.RData")[[c('m3')]])
 
-mods.5.chains<- list(mods.5.chain1, mods.5.chain2)
+model5.chain2 <- list(model_5 = loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_2.RData")[[c('m3')]])
 
-gr.test.model5<- 
-rbind(
-run_gelman_rubin_test(mods.5.chains, 'secretome'),
-run_gelman_rubin_test(mods.5.chains, 'ab_degradation'),
-run_gelman_rubin_test(mods.5.chains, 'biofilm'),
-run_gelman_rubin_test(mods.5.chains, 'secretion_system_no4'),
-run_gelman_rubin_test(mods.5.chains, 'siderophores'),
-run_gelman_rubin_test(mods.5.chains, 'quorum_sensing')) %>%
+
+
+mods.5.chains<- list(model5.chain1, model5.chain2)
+
+
+gr.test.model5<- run_gelman_rubin_test(model5.chains, 'model_5') %>%
   mutate(model = 'model 5')
 
 
-rm(list = c("mods.5.chain1",
-            "mods.5.chain2",
+rm(list = c("model5.chain1",
+            "model5.chain2",
             #"mods.5.chain3",
             "mods.5.chains"))
 
@@ -622,7 +567,7 @@ gr.test.all<-
 
 Reporting here the results of Gelman-Rubin tests. The values are the **maximum observed upper 95% CI** across all fixed and vcv effects for each model.
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = FALSE}
 kable(gr.test.all, caption = "Gelman-Rubin tests of all model.", row.names = FALSE)
 ```
 
@@ -648,8 +593,11 @@ return(list(fixed = fixed,
             resid = resid))
 }
 
-load('~/Documents/GitHub/HamiltonRuleMicrobiome/output/MODELS_CHAIN_1.RData')
-
+load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL1_CHAIN_1.RData")
+load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL2_CHAIN_1.RData")
+load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL3_CHAIN_1.RData")
+load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL4_CHAIN_1.RData")
+load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_1.RData")
 
 get.formula(mods.R$secretome)
 ```
@@ -661,7 +609,7 @@ get.formula(mods.R.UNCERTAINTY$secretome)
 
 ## Model 3
 ```{r}
-get.formula(m3.mean)
+get.formula(m3)
 ```
 
 ## Model 4
@@ -671,7 +619,7 @@ get.formula(mods.R.RA.SPO$secretome)
 
 ## Model 5
 ```{r}
-get.formula(mods.5$secretome)
+get.formula(m5)
 ```
 
 

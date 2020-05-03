@@ -218,7 +218,16 @@ MA.MODELS_1<- rbind(
 MA.MODELS_1
 
 
-save.image('output/MODELS_CHAIN_2.RData')
+rm(pmm.new.secretome.R)
+rm(pmm.new.secretion_system_no4.R)
+rm(pmm.new.biofilm.R)
+rm(pmm.new.quorum_sensing.R)
+rm(pmm.new.siderophores.R)
+rm(pmm.new.ab_degradation.R)
+
+
+#save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL1_CHAIN_1.RData')
+save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL1_CHAIN_2.RData')
 print('Section 1 done!')
 
 # 2) WITHIN HOST R (UNCERTAINTY MODEL) ----
@@ -344,7 +353,6 @@ pmm_QS <- hrpmm('quorum_sensing', d, Ainv, prior.2, nitt, thin, burnin, include_
 pmm_siderophores <- hrpmm('siderophores', d, Ainv, prior.2, nitt, thin, burnin, include_gram = FALSE)
 pmm_ab_degradation <- hrpmm('ab_degradation', d, Ainv, prior.2, nitt, thin, burnin, include_gram = FALSE)
 
-
 # SAVE MODEL OUTPUTS
 mods.R.UNCERTAINTY<- list(ab_degradation = pmm_ab_degradation,
                           siderophores = pmm_siderophores,
@@ -352,6 +360,8 @@ mods.R.UNCERTAINTY<- list(ab_degradation = pmm_ab_degradation,
                           quorum_sensing = pmm_QS,
                           biofilm = pmm_biofilm,
                           secretome = pmm_secretome)
+
+
 
 
 # META-ANALYSIS ON #2 ----
@@ -401,7 +411,17 @@ MA.MODELS_2<- rbind(
 
 MA.MODELS_2
 
-save.image('output/MODELS_CHAIN_2.RData')
+
+rm(pmm_secretome)
+rm(pmm_secretion_system)
+rm(pmm_biofilm)
+rm(pmm_QS)
+rm(pmm_siderophores)
+rm(pmm_ab_degradation)
+
+
+#save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL2_CHAIN_1.RData')
+save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL2_CHAIN_2.RData')
 print('section 2 done!')
 
 
@@ -445,7 +465,9 @@ m3<- MCMCglmm(within_host_relatedness ~ 1 + sporulation_score + within_host_rela
 
 summary(m3)
 
-save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL3_CHAIN_1.RData')
+#save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL3_CHAIN_1.RData')
+save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL3_CHAIN_2.RData')
+
 print('section 3 done!')
 
 
@@ -537,11 +559,20 @@ MA.MODELS_4<- rbind(
 MA.MODELS_4
 
 
-save.image('output/MODELS_CHAIN_2.RData')
+rm(pmm.new.secretome.R.RA.SPO)
+rm(pmm.new.secretion_system_no4.R.RA.SPO)
+rm(pmm.new.biofilm.R.RA.SPO)
+rm(pmm.new.quorum_sensing.R.RA.SPO)
+rm(pmm.new.siderophores.R.RA.SPO)
+rm(pmm.new.ab_degradation.R.RA.SPO)
+
+#save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL4_CHAIN_1.RData')
+save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL4_CHAIN_2.RData')
+
 print('section 4 done!')
 
 
-# MODEL 5 ----
+# 5) MODEL 5 ----
 # Same as model 3 but adding the cooperative traits along with the ecological factors
 # We run it on d_109 thought because NA values in secretome size (97 species instead of 101)
 # The prior remains the same
@@ -618,7 +649,9 @@ plot(foo[,8] ~ foo[,9], pch = 16, col = adjustcolor('black', alpha = .1)); ablin
 
 m5.joint.test<- aod::wald.test(cov(m5$Sol), colMeans(m5$Sol), Terms=4:9)$result$chi2
 
-save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_1.RData')
+#save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_1.RData')
+save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_2.RData')
+
 print("section 5 done :)")
 
 
