@@ -2,7 +2,7 @@
 # RUNNING PHYLOGENETIC MIXED MODELS #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-setwd("~/Documents/GitHub/HamiltonRuleMicrobiome/")
+setwd("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/")
 source("~/Documents/PhD/Research/background_scripts/basic_packages.R")
 
 # PREP DATA ----
@@ -406,39 +406,46 @@ print('section 2 done!')
 
 
 # 3) DRIVERS OF RELATEDNESS ----
-# RESPONSE: mean relatedness
-# PREDICTORS: Sporulation score, mean relative abundance
-
-# DATA
-dm1<- d_mean %>%
-  mutate(species.ide = species) %>%
-  select(species, mean_relatedness, species.ide, sporulation_score, mean_relative_abundance)
 
 
-# PRIOR
-prior.m3.mean<- list(R=list(R1 = list(V=diag(1), nu = 0.002)), # residual variance = non-phylo variance
-                     G=list(G1 = list(V=diag(1), nu = 0.002))) # phylo variance
-
-# MODEL SPECS
-nitt<- 2e+06
-burnin<- 5000
-thin<- 500
+# Estimate:
+# residual variance (R1)
+# Species non-phylogenetics effects (species.ide) (G1)
+# host effects variances  (G2)
+# Species phylogenetics effects variance (G3)
 
 
-m3.mean<- MCMCglmm(mean_relatedness ~ 1  + sporulation_score + mean_relative_abundance,
-                   random = ~species,  # The non-phylo species variance is the same as residual variance in this case
-                   ginverse = list(species=Ainv),
-                   data = dm1,
-                   prior=prior.m3.mean,
-                   start=list(QUASI=FALSE),
-                   family=c("gaussian"),
-                   pl = TRUE, pr = TRUE, DIC = TRUE, nodes = 'ALL',
-                   nitt=nitt, thin=thin, burnin=burnin)
+nitt<-1005000
+burnin<-5000
+thin<-50
+
+d$species.ide<-d$species
+
+dm3<- d[,c('species', 'host', 'within_host_relatedness', 'species.ide', 'sporulation_score', 'within_host_relative_abundance')]
 
 
-summary(m3.mean)
+# We use a parameter expanded prior
+prior.0.expanded<- list(R=list(V = diag(1), nu = 0.002),
+                        G=list(
+                          G1=list(V= 1, nu= 1, alpha.mu= 0, alpha.V= 1000),
+                          G2=list(V= 1, nu= 1, alpha.mu= 0, alpha.V= 1000),
+                          G3=list(V= 1, nu= 1, alpha.mu= 0, alpha.V= 1000)
+                        ))
 
-save.image('output/MODELS_CHAIN_2.RData')
+
+# We can use the same prior, nitt, burnin and thin. Simply has two main effect added in (for which default prior is used)
+m3<- MCMCglmm(within_host_relatedness ~ 1 + sporulation_score + within_host_relative_abundance,
+              random = ~species.ide+host+species,
+              ginverse = list(species=Ainv),
+              data = dm3, prior=prior.0.expanded,
+              family=c("gaussian"),
+              #start=list(QUASI=FALSE),
+              pl = TRUE, nodes = 'ALL', nitt=nitt, thin=thin, burnin=burnin)
+
+
+summary(m3)
+
+save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL3_CHAIN_1.RData')
 print('section 3 done!')
 
 
@@ -534,196 +541,90 @@ save.image('output/MODELS_CHAIN_2.RData')
 print('section 4 done!')
 
 
-
 # MODEL 5 ----
-# response = mean_relatedness
-# predictor = secretome_size + each GO
-# NOTE: we do not include any other factor: We do not expect gram negative and gram positive to have different mean_relatedness, and secretome size here is in the predictors, not in the response, so there is no need to include it (this would actually lead to confounded factors). Genome size has no biological reason to be included either. There is no biological hypothesis supporting that bigger genomes would be have a certain relatedness. Besides, again, it would be a confounded factor since genome size correlates with the number of genes involved in cooperation, as we've seen from the results of model 1.
+# Same as model 3 but adding the cooperative traits along with the ecological factors
+# We run it on d_109 thought because NA values in secretome size (97 species instead of 101)
+# The prior remains the same
+# residual variance (R1)
+# Species non-phylogenetics effects (species.ide) (G1)
+# host effects variances  (G2)
+# Species phylogenetics effects variance (G3)
+
+nitt<-1005000
+burnin<-5000
+thin<-50
+
+d_109$species.ide<-d_109$species
+
+# We use a parameter expanded prior
+prior.0.expanded<- list(R=list(V = diag(1), nu = 0.002),
+                        G=list(
+                          G1=list(V= 1, nu= 1, alpha.mu= 0, alpha.V= 1000),
+                          G2=list(V= 1, nu= 1, alpha.mu= 0, alpha.V= 1000),
+                          G3=list(V= 1, nu= 1, alpha.mu= 0, alpha.V= 1000)
+                        ))
 
 
-# DATA
-d_mean_109 <- d_mean_109 %>%
-  mutate(species.ide = species)
-
-d_mean <- d_mean %>%
-  mutate(species.ide = species)
-
-
-# PRIOR
-prior.m5.mean<- list(R=list(R1 = list(V=diag(1), nu = 0.002)), # residual variance = non-phylo variance
-                     G=list(G1 = list(V=diag(1), nu = 0.002))) # phylo variance
-
-# MODEL SPECS
-nitt<- 4e+06
-burnin<- 5000
-thin<- 800
+# We can use the same prior, nitt, burnin and thin. Simply has two main effect added in (for which default prior is used)
+m5<- MCMCglmm(within_host_relatedness ~ 1 + sporulation_score + within_host_relative_abundance + biofilm + ab_degradation + quorum_sensing + siderophores + secretion_system_no4 + nb_extracellular,
+              random = ~species.ide+host+species,
+              ginverse = list(species=Ainv),
+              data = d_109, prior=prior.0.expanded,
+              family=c("gaussian"),
+              #start=list(QUASI=FALSE),
+              pl = TRUE, nodes = 'ALL', nitt=nitt, thin=thin, burnin=burnin)
 
 
-# RUNNING MODEL
-# Doing this with d_109 since some species do not have secretome size
-# Mean elatedness modelled as gaussian
-
-m.5.ss<- MCMCglmm(mean_relatedness ~ 1  + nb_extracellular + sporulation_score + mean_relative_abundance,
-                  random = ~species,
-                  ginverse = list(species=Ainv_109),
-                  data = d_mean_109,
-                  prior=prior.m5.mean,
-                  start=list(QUASI=FALSE),
-                  family=c("gaussian"),
-                  pl = TRUE, pr = TRUE, DIC = TRUE, nodes = 'ALL',
-                  nitt=nitt, thin=thin, burnin=burnin)
+summary(m5)
 
 
-m.5.biofilm<- MCMCglmm(mean_relatedness ~ 1  + biofilm + sporulation_score + mean_relative_abundance,
-                       random = ~species,
-                       ginverse = list(species=Ainv),
-                       data = d_mean,
-                       prior=prior.m5.mean,
-                       start=list(QUASI=FALSE),
-                       family=c("gaussian"),
-                       pl = TRUE, pr = TRUE, DIC = TRUE, nodes = 'ALL',
-                       nitt=nitt, thin=thin, burnin=burnin)
-
-
-m.5.siderophores<- MCMCglmm(mean_relatedness ~ 1  + siderophores + sporulation_score + mean_relative_abundance,
-                            random = ~species,
-                            ginverse = list(species=Ainv),
-                            data = d_mean,
-                            prior=prior.m5.mean,
-                            start=list(QUASI=FALSE),
-                            family=c("gaussian"),
-                            pl = TRUE, pr = TRUE, DIC = TRUE, nodes = 'ALL',
-                            nitt=nitt, thin=thin, burnin=burnin)
-
-
-m.5.ab<- MCMCglmm(mean_relatedness ~ 1  + ab_degradation + sporulation_score + mean_relative_abundance,
-                  random = ~species,
-                  ginverse = list(species=Ainv),
-                  data = d_mean,
-                  prior=prior.m5.mean,
-                  start=list(QUASI=FALSE),
-                  family=c("gaussian"),
-                  pl = TRUE, pr = TRUE, DIC = TRUE, nodes = 'ALL',
-                  nitt=nitt, thin=thin, burnin=burnin)
-
-m.5.QS<- MCMCglmm(mean_relatedness ~ 1  + quorum_sensing + sporulation_score + mean_relative_abundance,
-                  random = ~species,
-                  ginverse = list(species=Ainv),
-                  data = d_mean,
-                  prior=prior.m5.mean,
-                  start=list(QUASI=FALSE),
-                  family=c("gaussian"),
-                  pl = TRUE, pr = TRUE, DIC = TRUE, nodes = 'ALL',
-                  nitt=nitt, thin=thin, burnin=burnin)
-
-m.5.SSyst<- MCMCglmm(mean_relatedness ~ 1  + secretion_system_no4 + sporulation_score + mean_relative_abundance,
-                     random = ~species,
-                     ginverse = list(species=Ainv),
-                     data = d_mean,
-                     prior=prior.m5.mean,
-                     start=list(QUASI=FALSE),
-                     family=c("gaussian"),
-                     pl = TRUE, pr = TRUE, DIC = TRUE, nodes = 'ALL',
-                     nitt=nitt, thin=thin, burnin=burnin)
-
-
-summary(m.5.ss)
-summary(m.5.biofilm)
-summary(m.5.siderophores)
-summary(m.5.ab)
-summary(m.5.QS)
-summary(m.5.SSyst)
-
-
-mods.5<- list(ab_degradation = m.5.ab,
-              siderophores = m.5.siderophores,
-              secretion_system_no4 = m.5.SSyst,
-              quorum_sensing = m.5.QS,
-              biofilm = m.5.biofilm,
-              secretome = m.5.ss)
-
-
-# META-ANALYSIS MODELS 5 ----
-
-# small function to exact mean, sd and HPD intervals out of the Sol posterior
-extract_mev.2<-function(model, cooperative_trait, predictor_variable){
-  post = model$Sol[,predictor_variable]
-  effect = mean(post)
-  sd_post = sd(post)
-  hpd_lower = HPDinterval(post)[,1]
-  hpd_higher = HPDinterval(post)[,2]
-  return(data.frame(cooperative_trait = cooperative_trait, effect = effect, sd_post = sd_post, hpd_lower = hpd_lower, hpd_higher = hpd_higher, predictor_variable = predictor_variable))
+add.cor.title<- function(y, x, n){
+  
+  y2 = y[sample(x = seq(1:length(y)), size = n, replace = FALSE)]
+  x2 = x[sample(x = seq(1:length(x)), size = n, replace = FALSE)]
+  cor = cor.test(y = y2, x = x2)
+  
+  mtext(side = 3,
+        paste0('cor = ', formatC(cor[[4]], digit = 3, format = 'f'), ' p = ', formatC(cor[[3]], digit = 3, format = 'f')), 
+        col = ifelse(cor[[3]] < 0.05, 'red', 'black'))
+  
+  abline(h = 0, v = 0, lty = 2, col = "grey")
 }
 
 
-# Extract effects and sd from posterior of the models
-dat.mod5<- rbind(extract_mev.2(mods.5$secretome, 'secretome', 'nb_extracellular'),
-                 extract_mev.2(mods.5$secretion_system_no4, 'secretion_system', 'secretion_system_no4'),
-                 extract_mev.2(mods.5$biofilm, 'biofilm', 'biofilm'),
-                 extract_mev.2(mods.5$quorum_sensing, 'quorum_sensing', 'quorum_sensing'),
-                 extract_mev.2(mods.5$siderophores, 'siderophores', 'siderophores'),
-                 extract_mev.2(mods.5$ab_degradation, 'ab_degradation', 'ab_degradation'),
-                 
-                 extract_mev.2(mods.5$secretome, 'secretome', 'mean_relative_abundance'),
-                 extract_mev.2(mods.5$secretion_system_no4, 'secretion_system', 'mean_relative_abundance'),
-                 extract_mev.2(mods.5$biofilm, 'biofilm', 'mean_relative_abundance'),
-                 extract_mev.2(mods.5$quorum_sensing, 'quorum_sensing', 'mean_relative_abundance'),
-                 extract_mev.2(mods.5$siderophores, 'siderophores', 'mean_relative_abundance'),
-                 extract_mev.2(mods.5$ab_degradation, 'ab_degradation', 'mean_relative_abundance'),
-                 
-                 extract_mev.2(mods.5$secretome, 'secretome', 'sporulation_score'),
-                 extract_mev.2(mods.5$secretion_system_no4, 'secretion_system', 'sporulation_score'),
-                 extract_mev.2(mods.5$biofilm, 'biofilm', 'sporulation_score'),
-                 extract_mev.2(mods.5$quorum_sensing, 'quorum_sensing', 'sporulation_score'),
-                 extract_mev.2(mods.5$siderophores, 'siderophores', 'sporulation_score'),
-                 extract_mev.2(mods.5$ab_degradation, 'ab_degradation', 'sporulation_score')
-                 
-)
+foo<- m5$Sol %>% as.data.frame()
+par(mfrow = c(4,4))
+colnames(foo)
+plot(foo[,4] ~ foo[,5], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+plot(foo[,4] ~ foo[,6], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+plot(foo[,4] ~ foo[,7], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+plot(foo[,4] ~ foo[,8], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+plot(foo[,4] ~ foo[,9], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+
+plot(foo[,5] ~ foo[,6], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+plot(foo[,5] ~ foo[,7], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+plot(foo[,5] ~ foo[,8], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+plot(foo[,5] ~ foo[,9], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+
+plot(foo[,6] ~ foo[,7], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+plot(foo[,6] ~ foo[,8], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+plot(foo[,6] ~ foo[,9], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+
+plot(foo[,7] ~ foo[,8], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+plot(foo[,7] ~ foo[,9], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
+
+plot(foo[,8] ~ foo[,9], pch = 16, col = adjustcolor('black', alpha = .1)); abline(h = 0, v = 0, lty = 2, col = "grey")
 
 
-dat.mod5$predictor_variable<- as.character(dat.mod5$predictor_variable)
+m5.joint.test<- aod::wald.test(cov(m5$Sol), colMeans(m5$Sol), Terms=4:9)$result$chi2
 
-dat.mod5$predictor_variable[!is.element(dat.mod5$predictor_variable, c('mean_relative_abundance', 'sporulation_score'))]<- 'cooperation'
-
-
-# Random effect meta-analysis on the effect of each predictor variable, over the models run on each cooperative trait as response, using the full model including both relatedness and ecological factors in the model
-
-# Small function to run Meta-analysis on a specific predictor variable
-# To be run on a dataframe that extracted the effect and sd of the posterior of the models, with a column called 'predictor_variable' that specifies which effect is reported
-run.meta.analysis<- function(models.effects.df, predictor_variable){
-  library(metafor)
-  library(formattable)
-  foo<- models.effects.df[models.effects.df$predictor_variable == predictor_variable,]
-  randomMA<- rma(yi = foo$effect, sei = foo$sd_post)
-  
-  
-  myp<- ifelse(randomMA$pval< 0.001, as.character(formattable(randomMA$pval, digits = 3, format = "e")), as.character(round(randomMA$pval, 3)))
-  
-  
-  
-  out<- c(predictor = predictor_variable,
-          estimate = round(randomMA$b, 3),
-          se = round(randomMA$se,3),
-          z.value = round(randomMA$zval,3),
-          p.value = myp,
-          ci.lower = round(randomMA$ci.lb,3),
-          ci.upper = round( randomMA$ci.ub,3))
-  
-  return(out)
-}
-
-MA.MODELS_5<- rbind(
-  run.meta.analysis(dat.mod5, 'cooperation'),
-  run.meta.analysis(dat.mod5, 'mean_relative_abundance'),
-  run.meta.analysis(dat.mod5, 'sporulation_score')
-)
+save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_1.RData')
+print("section 5 done :)")
 
 
-MA.MODELS_5
 
 
-# SAVE ENTIRE OUTPUT
 
-save.image('output/MODELS_CHAIN_2.RData')
-print('Section 5 done!!')
-print('ALL DONE :) ')
+
+
+
