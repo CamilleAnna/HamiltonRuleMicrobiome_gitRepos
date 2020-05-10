@@ -1,0 +1,102 @@
+species	plot_names
+Acidaminococcus_intestini_54097	A. intestini 
+Akkermansia_muciniphila_55290	A. muciniphila 
+Alistipes_finegoldii_56071	A. finegoldii 
+Alistipes_indistinctus_62207	A. indistinctus 
+Alistipes_onderdonkii_55464	A. onderdonkii 
+Alistipes_putredinis_61533	A. putredinis 
+Alistipes_senegalensis_58364	A. senegalensis 
+Alistipes_shahii_62199	A. shahii 
+Alistipes_sp_58363	Alistipes sp 1
+Alistipes_sp_59510	Alistipes sp 2
+Alistipes_sp_60764	Alistipes sp 3
+Anaerostipes_hadrus_55206	A. hadrus 
+Bacteroidales_bacterium_58650	B. bacterium 
+Bacteroides_caccae_53434	B. caccae 
+Bacteroides_cellulosilyticus_58046	B. cellulosilyticus 
+Bacteroides_clarus_62282	B. clarus 
+Bacteroides_coprocola_61586	B. coprocola 
+Bacteroides_coprophilus_61767	B. coprophilus 
+Bacteroides_eggerthii_54457	B. eggerthii 
+Bacteroides_faecis_58503	B. faecis 
+Bacteroides_finegoldii_57739	B. finegoldii 
+Bacteroides_fragilis_54507	B. fragilis 1
+Bacteroides_fragilis_56548	B. fragilis 2
+Bacteroides_intestinalis_61596	B. intestinalis 
+Bacteroides_massiliensis_44749	B. massiliensis 
+Bacteroides_nordii_55557	B. nordii 
+Bacteroides_ovatus_58035	B. ovatus 
+Bacteroides_pectinophilus_61619	B. pectinophilus 
+Bacteroides_plebeius_61623	B. plebeius 
+Bacteroides_salyersiae_54873	B. salyersiae 
+Bacteroides_sartorii_54642	B. sartorii 
+Bacteroides_stercoris_56735	B. stercoris 
+Bacteroides_thetaiotaomicron_56941	B. thetaiotaomicron 
+Bacteroides_uniformis_57318	B. uniformis 
+Bacteroides_vulgatus_57955	B. vulgatus 
+Barnesiella_intestinihominis_62208	B. intestinihominis 
+Bifidobacterium_adolescentis_56815	B. adolescentis 
+Bifidobacterium_longum_57796	B. longum 
+Blautia_wexlerae_56130	B. wexlerae 
+Burkholderiales_bacterium_56577	B. bacterium 
+Butyricimonas_virosa_58742	B. virosa 
+Butyrivibrio_crossotus_61674	B. crossotus 
+Clostridiales_bacterium_56470	C. bacterium 
+Clostridium_leptum_61499	C. leptum 
+Clostridium_nexile_61654	C. nexile 
+Clostridium_sp_61482	Clostridium sp 
+Collinsella_sp_62205	Colinsella sp 
+Coprobacillus_sp_47700	Coprobacillus sp 
+Coprobacter_fastidiosus_56550	C. fastidiosus 
+Coprobacter_sp_60889	Coprobacter sp 
+Coprococcus_comes_61587	C. comes 
+Coprococcus_eutactus_61480	C. eutactus 
+Coprococcus_sp_62244	Coprococcus sp 
+Dialister_invisus_61905	D. invisus 
+Dialister_succinatiphilus_62213	D. succinatiphilus 
+Dorea_formicigenerans_56346	D. formicigenerans 
+Dorea_longicatena_61473	D. longicatena 
+Erysipelotrichaceae_bacterium_55770	E. bacterium 
+Escherichia_coli_58110	E. coli 
+Eubacterium_eligens_61678	E. eligens 
+Eubacterium_hallii_61477	E. hallii 
+Eubacterium_ramulus_59802	E. ramulus 
+Eubacterium_rectale_56927	E. rectale 
+Eubacterium_siraeum_57634	E. siraeum 
+Eubacterium_ventriosum_61474	E. ventriosum 
+Faecalibacterium_cf_62236	Faecalibacterium cf 
+Faecalibacterium_prausnitzii_57453	F. prausnitzii 1
+Faecalibacterium_prausnitzii_61481	F. prausnitzii 2
+Faecalibacterium_prausnitzii_62201	F. prausnitzii 3
+Guyana_massiliensis_60772	G. massiliensis 
+Lachnospiraceae_bacterium_51870	L. bacterium 1
+Lachnospiraceae_bacterium_56833	L. bacterium 2
+Odoribacter_laneus_62216	O. laneus 
+Odoribacter_splanchnicus_62174	O. splanchnicus 
+Oscillibacter_sp_60799	Oscillibacter sp 
+Oscillospiraceae_bacterium_54867	O. bacterium 
+Parabacteroides_distasonis_56985	P. distasonis 
+Parabacteroides_goldsteinii_56831	P. goldsteinii 
+Parabacteroides_johnsonii_55217	P. johnsonii 
+Parabacteroides_merdae_56972	P. merdae 
+Paraprevotella_clara_33712	P. clara 
+Paraprevotella_xylaniphila_62280	P. xylaniphila 
+Phascolarctobacterium_sp_59817	Phascolarctob. sp 1
+Phascolarctobacterium_sp_59818	Phascolarctob. sp 2
+Phascolarctobacterium_succinatutens_61948	P. succinatutens 
+Prevotella_copri_61740	P. copri 
+Prevotella_stercorea_58308	P. stercorea 
+Roseburia_hominis_61877	R. hominis 
+Roseburia_intestinalis_56239	R. intestinalis 
+Roseburia_inulinivorans_61943	R. inulinivorans 
+Ruminococcus_bicirculans_59300	R. bicirculans 
+Ruminococcus_bromii_62047	R. bromii 
+Ruminococcus_champanellensis_61009	R. champanellensis 
+Ruminococcus_gnavus_57638	R. gnavus 
+Ruminococcus_lactaris_55568	R. lactaris 
+Ruminococcus_obeum_61472	R. obeum 
+Ruminococcus_sp_55468	Ruminococcus sp 
+Ruminococcus_torques_62045	R. torques 
+Subdoligranulum_sp_62068	Subdoligranulum sp 
+Sutterella_wadsworthensis_56828	S. wadsworthensis 1
+Sutterella_wadsworthensis_62218	S. wadsworthensis 2
