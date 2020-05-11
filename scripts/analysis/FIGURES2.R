@@ -34,20 +34,25 @@ d_mean<- left_join(d_mean, plot_ids, by = 'species')
 
 # Make figure 1C
 # Make species as levels ordered by mean relatedness
+#d_mean$species<- factor(d_mean$species, d_mean[order(d_mean$mean_relatedness),'species'])
+
+
+d_mean$plot_names<- factor(d_mean$plot_names, d_mean[order(d_mean$mean_relatedness),'plot_names'])
 d_mean$species<- factor(d_mean$species, d_mean[order(d_mean$mean_relatedness),'species'])
-d$species<- factor(d$species, d_mean[order(d_mean$mean_relatedness),'species'])
+
 d_mean<- d_mean %>% arrange(mean_relatedness)
+
 
 ylim = c(1, length(unique(d$species)))
 xlim = c(-1, 1)
 
 # Output figure
-ppi <- 600
+ppi <- 800
 png('./output/figures/FIG_1C.png', width=(8/2.54)*ppi, height=(17.8/2.54)*ppi, res=ppi)
 
 # Set the plot
-par(mar = c(2, 3.5, 0, 1.5))
-plot(y = d_mean$species, x = d_mean$mean_relatedness, pch = 16, xlim = xlim, ylim = ylim, cex = 0.1,
+par(mar = c(2, 3.8, 0, 1.5))
+plot(y = d_mean$plot_id, x = d_mean$mean_relatedness, pch = 16, xlim = xlim, ylim = ylim, cex = 0.1,
      yaxt='n', ylab = '', xlab = '', bty = 'n', xaxt = 'n')
 
 # Background shades and within host relatedness
@@ -80,6 +85,7 @@ axis(2, at = seq(1,101), labels = d_mean$plot_name, las = 2, cex.axis = 0.4, fon
 axis(4, at = seq(1,101), labels = paste0('n = ', d_mean$nb_host), las = 2, cex.axis = 0.4, padj = 0, lwd = 0, line = -1)
 axis(1, line = -0.9, lwd = 1.1, cex.axis = 0.6, tck = -.04, padj = -2)
 mtext('Mean relatedness', 1, font = 2, line = 0.3, cex = 0.8)
+
 dev.off()
 
 
@@ -102,23 +108,24 @@ rep(c(rep(2, width_1B), rep(3, width_1C)), height_1B)),
 nrow = 100,
 byrow = TRUE)
 
-png(file = paste0("./output/figures/FIGURE_1.png"), width=(17.8/2.54)*ppi, height=(17.8/2.54)*ppi, res=ppi)
+
+pdf(file = paste0("./output/figures/FIGURE_1.pdf"), width=(17.8/2.54), height=(17.8/2.54))
 
 layout(m)#;layout.show(3)
 
 par(mar = c(1, 1.5, 1, 1.5)) # bottom, left, top, right
 plot(NA, xlim=0:1, ylim=0:1, bty="n", axes=0, xaxs = 'i', yaxs='i')
-rasterImage(fig1A, 0, 0, 1,1)
+rasterImage(fig1A, 0, 0, 1, 0.95)
 text(x = 0.02, y = 0.97, 'A', font = 2, cex = 1.5) # FIG 1A
 
 par(mar = c(0, 1.5, 1, 1.5))
 plot(NA, xlim=0:1, ylim=0:1, bty="n", axes=0, xaxs = 'i', yaxs='i')
-rasterImage(fig1B, 0, 0.01, 1,1)
+rasterImage(fig1B, 0.01, 0.1, 1, 1)
 text(x = 0.02, y = 0.97, 'B', font = 2, cex = 1.5) # FIG 1B
 
 par(mar = c(0, 1, 0, 0))
 plot(NA, xlim=0:1, ylim=0:1, bty="n", axes=0, xaxs = 'i', yaxs='i')
-rasterImage(fig1C, 0.02, 0, 1,1)
+rasterImage(fig1C, 0, 0, 0.96,1)
 text(x = 0.03, y = 0.985, 'C', font = 2, cex = 1.5) # FIG 1C
 
 dev.off()
@@ -467,12 +474,12 @@ coltoplot2<- map2color2('snow', 'darkorchid4', 0.01, 'nb_extracellular')
 
 # Fig 2: tree and clades
 
-#pdf(file = 'Fig2_tree_and_clades.pdf', width = 10, height = 10)
-
+#pdf(file = './output/figures/Fig2_tree_and_clades2.pdf', width = (11.3/2.54), height = (11.3/2.54))
 
 png('./output/figures/FIG_2.tree.png', width=(11.3/2.54)*ppi, height=(11.3/2.54)*ppi, res=ppi)
 
-par(mar = c(0,0,0,0))
+par(mar = c(0,0,0,0),
+    oma = c(0,0,0,0))
 
 plot(obj,type="fan",ftype="off",lwd=c(2,6),outline=FALSE,
      xlim=c(-1,1),
@@ -622,6 +629,7 @@ dev.off()
 # Figure 2: ASSEMBLE
 
 fig2 <- image_read("./output/figures/FIG_2.tree.png")
+
 bar1 <- image_read("./output/figures/FIG_2.bar1.png")
 bar2 <- image_read("./output/figures/FIG_2.bar2.png")
 bar3 <- image_read("./output/figures/FIG_2.bar3.png")
@@ -635,8 +643,10 @@ height_bar<- round((3*100)/11.4)
 height_tree<-  round(100 - height_bar)
 width_bar<- round(100/7)
 
+fig2_crop <- image_crop(fig2, "2900x2900+350+150")
+plot(NA, xlim=0:1, ylim=0:1, bty="n", axes=0, xaxs = 'i', yaxs='i')
+rasterImage(fig2_crop, 0.15, 0, 0.85,1)
 
-fig2_crop <- image_crop(fig2, "2130x2190+250+50")
 
 m<- matrix(
   data = c(rep(rep(1,7), 5),
@@ -647,8 +657,7 @@ m<- matrix(
 
 
 
-
-png(file = paste0("./output/figures/FIGURE_2.png"), width=(11.4/2.54)*ppi, height=(11.4/2.54)*ppi, res=ppi)
+pdf(file = paste0("./output/figures/FIGURE_2.pdf"), width=(11.4/2.54), height=(11.4/2.54))
 layout(m)#; layout.show(2)
 
 par(mar = c(0, 0, 0, 0))
@@ -659,14 +668,13 @@ par(mar = c(0, 0, 0, 0))
 plot(NA, xlim=0:1, ylim=0:1, bty="n", axes=0, xaxs = 'i', yaxs='i')
 
 eps = 0.02
-rasterImage(bar1, 0.15+eps, 0.3, 0.23+eps, 1)
-rasterImage(bar2, 0.25+eps, 0.3, 0.33+eps, 1)
-rasterImage(bar3, 0.35+eps, 0.3, 0.43+eps, 1)
-rasterImage(bar4, 0.45+eps, 0.3, 0.53+eps, 1)
-rasterImage(bar5, 0.55+eps, 0.3, 0.63+eps, 1)
-rasterImage(bar6, 0.65+eps, 0.3, 0.73+eps, 1)
-rasterImage(bar7, 0.75+eps, 0.3, 0.83+eps, 1)
-
+rasterImage(bar1, 0.15+eps, 0.25, 0.23+eps, 1)
+rasterImage(bar2, 0.25+eps, 0.25, 0.33+eps, 1)
+rasterImage(bar3, 0.35+eps, 0.25, 0.43+eps, 1)
+rasterImage(bar4, 0.45+eps, 0.25, 0.53+eps, 1)
+rasterImage(bar5, 0.55+eps, 0.25, 0.63+eps, 1)
+rasterImage(bar6, 0.65+eps, 0.25, 0.73+eps, 1)
+rasterImage(bar7, 0.75+eps, 0.25, 0.83+eps, 1)
 
 
 dev.off()
@@ -718,33 +726,34 @@ ma.1.df<- data.frame(cooperative_trait = 'Meta-analysis',
                      hpd_lower = as.numeric(MA.MODELS_1[which(MA.MODELS_1[,1] == 'mean_relatedness'),'ci.lower']),
                      hpd_higher = as.numeric(MA.MODELS_1[which(MA.MODELS_1[,1] == 'mean_relatedness'),'ci.upper']))
 
+
+dat.R <- dat.R %>% arrange(effect)
+
+
 dat.R.relatedness<- 
   rbind(dat.R[dat.R$predictor_variable == 'mean_relatedness',c('cooperative_trait', 'effect', 'hpd_lower', 'hpd_higher')],
         ma.1.df)
 
 
-m<-  rbind(c(1,1,2,3), c(1,1,4,5),c(1,1,6,7))
-layout(m)
-layout.show(7)
-
-png('./output/figures/FIG_3.png', width=(11.3/2.54)*ppi, height=(6.5/2.54)*ppi, res=ppi)
+pdf('./output/figures/FIGURE_3.pdf', width=(11.3/2.54), height=(6.5/2.54))
 
 m<-  rbind(c(1,1,2,3), c(1,1,4,5),c(1,1,6,7))
 layout(m)
 
-par(mar = c(2, 3.8, 0.15, 1))
+
+par(mar = c(1, 4, 0.15, 1),
+    oma=c(1,0,1,0))
 plot(NA, xlim=c(-2.5,3), ylim=c(1,7), bty = 'L', xlab = 'Estimated effect\n(phylogenetic mixed model posterior mean)', ylab = '', xaxt = 'n', yaxt = 'n')
 axis(1, at = seq(-2,3,1), labels = rep('', 6),  font = 1, cex.axis = 0.6,  tck = -.02)
 axis(1, at = seq(-2,3,1), font = 1, cex.axis = 0.6, tck = -.02, lwd = 0, line = -1)
 
 axis(2, at = seq(1,7,1), labels = rep('', 7), tck = -.02)
 axis(2, at = seq(1,7,1),
-     labels = c('Secretome', 'Secretion\nsystems', 'Siderophores', 'Quorum\nsensing',
-                'Biofilm', 'Antibiotic\n degradation' , 'Overall\neffect'), font = 2,
+     labels = c('Quorum\nsensing', 'Secretion\nsystems', 'Secretome', 'Antibiotic\n degradation', 'Biofilm', 'Siderophores', 'Overall\neffect'), font = 2,
      las = 2, lwd = 0, line = -0.5,
      cex.axis = 0.6)
 
-cols = c('darkorchid4', 'navy', 'darkorange', 'yellow', 'forestgreen', 'magenta', 'black')
+cols = c('yellow', 'navy', 'darkorchid4', 'magenta', 'forestgreen', 'darkorange', 'black')
 
 for(i in 1:nrow(dat.R.relatedness)){
   points(x = dat.R.relatedness$effect[i], y = i, pch = 16, cex = 0.8, col = cols[i]) 
@@ -755,11 +764,18 @@ for(i in 1:nrow(dat.R.relatedness)){
 
 
 abline(v = 0, lty = 'dotted')
+mtext(side = 3, 'A', font = 2, at = -4.5, cex = 0.5)
 
 
-par(mar = c(2, 2.5, 0.15, 0.5))
+par(mar = c(1, 2.5, 0.15, 0.5))
 
 
+plotLM('siderophores', D = d_mean, col = 'darkorange', length.yseq = 3)
+mtext(side = 3, 'B', font = 2, at = -0.35, cex = 0.5)
+plotLM('biofilm', D = d_mean, col = 'forestgreen', length.yseq = 3)
+plotLM('ab_degradation', D = d_mean, col = 'magenta', length.yseq = 3)
+
+mtext(side = 2, text = expression(bold(paste("Proportion of cooperative genes (10"^" -03", ")"))), cex = 0.4, line = 1.2)
 
 D<-d_mean
 mod<-lm(I(nb_extracellular/total_cds)~ mean_relatedness+gram_profile,data=D)
@@ -799,27 +815,13 @@ axis(2, cex.axis = cex.axis, font = 1, tck = tck, lwd = 0, line = line.y, at = y
 
 
 plotLM('secretion_system_no4', D = d_mean, col = 'navy', length.yseq = 3)
-plotLM('siderophores', D = d_mean, col = 'darkorange', length.yseq = 3)
-mtext(side = 2, text = expression(bold(paste("Proportion of cooperative genes (10"^" -03", ")"))), cex = 0.4, line = 1)
-
 plotLM('quorum_sensing', D = d_mean, col = 'yellow', length.yseq = 3)
-plotLM('biofilm', D = d_mean, col = 'forestgreen', length.yseq = 3)
-plotLM('ab_degradation', D = d_mean, col = 'magenta', length.yseq = 3)
-mtext(side=1, "Mean relatedness", outer = TRUE, line = -1.2, adj = 0.85, col ='black', cex = 0.4, font =2)
-mtext(side=1, "Estimated effect", outer = TRUE, line = -1.2, adj = 0.25, col ='black', cex = 0.4, font =2)
+
+mtext(side=1, "Mean relatedness", outer = TRUE, line = -0.2, adj = 0.85, col ='black', cex = 0.4, font =2)
+mtext(side=1, "Estimated effect", outer = TRUE, line = -0.2, adj = 0.25, col ='black', cex = 0.4, font =2)
+
 
 dev.off()
-
-
-png('./output/figures/FIGURE_3.png', width=(11.3/2.54)*ppi, height=(6.5/2.54)*ppi, res=ppi)
-fig3 <- image_read("./output/figures/FIG_3.png")
-par(mar = c(0, 0, 0, 0)) # bottom, left, top, right
-plot(NA, xlim=0:1, ylim=0:1, bty="n", axes=0, xaxs = 'i', yaxs='i')
-rasterImage(fig3, 0, 0, 0.97,  0.97)
-text(x = 0.02, y = 0.97, 'A', font = 2, cex = 0.5)
-text(x = 0.51, y = 0.97, 'B', font = 2, cex = 0.5)
-dev.off()
-
 
 
  # FIGURE 4 ----
@@ -831,7 +833,9 @@ b_sporulation = mean(m3$Sol[,'sporulation_score'])
 b_abundance = mean(m3$Sol[,'within_host_relative_abundance'])
 
 
-png('./output/figures/FIGURE_4.png', width=(8.7/2.54)*ppi, height=(8.7/2.54)*ppi, res=ppi)
+#png('./output/figures/FIGURE_4.png', width=(8.7/2.54)*ppi, height=(8.7/2.54)*ppi, res=ppi)
+
+pdf('./output/figures/FIGURE_4.pdf', width=(8.7/2.54), height=(8.7/2.54))
 
 par(mfrow=c(2,2),mar=c(2,2,1,1))
 
@@ -910,5 +914,15 @@ axis(2, at = seq(-1,1,0.5), lwd = 0, line  = -0.7, cex.axis =  0.5)
 
 
 dev.off()
+
+
+
+
+
+
+
+
+
+
 
 
