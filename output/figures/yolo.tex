@@ -1,0 +1,97 @@
+\documentclass[border=1mm, preview]{standalone}
+\usepackage[active,tightpage]{preview}
+\usepackage{varwidth}
+\usepackage{amssymb, amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e}
+\usepackage{polyglossia}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage[normalem]{ulem}
+\usepackage[utf8]{inputenc}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{xltxtra,xunicode}
+\begin{document}
+\begin{table}
+
+\caption{\label{tab:}Model summaries for the phylogenetic mixed models of cooperative traits when including sporulation scores and relative abundance as predictors}
+\centering
+\begin{tabular}[t]{llllllll}
+\toprule
+Model & Structure & Effect & Posterior
+ mean & CI95\% lower & CI95\% upper & Effective
+ sampling & pMCMC\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Siderophores}}\\
+\hspace{1em} & Fixed effect & Intercept & -10.725 & -16.228 & -5.012 & 3400 & 2.22e-04\\
+\hspace{1em} &  & Mean relatedness & 1.432 & 0.243 & 2.679 & 2647 & 0.020\\
+\hspace{1em} &  & Mean relative abundance & 0.415 & -3.378 & 4.191 & 3625 & 0.809\\
+\hspace{1em} &  & Sporulation score & -1.600 & -4.335 & 1.213 & 3547 & 0.261\\
+\hspace{1em} &  & Log(genome size) & 1.401 & 0.780 & 2.071 & 3798 & 1.11e-04\\
+\hspace{1em} & (Co)variance & Phylogenetic & 0.456 & 0.158 & 0.804 & 1520 & \\
+\hspace{1em} &  & Residual (non-phylogenetic) & 0.011 & 0.000 & 0.040 & 5669 & \\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Biofilm}}\\
+\hspace{1em} & Fixed effect & Intercept & -9.619 & -14.447 & -4.911 & 2539 & 1.11e-04\\
+\hspace{1em} &  & Mean relatedness & 1.015 & -0.006 & 2.011 & 1715 & 0.057\\
+\hspace{1em} &  & Mean relative abundance & 2.227 & -1.026 & 5.274 & 3203 & 0.172\\
+\hspace{1em} &  & Sporulation score & -0.306 & -2.589 & 1.703 & 3188 & 0.767\\
+\hspace{1em} &  & Log(genome size) & 1.289 & 0.745 & 1.827 & 2920 & 1.11e-04\\
+\hspace{1em} & (Co)variance & Phylogenetic & 0.265 & 0.084 & 0.496 & 1689 & \\
+\hspace{1em} &  & Residual (non-phylogenetic) & 0.012 & 0.000 & 0.043 & 2779 & \\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Antibiotic degradation}}\\
+\hspace{1em} & Fixed effect & Intercept & -9.332 & -14.036 & -4.591 & 2936 & 1.11e-04\\
+\hspace{1em} &  & Mean relatedness & 0.612 & -0.465 & 1.660 & 2247 & 0.266\\
+\hspace{1em} &  & Mean relative abundance & 3.209 & -0.008 & 6.256 & 3378 & 0.059\\
+\hspace{1em} &  & Sporulation score & -1.795 & -3.839 & 0.089 & 3455 & 0.067\\
+\hspace{1em} &  & Log(genome size) & 1.267 & 0.715 & 1.800 & 3174 & 1.11e-04\\
+\hspace{1em} & (Co)variance & Phylogenetic & 0.158 & 0.000 & 0.362 & 1143 & \\
+\hspace{1em} &  & Residual (non-phylogenetic) & 0.010 & 0.000 & 0.036 & 5135 & \\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Secretome}}\\
+\hspace{1em} & Fixed effect & Intercept & -7.586 & -10.283 & -4.915 & 8616 & 1.11e-04\\
+\hspace{1em} &  & Mean relatedness & 0.599 & 0.087 & 1.145 & 8519 & 0.030\\
+\hspace{1em} &  & Mean relative abundance & -0.333 & -2.038 & 1.398 & 8299 & 0.704\\
+\hspace{1em} &  & Sporulation score & 0.007 & -1.336 & 1.347 & 9000 & 0.988\\
+\hspace{1em} &  & Log(genome size) & 1.280 & 0.954 & 1.605 & 8644 & 1.11e-04\\
+\hspace{1em} &  & Gram positive & 0.597 & 0.348 & 0.847 & 9000 & 1.11e-04\\
+\hspace{1em} & (Co)variance & Phylogenetic & 0.144 & 0.059 & 0.239 & 7773 & \\
+\hspace{1em} &  & Residual (non-phylogenetic) & 0.008 & 0.000 & 0.026 & 6230 & \\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Secretion systems}}\\
+\hspace{1em} & Fixed effect & Intercept & -11.008 & -26.802 & 3.374 & 3702 & 0.145\\
+\hspace{1em} &  & Mean relatedness & 0.278 & -2.437 & 3.236 & 3510 & 0.842\\
+\hspace{1em} &  & Mean relative abundance & 2.715 & -8.050 & 13.282 & 3669 & 0.600\\
+\hspace{1em} &  & Sporulation score & -1.370 & -8.529 & 5.045 & 4559 & 0.690\\
+\hspace{1em} &  & Log(genome size) & 1.297 & -0.516 & 3.054 & 3672 & 0.141\\
+\hspace{1em} & (Co)variance & Phylogenetic & 3.130 & 0.001 & 6.330 & 1423 & \\
+\hspace{1em} &  & Residual (non-phylogenetic) & 0.344 & 0.000 & 1.270 & 2375 & \\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Quorum sensing}}\\
+\hspace{1em} & Fixed effect & Intercept & -1.800 & -10.666 & 7.690 & 1930 & 0.691\\
+\hspace{1em} &  & Mean relatedness & 0.644 & -1.048 & 2.259 & 2132 & 0.454\\
+\hspace{1em} &  & Mean relative abundance & 7.386 & 1.229 & 13.246 & 2254 & 0.022\\
+\hspace{1em} &  & Sporulation score & 4.422 & 0.498 & 7.998 & 2858 & 0.026\\
+\hspace{1em} &  & Log(genome size) & -0.048 & -1.114 & 1.049 & 2090 & 0.936\\
+\hspace{1em} & (Co)variance & Phylogenetic & 0.764 & 0.149 & 1.559 & 813 & \\
+\hspace{1em} &  & Residual (non-phylogenetic) & 0.028 & 0.000 & 0.112 & 4012 & \\
+\bottomrule
+\multicolumn{8}{l}{\textsuperscript{} CI95\%: 95\% credible interval of the posterior distribution}\\
+\multicolumn{8}{l}{\textsuperscript{} pMCMC: taken as twice the posterior probability that the estimate is negative}\\
+\end{tabular}
+\end{table}
+\end{document}

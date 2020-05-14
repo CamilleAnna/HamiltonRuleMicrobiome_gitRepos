@@ -653,4 +653,3 @@ m5.joint.test<- aod::wald.test(cov(m5$Sol), colMeans(m5$Sol), Terms=4:9)$result$
 save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_2.RData')
 
 print("section 5 done :)")
-

@@ -1,0 +1,30 @@
+\begin{table}
+
+\caption{\label{tab:}Meta-analysis model summaries}
+\centering
+\begin{tabular}[t]{lllllll}
+\toprule
+Predictor & Estimate & Std. Err. & CI95\% lower & CI95\% upper & z value & p value\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{7}{l}{\textbf{Model 1}}\\
+\hspace{1em}Mean relatedness & 0.776 & 0.194 & 0.395 & 1.157 & 3.992 & 6.566e-05\\
+\hspace{1em}Log(genome size) & 1.227 & 0.113 & 1.005 & 1.449 & 10.837 & 2.304e-27\\
+\addlinespace[0.3em]
+\multicolumn{7}{l}{\textbf{Model 2}}\\
+\hspace{1em}Within host relatedness & 0.061 & 0.025 & 0.011 & 0.11 & 2.386 & 0.017\\
+\hspace{1em}Log(genome size) & 1.206 & 0.113 & 0.985 & 1.427 & 10.701 & 1.009e-26\\
+\addlinespace[0.3em]
+\multicolumn{7}{l}{\textbf{Model 3}}\\
+\hspace{1em}Mean relatedness & 0.743 & 0.198 & 0.354 & 1.131 & 3.748 & 1.779e-04\\
+\hspace{1em}Mean relative abundance & 1.786 & 1.019 & -0.211 & 3.783 & 1.753 & 0.08\\
+\hspace{1em}Sporulation score & -0.302 & 0.692 & -1.659 & 1.054 & -0.437 & 0.662\\
+\hspace{1em}Log(genome size) & 1.235 & 0.115 & 1.011 & 1.46 & 10.778 & 4.389e-27\\
+\bottomrule
+\multicolumn{7}{l}{CI95\%: 95\% credible interval of the posterior distribution}\\
+\multicolumn{7}{l}{pMCMC: taken as twice the posterior probability that the estimate is negative}\\
+\multicolumn{7}{l}{Model 1: meta-analysis over the models of cooperation with mean relatedness as predictor}\\
+\multicolumn{7}{l}{Model 2: meta-analysis over the models of cooperation accounting for uncertainty in relatedness estimates}\\
+\multicolumn{7}{l}{Model 3: meta-analysis over the models of cooperation with mean relatedness and sporulation scores and relative abundance as predictors}\\
+\end{tabular}
+\end{table}

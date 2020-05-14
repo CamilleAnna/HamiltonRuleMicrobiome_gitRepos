@@ -450,11 +450,11 @@ vcv.chains[[i]]<- chains[[i]][[model_id]]$VCV
 }
 
 sol.psrd<- gelman.diag(mcmc.list(Sol.chains))$psrf[,2]
-vcv.psrd<- gelman.diag(mcmc.list(vcv.chains))$psrf[,2]
+vcv.psrd<- gelman.diag(mcmc.list(vcv.chains), multivariate = FALSE)$psrf[,2]
 
 gelman_results<- data.frame(model_id = model_id,
                             fixed.effects.max.upperCI.psrf = max(sol.psrd),
-                            vcv.effects.max.upperCI.psrf = max(vcv.psrd))
+                            vcv.effects.max.upperCI.psrf = max(vcv.psrd, na.rm = TRUE))
 
 return(gelman_results)
 
@@ -462,12 +462,11 @@ return(gelman_results)
 
 ```
 
-```{r, eval = FALSE}
+```{r}
 
 # GR-test on model 1
 mods.R.chain1 <- loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL1_CHAIN_1.RData")[[c('mods.R')]]
 mods.R.chain2 <- loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL1_CHAIN_2.RData")[[c('mods.R')]]
-
 
 mods.R.chains<- list(mods.R.chain1, mods.R.chain2)
 
@@ -486,10 +485,36 @@ rm(list = c("mods.R.chain1",
             #"mods.R.chain3",
             "mods.R.chains"))
 
+max(gr.test.model1$fixed.effects.max.upperCI.psrf)
+max(gr.test.model1$vcv.effects.max.upperCI.psrf)
 
 # GR-test on model 2 
 # Not running it --> it's only a side SI model
 
+
+mods.R.UNCERTAINTY.chain1 <- loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL2_CHAIN_1.RData")[[c('mods.R.UNCERTAINTY')]]
+
+mods.R.UNCERTAINTY.chain2 <- loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL2_CHAIN_2.RData")[[c('mods.R.UNCERTAINTY')]]
+
+mods.R.UNCERTAINTY.chains<- list(mods.R.UNCERTAINTY.chain1, mods.R.UNCERTAINTY.chain2)
+
+
+gr.test.model2<- 
+rbind(
+run_gelman_rubin_test(mods.R.UNCERTAINTY.chains, 'secretome'),
+run_gelman_rubin_test(mods.R.UNCERTAINTY.chains, 'ab_degradation'),
+run_gelman_rubin_test(mods.R.UNCERTAINTY.chains, 'biofilm'),
+run_gelman_rubin_test(mods.R.UNCERTAINTY.chains, 'secretion_system_no4'),
+run_gelman_rubin_test(mods.R.UNCERTAINTY.chains, 'siderophores'),
+run_gelman_rubin_test(mods.R.UNCERTAINTY.chains, 'quorum_sensing')) %>%
+  mutate(model = 'model 2')
+
+max(gr.test.model2$fixed.effects.max.upperCI.psrf)
+max(gr.test.model2$vcv.effects.max.upperCI.psrf)
+
+rm(mods.R.UNCERTAINTY.chain1)
+rm(mods.R.UNCERTAINTY.chain2)
+rm(mods.R.UNCERTAINTY.chains)
 
 # GR-test on model 3
 
@@ -527,6 +552,9 @@ run_gelman_rubin_test(mods.R.RA.SPO.chains, 'siderophores'),
 run_gelman_rubin_test(mods.R.RA.SPO.chains, 'quorum_sensing')) %>%
   mutate(model = 'model 4')
 
+max(gr.test.model4$fixed.effects.max.upperCI.psrf)
+max(gr.test.model4$vcv.effects.max.upperCI.psrf)
+
 
 rm(list = c("mods.R.RA.SPO.chain1",
             "mods.R.RA.SPO.chain2",
@@ -535,16 +563,16 @@ rm(list = c("mods.R.RA.SPO.chain1",
 
 
 # GR-test on model 5
-model5.chain1<- list(model_5 = loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_1.RData")[[c('m3')]])
+model5.chain1<- list(model_5 = loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_1.RData")[[c('m5')]])
 
-model5.chain2 <- list(model_5 = loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_2.RData")[[c('m3')]])
+model5.chain2 <- list(model_5 = loadToEnv("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_2.RData")[[c('m5')]])
 
 
 
 mods.5.chains<- list(model5.chain1, model5.chain2)
 
 
-gr.test.model5<- run_gelman_rubin_test(model5.chains, 'model_5') %>%
+gr.test.model5<- run_gelman_rubin_test(mods.5.chains, 'model_5') %>%
   mutate(model = 'model 5')
 
 
@@ -553,10 +581,13 @@ rm(list = c("model5.chain1",
             #"mods.5.chain3",
             "mods.5.chains"))
 
+max(gr.test.model5$fixed.effects.max.upperCI.psrf)
+max(gr.test.model5$vcv.effects.max.upperCI.psrf)
+
 
 gr.test.all<-
   rbind(gr.test.model1,
-        #gr.test.model2,
+        gr.test.model2,
         gr.test.model3,
         gr.test.model4,
         gr.test.model5) %>%
@@ -567,7 +598,7 @@ gr.test.all<-
 
 Reporting here the results of Gelman-Rubin tests. The values are the **maximum observed upper 95% CI** across all fixed and vcv effects for each model.
 
-```{r, echo = FALSE, eval = FALSE}
+```{r, echo = FALSE}
 kable(gr.test.all, caption = "Gelman-Rubin tests of all model.", row.names = FALSE)
 ```
 

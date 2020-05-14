@@ -1,0 +1,58 @@
+\begin{table}
+
+\caption{\label{tab:}Model summaries for the phylogenetic mixed models of cooperative traits}
+\centering
+\begin{tabular}[t]{llllllll}
+\toprule
+Model & Structure & Effect & Posterior
+ mean & CI95\% lower & CI95\% upper & Effective
+ sampling & pMCMC\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Siderophores}}\\
+\hspace{1em} & Fixed effect & Intercept & -10.572 & -16.188 & -5.198 & 3528 & 2.22e-04\\
+\hspace{1em} &  & Mean relatedness & 1.558 & 0.418 & 2.776 & 2548 & 9.56e-03\\
+\hspace{1em} &  & Log(genome size) & 1.322 & 0.699 & 1.973 & 3713 & 1.11e-04\\
+\hspace{1em} & (Co)variance & Phylogenetic & 0.488 & 0.207 & 0.850 & 2013 & \\
+\hspace{1em} &  & Residual (non-phylogenetic) & 0.011 & 0.000 & 0.040 & 5921 & \\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Biofilm}}\\
+\hspace{1em} & Fixed effect & Intercept & -9.275 & -14.057 & -4.389 & 3820 & 2.22e-04\\
+\hspace{1em} &  & Mean relatedness & 1.059 & 0.055 & 2.104 & 3029 & 0.046\\
+\hspace{1em} &  & Log(genome size) & 1.245 & 0.700 & 1.799 & 4084 & 1.11e-04\\
+\hspace{1em} & (Co)variance & Phylogenetic & 0.290 & 0.111 & 0.502 & 3335 & \\
+\hspace{1em} &  & Residual (non-phylogenetic) & 0.012 & 0.000 & 0.043 & 3910 & \\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Antibiotic degradation}}\\
+\hspace{1em} & Fixed effect & Intercept & -9.267 & -14.409 & -3.854 & 2552 & 1.56e-03\\
+\hspace{1em} &  & Mean relatedness & 0.861 & -0.257 & 2.033 & 1933 & 0.142\\
+\hspace{1em} &  & Log(genome size) & 1.201 & 0.597 & 1.800 & 2764 & 4.44e-04\\
+\hspace{1em} & (Co)variance & Phylogenetic & 0.267 & 0.066 & 0.518 & 1558 & \\
+\hspace{1em} &  & Residual (non-phylogenetic) & 0.009 & 0.000 & 0.034 & 5212 & \\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Secretome}}\\
+\hspace{1em} & Fixed effect & Intercept & -7.681 & -10.274 & -5.116 & 8656 & 1.11e-04\\
+\hspace{1em} &  & Mean relatedness & 0.593 & 0.075 & 1.071 & 8494 & 0.019\\
+\hspace{1em} &  & Log(genome size) & 1.289 & 0.978 & 1.592 & 8715 & 1.11e-04\\
+\hspace{1em} &  & Gram positive & 0.602 & 0.372 & 0.850 & 8591 & 1.11e-04\\
+\hspace{1em} & (Co)variance & Phylogenetic & 0.134 & 0.051 & 0.220 & 6475 & \\
+\hspace{1em} &  & Residual (non-phylogenetic) & 0.008 & 0.000 & 0.026 & 5899 & \\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Secretion systems}}\\
+\hspace{1em} & Fixed effect & Intercept & -10.213 & -25.456 & 3.635 & 3083 & 0.167\\
+\hspace{1em} &  & Mean relatedness & 0.479 & -2.275 & 3.081 & 3637 & 0.723\\
+\hspace{1em} &  & Log(genome size) & 1.156 & -0.467 & 2.881 & 3091 & 0.177\\
+\hspace{1em} & (Co)variance & Phylogenetic & 2.702 & 0.000 & 5.585 & 1384 & \\
+\hspace{1em} &  & Residual (non-phylogenetic) & 0.378 & 0.000 & 1.331 & 1603 & \\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Quorum sensing}}\\
+\hspace{1em} & Fixed effect & Intercept & -0.967 & -10.983 & 9.199 & 1494 & 0.838\\
+\hspace{1em} &  & Mean relatedness & 0.393 & -1.343 & 2.210 & 1748 & 0.669\\
+\hspace{1em} &  & Log(genome size) & 0.056 & -1.125 & 1.238 & 1492 & 0.906\\
+\hspace{1em} & (Co)variance & Phylogenetic & 1.188 & 0.445 & 2.223 & 479 & \\
+\hspace{1em} &  & Residual (non-phylogenetic) & 0.023 & 0.000 & 0.089 & 4413 & \\
+\bottomrule
+\multicolumn{8}{l}{\textsuperscript{} CI95\%: 95\% credible interval of the posterior distribution}\\
+\multicolumn{8}{l}{\textsuperscript{} pMCMC: taken as twice the posterior probability that the estimate is negative}\\
+\end{tabular}
+\end{table}

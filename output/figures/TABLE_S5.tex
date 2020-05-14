@@ -1,0 +1,28 @@
+\begin{table}
+
+\caption{\label{tab:}Model summary for the phylogenetic mixed model of relatedness (drivers of relatedness) with cooperative traits included as fixed predictors}
+\centering
+\begin{tabular}[t]{lllllll}
+\toprule
+Structure & Effect & Posterior
+ mean & CI95\% lower & CI95\% upper & Effective
+ sampling & pMCMC\\
+\midrule
+Fixed effects & Intercept & 0.875 & 0.625 & 1.106 & 20000 & 5.00e-05\\
+ & Sporulation score & -0.648 & -1.248 & -0.068 & 20000 & 0.032\\
+ & Within host relative abundance & 0.094 & 0.016 & 0.173 & 20000 & 0.016\\
+ & Biofilm & 0.001 & -0.010 & 0.011 & 19514 & 0.911\\
+ & Antibiotic degradation & -0.009 & -0.031 & 0.012 & 19188 & 0.405\\
+ & Quorum sensing & -0.002 & -0.026 & 0.021 & 20000 & 0.852\\
+ & Siderophores & 0.006 & -0.007 & 0.020 & 20000 & 0.357\\
+ & Secretion systems & -0.002 & -0.022 & 0.017 & 19270 & 0.820\\
+ & Secretome & -0.000 & -0.002 & 0.002 & 19517 & 0.876\\
+Variances & Species, non-phylogenetic & 0.004 & 0.000 & 0.009 & 7996 & \\
+ & Species, phylogenetic & 0.034 & 0.014 & 0.057 & 6182 & \\
+ & Host & 0.020 & 0.016 & 0.024 & 20000 & \\
+ & Residual & 0.025 & 0.024 & 0.027 & 20000 & \\
+\bottomrule
+\multicolumn{7}{l}{CI95\%: 95\% credible interval of the posterior distribution}\\
+\multicolumn{7}{l}{pMCMC: taken as twice the posterior probability that the estimate is negative}\\
+\end{tabular}
+\end{table}
