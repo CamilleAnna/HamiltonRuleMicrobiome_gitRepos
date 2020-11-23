@@ -1,19 +1,18 @@
 #!/bin/sh 
-#$ -o /exports/eddie/scratch/s1687811/HamiltonRuleMicrobiome/logs
-#$ -e /exports/eddie/scratch/s1687811/HamiltonRuleMicrobiome/logs
+#$ -o ./logs
+#$ -e ./logs
 #$ -N download_process_runMIDAS
+#$ -cwd
 #$ -l h_rt=24:00:00
 #$ -l h_vmem=15G
 #$ -P bio_MPGS_csimonet
 
 
 
-# IMPORT REPOSITORY BEFORE RUNNING SCRIPT!
-#cd /exports/eddie/scratch/s1687811/
-#git clone https://github.com/CamilleAnna/HamiltonRuleMicrobiome.git
+# IMPORT & MOVE IN REPOSITORY BEFORE REUNNING SCRIPT, LAUNCH SCRIPT FROM ROOT OF REPOSITORY
+# git clone https://github.com/CamilleAnna/HamiltonRuleMicrobiome_gitRepos.git
+# cd ./HamiltonRuleMicrobiome_gitRepos/
 
-
-cd /exports/eddie/scratch/s1687811/HamiltonRuleMicrobiome
 
 
 ############################################# PART 1: DOWNLOAD METAGENOMES #############################################
