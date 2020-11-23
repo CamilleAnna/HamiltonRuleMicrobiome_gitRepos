@@ -14,6 +14,12 @@ This repository holds data, output and analysis scripts for "Kin selection expla
 
 ## scripts
 
+Require a working installation of MOCAT, and MIDAS
+Before executing scripts, define an environmental variables
+$programs_install_dir: pointing to those installations directory
+$user_dir: path where repository HamiltonRuleMicrobiome_gitRepos is cloned
+
+
 ### analysis
 
 1.MIDAS_per_sample.sh: download HMP metagenomes, process with MOCAT, run MIDAS. Task array jobs, using $SGE_TASK_ID env variable to process the $SGE_TASK_ID th sample. Run as many task as there are samples listed in ./data/HMP_samples_first_visit_available (251)

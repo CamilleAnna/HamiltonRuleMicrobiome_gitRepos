@@ -5,7 +5,6 @@
 #$ -cwd
 #$ -l h_rt=24:00:00
 #$ -l h_vmem=15G
-#$ -P bio_MPGS_csimonet
 
 
 
@@ -13,12 +12,10 @@
 # git clone https://github.com/CamilleAnna/HamiltonRuleMicrobiome_gitRepos.git
 # cd ./HamiltonRuleMicrobiome_gitRepos/
 # Have a working installation of MOCAT, and MIDAS
-# Before executing scrip, define an environmental variables
+# Before executing scripts, define an environmental variables
 # $programs_install_dir: pointing to those installations directory
 # $user_dir: path where repository HamiltonRuleMicrobiome_gitRepos is cloned
 
-# programs_install_dir='/exports/csce/eddie/biology/groups/mcnally/camille/programs'
-# user_dir='/exports/eddie/scratch/s1687811'
 
 ############################################# PART 1: DOWNLOAD METAGENOMES #############################################
 echo 'PART 1: DOWNLOADING FILES:'
@@ -79,9 +76,9 @@ rm MOCAT.cfg
 rm -r logs
 rm -r temp
 
-mkdir raw.reads
-mv *.fq.gz ./raw.reads
-
+#mkdir raw.reads
+#mv *.fq.gz ./raw.reads
+rm *.fq.gz # don't need to keep raw reads
 
 ############################################# PART 3: RUN MIDAS #############################################
 echo "PART 3: RUN MIDAS ON $HOST"
@@ -93,7 +90,7 @@ module load anaconda
 source activate mypythonMIDAS # anaconda environment with all pre-requirements for MIDAS
 export PYTHONPATH=$PYTHONPATH:$programs_install_dir/MIDAS
 export PATH=$PATH:$programs_install_dir/MIDAS/scripts
-export MIDAS_DB=$programs_install_dir/midas_db_v1.2
+export MIDAS_DB=$programs_install_dir/MIDAS/midas_db_v1.2
 
 
 cd $user_dir/HamiltonRuleMicrobiome_gitRepos/output/midas/per_sample
@@ -101,14 +98,17 @@ mkdir $HOST
 
 # run midas on the processed files
 echo "run MIDAS species $HOST" # for species abundance data + prevalence info
-run_midas.py species ./$HOST -1 /exports/eddie/scratch/s1687811/HamiltonRuleMicrobiome/data/metagenomes/metagenomes/$HOST/reads.processed.solexaqa/*pair.1.fq.gz -2 /exports/eddie/scratch/s1687811/HamiltonRuleMicrobiome/data/metagenomes/metagenomes/$HOST/reads.processed.solexaqa/*pair.2.fq.gz #-n 1000000
+run_midas.py species ./$HOST -1 $user_dir/HamiltonRuleMicrobiome_gitRepos/data/metagenomes/metagenomes/$HOST/reads.processed.solexaqa/*pair.1.fq.gz -2 $user_dir/HamiltonRuleMicrobiome_gitRepos/data/metagenomes/metagenomes/$HOST/reads.processed.solexaqa/*pair.2.fq.gz #-n 1000000
 
 
 echo "run MIDAS snps $HOST" # for diversity analysis
-run_midas.py snps ./$HOST -1 /exports/eddie/scratch/s1687811/HamiltonRuleMicrobiome/data/metagenomes/metagenomes/$HOST/reads.processed.solexaqa/*pair.1.fq.gz -2 /exports/eddie/scratch/s1687811/HamiltonRuleMicrobiome/data/metagenomes/metagenomes/$HOST/reads.processed.solexaqa/*pair.2.fq.gz --remove_temp #-n 50000
+run_midas.py snps ./$HOST -1 $user_dir/HamiltonRuleMicrobiome_gitRepos/data/metagenomes/metagenomes/$HOST/reads.processed.solexaqa/*pair.1.fq.gz -2 $user_dir/HamiltonRuleMicrobiome_gitRepos/data/metagenomes/metagenomes/$HOST/reads.processed.solexaqa/*pair.2.fq.gz --remove_temp #-n 50000
 
 
-if [ -f ./$HOST/snps/summary.txt ]; then echo 'MIDAS ran fine until the end'; else echo 'There might have been an issue with midas or no sample was suitable for snps search'; fi
+rm $user_dir/HamiltonRuleMicrobiome_gitRepos/data/metagenomes/metagenomes/$HOST/reads.processed.solexaqa/*.fq.gz
+# keep qual_stats and stats directory for records, delete actual reads for space issues
+
+if [ -f ./$HOST/snps/summary.txt ]; then echo 'MIDAS ran fine until the end'; else echo 'There might have been an issue with midas or no species sastisfied filtering criteria'; fi
 echo 'ALL DONE! :) '
 
 
