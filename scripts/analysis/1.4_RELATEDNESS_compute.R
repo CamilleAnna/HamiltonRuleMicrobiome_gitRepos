@@ -7,7 +7,7 @@
 # And from this relatedness = (sim_within - sim_between)/(1 - sim_between)
 
 # Load within and between diversity tables
-setwd("~/Documents/GitHub/HamiltonRuleMicrobiome/output/diversity_sampleDepth5_siteDepth5_sitePrev090//")
+setwd("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/output/diversity_sampleDepth5_siteDepth5_sitePrev090//")
 source("~/Documents/PhD/Research/background_scripts/basic_packages.R")
 
 pi.within.files<- list.files(pattern = 'within')
@@ -25,6 +25,9 @@ for(i in 1:length(pi.within.files)){
 
 pi.within<- do.call('rbind', pi.within.ls)
 pi.between<- do.call('rbind', pi.between.ls)
+
+
+
 
 # Compute within and between genomic similariti
 sim.within.MM<- pi.within %>%
@@ -46,12 +49,19 @@ sims.HMPnew.MM<- left_join(sim.within.MM, sim.between.MM, by = 'species') %>%
   mutate(mean_relatedness = mean(within_host_relatedness)) %>% # mean relatedness
   select(species, host, sim_within, nb_site_within, sim_between, nb_site_between, within_host_relatedness, mean_relatedness, nb_host) %>%
   as.data.frame() %>%
-  filter(nb_host > 1, # need at least 2 hosts to estimate a between host diversity!)
-   nb_site_within > 1000 # species for which no core-genome site could be identified
-   ) %>%
-  rename(species_id = species)
+  rename(species_id = species) %>%
+  filter(
+    nb_site_within > 1000), # species for which no core-genome site could be identified
+    nb_host > 1 # need at least 2 hosts to estimate a between host diversity!)
+   ) 
 
-length(unique(sims.HMPnew.MM$species_id)) # 80 for diversity output with --sample_depth 10 --site_depth 10
+
+length(unique(sims.HMPnew.MM$species_id)) # 141 species
+length(unique(sims.HMPnew.MM$species_id)) # 140 after filtering for number of core genomic sites
+length(unique(sims.HMPnew.MM$species_id)) # 101 after further filtering for at least two hosts
+
+
+length(unique(sims.HMPnew.MM$species_id))
 
 
 write.table(sims.HMPnew.MM, '~/Documents/GitHub/HamiltonRuleMicrobiome/output/RELATEDNESS.txt', col.names = TRUE, row.names = FALSE)
