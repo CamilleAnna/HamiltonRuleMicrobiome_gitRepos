@@ -66,5 +66,11 @@ length(unique(sims.HMPnew.MM$species_id))
 
 write.table(sims.HMPnew.MM, '~/Documents/GitHub/HamiltonRuleMicrobiome/output/RELATEDNESS.txt', col.names = TRUE, row.names = FALSE)
 
+# + write a "species_list.txt" file with list of species
+
+d<- read.table('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/output/RELATEDNESS.txt', header=TRUE, sep = ' ')
+d<- data.frame(unique(d$species_id))
+colnames(d)<- 'species_id'
+write.table(d, '~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/output/species_list.txt', col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
 
 

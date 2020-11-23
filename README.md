@@ -44,6 +44,9 @@ qsub -v user_dir='path/where/gitrepo/is/cloned',programs_install_dir='/path/to/i
 run as:
 qsub -v user_dir='path/where/gitrepo/is/cloned',programs_install_dir='/path/to/install/dir/of/MOCAT_and_MIDAS' -t1-XXX ./scripts/analysis/3_midas_diversity.sh
 
+5_cooperation
+
+define $local_project_dir for directory within which repository is cloned
 
 
 
