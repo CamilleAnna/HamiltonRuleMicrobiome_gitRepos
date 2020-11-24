@@ -65,8 +65,7 @@ echo 'PART 2: READS PROCESSING'
 
 cp $user_dir/HamiltonRuleMicrobiome_gitRepos/data/metagenomes/MOCAT.cfg .
 mkdir -p logs/readtrimfilter/samples
-exec 2>> ./logs/readtrimfilter/samples/MOCATJob_readtrimfilter.$HOST.log && mkdir -p temp && $programs_install_dir/MOCAT//src/MOCATReadTrimFilter_aux.pl -sample $HOST -trim_5prime_end yes -src_dir $programs_install_dir/MOCAT//src -paired_end_data yes -file_formats_array ss -length_cutoff 45 -qual_cutoff 20 -solexaqa_or_fastx solexaqa -bin_dir $programs_install_dir/programs//bin -cwd ../ -use3files 0 -use_5prime_file no -temp_dir ../ -zcat "gunzip -c" 2>> ./logs/readtrimfilter/samples/MOCATJob_readtrimfilter.$HOST.log >> ./logs/readtrimfilter/samples/MOCATJob_readtrimfilter.$HOST.log
-
+exec 2>> ./logs/readtrimfilter/samples/MOCATJob_readtrimfilter.$HOST.log && mkdir -p temp && $programs_install_dir/MOCAT//src/MOCATReadTrimFilter_aux.pl -sample $HOST -trim_5prime_end yes -src_dir $programs_install_dir/MOCAT//src -paired_end_data yes -file_formats_array ss -length_cutoff 45 -qual_cutoff 20 -solexaqa_or_fastx solexaqa -bin_dir $programs_install_dir/MOCAT/bin -cwd ../ -use3files 0 -use_5prime_file no -temp_dir ../ -zcat "gunzip -c" 2>> ./logs/readtrimfilter/samples/MOCATJob_readtrimfilter.$HOST.log >> ./logs/readtrimfilter/samples/MOCATJob_readtrimfilter.$HOST.log
 size_rtf=$(du -sh ./reads.processed.solexaqa/*.pair.1.fq.gz | cut -f 1)
 if [ $size_rtf != 0 ]; then echo 'read trim filter OK'; else echo 'read trim filter left no read, a problem occured. Exiting'; exit; fi
 
