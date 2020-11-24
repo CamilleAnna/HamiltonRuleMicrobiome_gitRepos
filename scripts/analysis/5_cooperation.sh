@@ -54,34 +54,8 @@ chmod +x psortb
 # Generate psortb commands
 psortb_install_dir='/Applications/psortDB/psortb'
 cd $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/psortb
-cat $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/species_list.txt | sed '1d' | while read line
-do
-FILE=$line
-GRAM=$(cat $local_project_dir/HamiltonRuleMicrobiome_gitRepos/data/species_info_files/gram_profiles_db.txt | grep $line | cut -f 2)
-if [[ $GRAM == *n* ]];   then echo "$psortb_install_dir -i $local_project_dir/HamiltonRuleMicrobiome_gitRepos/data/patric/fasta/$FILE.fasta -r $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/psortb/$FILE -n -o long && rm $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/psortb/$FILE/*\.fasta && mv $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/psortb/$FILE/*.txt $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/psortb/$FILE/$FILE\.psortb.out && echo 'done with $FILE' >> $local_project_dir/HamiltonRuleMicrobiome_gitRepos/logs/psortb.log" >> psortb_commands.sh;
-elif [[ $GRAM == *p* ]]; then echo "$psortb_install_dir -i $local_project_dir/HamiltonRuleMicrobiome_gitRepos/data/patric/fasta/$FILE.fasta -r $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/psortb/$FILE -p -o long && rm $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/psortb/$FILE/*\.fasta && mv $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/psortb/$FILE/*.txt $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/psortb/$FILE/$FILE\.psortb.out && echo 'done with $FILE' >> $local_project_dir/HamiltonRuleMicrobiome_gitRepos/logs/psortb.log" >> psortb_commands.sh;
-else echo "For $FILE gram not determined, can't run psortb" >> noGram.txt;
-fi
-done
+if [[ -f psortb_commands.sh ]]; then echo 'deleting existing psortb_commands.sh file' && rm psortb_commands.sh; fi
 
-
-# Run
-cd $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/psortb
-cat $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/species_list.txt | sed '1d' | while read line
-do
-FILE=$(echo $line | cut -f 2 -d' ')
-mkdir $FILE
-done
-
-sudo su
-sh psortb_commands.sh
-exit
-
-
-
-# Generate psortb commands
-psortb_install_dir='/Applications/psortDB/psortb'
-cd $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/psortb
 cat $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/species_list.txt | sed '1d' | while read line
 do
 FILE=$line
@@ -91,6 +65,11 @@ elif [[ $GRAM == *p* ]]; then echo "mkdir $FILE" >> psortb_commands.sh && echo "
 else echo "For $FILE gram not determined, can't run psortb" >> noGram.txt;
 fi
 done
+
+# run commands
+# you may run into a 'Permission denied' error when running the following, related to github tracking
+# either run in a separate local directory, or unlink directory from github by running
+# rm -rf .git*
 sudo su # required to run docker image of  psortb if you don't have administrative rights
 sh psortb_commands.sh
 exit
