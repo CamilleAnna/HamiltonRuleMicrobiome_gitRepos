@@ -10,6 +10,7 @@
 
 # IMPORT & MOVE IN REPOSITORY BEFORE REUNNING SCRIPT, LAUNCH SCRIPT FROM ROOT OF REPOSITORY
 # git clone https://github.com/CamilleAnna/HamiltonRuleMicrobiome_gitRepos.git
+# rm -rf .git* # to unlink from git tracking, avoiding writing permission issues
 # cd ./HamiltonRuleMicrobiome_gitRepos/
 # Have a working installation of MOCAT, and MIDAS
 # Before executing scripts, define an environmental variables

@@ -1,0 +1,4 @@
+For Clostridiales_bacterium_56470 gram not determined, can't run psortb
+For Guyana_massiliensis_60772 gram not determined, can't run psortb
+For Lachnospiraceae_bacterium_51870 gram not determined, can't run psortb
+For Lachnospiraceae_bacterium_56833 gram not determined, can't run psortb

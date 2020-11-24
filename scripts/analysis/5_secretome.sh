@@ -1,14 +1,18 @@
-# other data assembly
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+#                    Simonet & McNally 2020                     #
+#                   Computing secretome size                    #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-# We processed the 251 HMP stool metagenomic samples
-# We computed measures of relatedness of 101 species
-# Now, measure cooperativity for those 101 species, listed in ./data/species_info_files/species_list.txt
-# Work with representative genome of that species, as listed in MIDASdb
 
-# Procedure is:
+# For the species included in the analysis (for which we computed relatedness in previous step)
+# We measure secretome size
+# That's 101 species, listed in ./data/species_info_files/species_list.txt
+# We work with the representative genome of those species, as listed in MIDASdb
+
+# STEPS ARE:
 # 1) Browse PATRIC (download genomes AA fasta and feature files)
 # 2) Run PSORTb (install, generate commands, run)
-
+# 3) compute secretome size (code to execute in R)
 
 
 # ~~~~~~~~~~~~~~~~~~~ #
@@ -73,6 +77,75 @@ done
 sudo su # required to run docker image of  psortb if you don't have administrative rights
 sh psortb_commands.sh
 exit
+
+# housekeeping
+mkdir psortb_output
+mv ./*/*.psortb.out ./psortb_output/
+rmdir * # removes NOW EMPTY directories
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~ #
+#  3) Compute Secretome  #
+# ~~~~~~~~~~~~~~~~~~~~~~ #
+# ** code to execute in R **
+
+
+# local_project_dir='/path/to/cloned/repository/'
+setwd(local_project_dir)
+library(dplyr)
+library(tidyr)
+
+# Gathering PSORTb output
+path.to.psotb.output<- paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/psortb/psortb_output/')
+files<- paste0(path.to.psotb.output, list.files(path.to.psotb.output))
+sps<- list.files(path.to.psotb.output)
+loc<- list()
+compartments<- c("Cytoplasmic_Score", "CytoplasmicMembrane_Score", "Periplasmic_Score", "OuterMembrane_Score", "Extracellular_Score", "Cellwall_Score", "Final_Localization")
+for(i in 1:length(files)){
+  
+  
+  coop<- read.csv(files[i], sep='\t', row.names = NULL)
+  
+  if(nrow(coop) == 0){
+    loc[[i]]<- data.frame(species = sub(".psortb.out", "", sps[i]),
+                          location = c('Cytoplasmic', 'CytoplasmicMembrane', 'Extracellular', 'OuterMembrane', 'Periplasmic', 'Unknown', 'Cellwall'),
+                          freq = NA,
+                          nb_sequences = NA,
+                          nb_sequences_known = NA)
+  }else{
+    colnames(coop)<- c(colnames(coop)[-1], 'foo')
+    coop2<- coop[,which(colnames(coop) %in% compartments)] 
+    
+    loc[[i]]<- data.frame(table(coop2$Final_Localization)) %>%
+      rename(location = Var1, freq = Freq) %>%
+      mutate(species = sub(".psortb.out", "", sps[i]),
+             nb_sequences = nrow(coop),
+             nb_sequences_known = nrow(coop[which(coop$Final_Localization != 'Unknown'),])) %>% 
+      select(species, location, freq, nb_sequences, nb_sequences_known)
+  }
+  
+  print(i)
+}
+locfl<- do.call('rbind', loc)
+
+# Compute total number/localisation, keep Extracellular location only,
+locfl<- locfl %>%
+  mutate(other_all = locfl$nb_sequences - locfl$freq,
+         other_known = locfl$nb_sequences_known - locfl$freq)
+
+locfl<- locfl[which(locfl$location == 'Extracellular'),] %>%
+  select(species, freq, nb_sequences, nb_sequences_known) %>%
+  rename(nb_extracellular = freq)
+colnames(locfl)[1]<- 'species_id'
+
+# Write secretome_size table
+write.table(locfl, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/secretome.txt'), col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
+
+
+
+
+# ~~~~~~~~~~~~~~~~~ END OF SCRIPT 5_secretome ~~~~~~~~~~~~~~~~~~~~ #
 
 
 
