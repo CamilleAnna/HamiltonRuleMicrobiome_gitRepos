@@ -68,6 +68,10 @@ Output:
 - Final retained set of bacteria social GO terms: ./output/social_go_list_final.xls
 
 
+7_go_categories.R: computes the measure of cooperation based on GO annotation for each species, with the different cooperation split between the 5 cooperation categories. Runs in R. Uses the social_go_list_final.xls and the GO annotations (pannzer output) as input.
+output:
+- table of measure of cooperation based on GO categories /output/go_traits_quantification.txt 
+
 
 
 
