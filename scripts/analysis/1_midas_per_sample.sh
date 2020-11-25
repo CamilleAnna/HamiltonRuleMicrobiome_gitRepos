@@ -3,7 +3,7 @@
 #$ -e ./logs
 #$ -N download_process_runMIDAS
 #$ -cwd
-#$ -l h_rt=24:00:00
+#$ -l h_rt=48:00:00
 #$ -l h_vmem=15G
 
 
@@ -20,6 +20,7 @@
 
 ############################################# PART 1: DOWNLOAD METAGENOMES #############################################
 echo 'PART 1: DOWNLOADING FILES:'
+du -sh $user_dir/HamiltonRuleMicrobiome_gitRepos
 
 # Available HMP stool metagenomes at HMP portal, accessed April 2020, under:
 # Project > HMP, Body Site > feces, Studies > WGS-PP1, File Type > WGS raw sequences set, File format > FASTQ
@@ -82,6 +83,7 @@ rm *.fq.gz # don't need to keep raw reads
 
 ############################################# PART 3: RUN MIDAS #############################################
 echo "PART 3: RUN MIDAS ON $HOST"
+du -sh $user_dir/HamiltonRuleMicrobiome_gitRepos
 
 # Set environment modules
 . /etc/profile.d/modules.sh
@@ -110,6 +112,7 @@ rm $user_dir/HamiltonRuleMicrobiome_gitRepos/data/metagenomes/metagenomes/$HOST/
 
 if [ -f ./$HOST/snps/summary.txt ]; then echo 'MIDAS ran fine until the end'; else echo 'There might have been an issue with midas or no species sastisfied filtering criteria'; fi
 echo 'ALL DONE! :) '
+du -sh $user_dir/HamiltonRuleMicrobiome_gitRepos
 
 
 
