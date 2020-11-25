@@ -73,6 +73,13 @@ output:
 - table of measure of cooperation based on GO categories /output/go_traits_quantification.txt 
 
 
+8_sporulation_scores.sh: computes sporulation scores for the 101 species following method from Browne et al. We gathered (from NCBI) the AA fasta sequences of the 66 sporulation genes listed by Browne et al. Used this as target for a blastp with each species genes AA fasta files as query. Then compute sporulation score following Browne et al. Script include some exploration and visual output to check sensitivity to evalue. 
+Output:
+- blastp output: ./output/sporulation_genes_blast/ (not git tracked)
+- Some additional figures (not included in MS): ./output/figures/additional_figs 
+- Sporulation scores table: ./output/sporulation_scores.txt
+
+
 
 
 
