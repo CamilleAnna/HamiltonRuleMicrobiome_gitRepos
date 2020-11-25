@@ -1,0 +1,22 @@
+keyword	reason	behaviour
+biofilm	self explicit term	biofilm
+adhesi	self explicit term	biofilm
+glycocalyx	is part of biofilm or involved in its structure	biofilm
+slime layer	is part of biofilm or involved in its structure	biofilm
+capsule	is part of biofilm or involved in its structure	biofilm
+extracellular matrix	is part of biofilm or involved in its structure	biofilm
+extracellular polysacch	is part of biofilm or involved in its structure	biofilm
+exopoly	is part of biofilm or involved in its structure	biofilm
+type IV pilus	known to be involved in both adherence and bacterial movement	biofilm
+quorum sensing	self explicit term	quorum_sensing
+cell communication	potentially targets both within cell signilling and cell-cell communication. Manual curation afterward will resolve this	quorum_sensing
+cell signaling	potentially targets both within cell signilling and cell-cell signaling. Manual curation afterward will resolve this	quorum_sensing
+autoindu	autoinduction known to be involved in quorum sensing mechanisms	quorum_sensing
+chelation	metal chelation	siderophores
+chelate	metal helation	siderophores
+siderophore	self explicit term	siderophores
+enterochelin	"other name of enterobactin, and does not appear in child terms of 'siderophore'"	siderophores
+secretion syst	public goods produces via secretion machinery	secretion_system
+beta-lactamase	well studied cooperative behaviour	antibiotic_degradation
+beta-lactam antibiotic catabolic process	well studied cooperative behaviour	antibiotic_degradation
+antibiotic catabolic process	"Any degradation of antibiotic will ultimately be social, as oppossed to resistance via efflux pumps, target modification etc."	antibiotic_degradation

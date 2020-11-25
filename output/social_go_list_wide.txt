@@ -1,0 +1,672 @@
+GO_id	description	ontology	why	original_keyword	behaviour
+GO:0000160	phosphorelay signal transduction system	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0000165	MAPK cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0000186	activation of MAPKK activity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0000187	activation of MAPK activity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0000293	ferric-chelate reductase activity	MF	keyword match	chelate	siderophores
+GO:0001079	nitrogen catabolite regulation of transcription from RNA polymerase II promoter	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0001081	nitrogen catabolite repression of transcription from RNA polymerase II promoter	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0001402	signal transduction involved in filamentous growth	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0001507	acetylcholine catabolic process in synaptic cleft	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0001836	release of cytochrome c from mitochondria	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0001952	regulation of cell-matrix adhesion	BP	keyword match	adhesi	biofilm
+GO:0001953	negative regulation of cell-matrix adhesion	BP	keyword match	adhesi	biofilm
+GO:0001959	regulation of cytokine-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0001960	negative regulation of cytokine-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0002048	pyoverdine metabolic process	BP	child of GO:0009237	siderophore	siderophores
+GO:0002049	pyoverdine biosynthetic process	BP	child of GO:0009237	siderophore	siderophores
+GO:0002221	pattern recognition receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0002224	toll-like receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0002429	immune response-activating cell surface receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0002755	MyD88-dependent toll-like receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0002756	MyD88-independent toll-like receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0002757	immune response-activating signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0002758	innate immune response-activating signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0002764	immune response-regulating signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0002768	immune response-regulating cell surface receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0003376	sphingosine-1-phosphate receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0004309	exopolyphosphatase activity	MF	keyword match	exopoly	biofilm
+GO:0005178	integrin binding	MF	child of GO:0050839	adhesi	biofilm
+GO:0005198	structural molecule activity	MF	parent of GO:0005201	extracellular matrix	biofilm
+GO:0005201	extracellular matrix structural constituent	MF	keyword match	extracellular matrix	biofilm
+GO:0005488	binding	MF	parent of GO:0050840	extracellular matrix	biofilm
+GO:0005515	protein binding	MF	parent of GO:0050839	adhesi	biofilm
+GO:0005583	fibrillar collagen trimer	CC	child of GO:0031012	extracellular matrix	biofilm
+GO:0005588	collagen type V trimer	CC	child of GO:0031012	extracellular matrix	biofilm
+GO:0005604	basement membrane	CC	child of GO:0031012	extracellular matrix	biofilm
+GO:0005924	cell-substrate adherens junction	CC	parent of GO:0005925	adhesi	biofilm
+GO:0005925	focal adhesion	CC	keyword match	adhesi	biofilm
+GO:0006068	ethanol catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0006984	ER-nucleus signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0006995	cellular response to nitrogen starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007154	cell communication	BP	keyword match	cell communication	quorum_sensing
+GO:0007155	cell adhesion	BP	keyword match	adhesi	biofilm
+GO:0007156	homophilic cell adhesion via plasma membrane adhesion molecules	BP	keyword match	adhesi	biofilm
+GO:0007157	heterophilic cell-cell adhesion via plasma membrane cell adhesion molecules	BP	keyword match	adhesi	biofilm
+GO:0007159	leukocyte cell-cell adhesion	BP	keyword match	adhesi	biofilm
+GO:0007160	cell-matrix adhesion	BP	keyword match	adhesi	biofilm
+GO:0007162	negative regulation of cell adhesion	BP	keyword match	adhesi	biofilm
+GO:0007165	signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007166	cell surface receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007167	enzyme linked receptor protein signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007169	transmembrane receptor protein tyrosine kinase signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007172	signal complex assembly	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007178	transmembrane receptor protein serine/threonine kinase signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007179	transforming growth factor beta receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007183	SMAD protein complex assembly	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007186	G protein-coupled receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007187	"G protein-coupled receptor signaling pathway, coupled to cyclic nucleotide second messenger"	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007188	adenylate cyclase-modulating G protein-coupled receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007189	adenylate cyclase-activating G protein-coupled receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007205	protein kinase C-activating G protein-coupled receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007213	G protein-coupled acetylcholine receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007215	glutamate receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007217	tachykinin receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007218	neuropeptide signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007219	Notch signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007224	smoothened signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007229	integrin-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007231	osmosensory signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007232	osmosensory signaling pathway via Sho1 osmosensor	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007234	osmosensory signaling via phosphorelay pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007264	small GTPase mediated signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007265	Ras protein signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007267	cell-cell signaling	BP	parent of GO:0010699	quorum sensing	quorum_sensing
+GO:0007268	chemical synaptic transmission	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007269	neurotransmitter secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007271	"synaptic transmission, cholinergic"	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007274	neuromuscular synaptic transmission	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007602	phototransduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0007603	"phototransduction, visible light"	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0008277	regulation of G protein-coupled receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0008286	insulin receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0008305	integrin complex	CC	child of GO:0098636	adhesi	biofilm
+GO:0008543	fibroblast growth factor receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0008589	regulation of smoothened signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0008630	intrinsic apoptotic signaling pathway in response to DNA damage	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0008631	intrinsic apoptotic signaling pathway in response to oxidative stress	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0008800	beta-lactamase activity	MF	keyword match	beta-lactamase	antibiotic_degradation
+GO:0008849	enterochelin esterase activity	MF	keyword match	enterochelin	siderophores
+GO:0009237	siderophore metabolic process	BP	keyword match	siderophore	siderophores
+GO:0009238	enterobactin metabolic process	BP	child of GO:0009237	siderophore	siderophores
+GO:0009239	enterobactin biosynthetic process	BP	child of GO:0009237	siderophore	siderophores
+GO:0009267	cellular response to starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009289	pilus	CC	parent of GO:0044096	type IV pilus	biofilm
+GO:0009297	pilus assembly	BP	parent of GO:0043683	type IV pilus	biofilm
+GO:0009306	protein secretion	BP	parent of GO:0015628	secretion syst	secretion_system
+GO:0009372	quorum sensing	BP	keyword match	quorum sensing	quorum_sensing
+GO:0009432	SOS response	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009585	"red, far-red light phototransduction"	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009712	catechol-containing compound metabolic process	BP	parent of GO:0019540	siderophore	siderophores
+GO:0009734	auxin-activated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009736	cytokinin-activated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009738	abscisic acid-activated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009742	brassinosteroid mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009755	hormone-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009756	carbohydrate mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009757	hexose mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009785	blue light signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009862	"systemic acquired resistance, salicylic acid mediated signaling pathway"	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009863	salicylic acid mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009867	jasmonic acid mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009966	regulation of signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009967	positive regulation of signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009968	negative regulation of signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009970	cellular response to sulfate starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0009987	cellular process	BP	parent of GO:0007154	cell communication	quorum_sensing
+GO:0010017	red or far-red light signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010106	cellular response to iron ion starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010128	benzoate catabolic process via CoA ligation	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0010182	sugar mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010204	"defense response signaling pathway, resistance gene-independent"	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010255	glucose mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010350	cellular response to magnesium starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010438	cellular response to sulfur starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010469	regulation of signaling receptor activity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010646	regulation of cell communication	BP	keyword match	cell communication	quorum_sensing
+GO:0010647	positive regulation of cell communication	BP	keyword match	cell communication	quorum_sensing
+GO:0010648	negative regulation of cell communication	BP	keyword match	cell communication	quorum_sensing
+GO:0010699	cell-cell signaling involved in quorum sensing	BP	keyword match	quorum sensing	quorum_sensing
+GO:0010738	regulation of protein kinase A signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010739	positive regulation of protein kinase A signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010749	regulation of nitric oxide mediated signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010751	negative regulation of nitric oxide mediated signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010769	regulation of cell morphogenesis involved in differentiation	BP	parent of GO:1900024	adhesi	biofilm
+GO:0010771	negative regulation of cell morphogenesis involved in differentiation	BP	parent of GO:1900025	adhesi	biofilm
+GO:0010810	regulation of cell-substrate adhesion	BP	parent of GO:1900187	biofilm	biofilm
+GO:0010811	positive regulation of cell-substrate adhesion	BP	parent of GO:1900189	biofilm	biofilm
+GO:0010812	negative regulation of cell-substrate adhesion	BP	keyword match	adhesi	biofilm
+GO:0010881	regulation of cardiac muscle contraction by regulation of the release of sequestered calcium ion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0010882	regulation of cardiac muscle contraction by calcium ion signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0014065	phosphatidylinositol 3-kinase signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0014066	regulation of phosphatidylinositol 3-kinase signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0014067	negative regulation of phosphatidylinositol 3-kinase signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0014068	positive regulation of phosphatidylinositol 3-kinase signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0015343	siderophore transmembrane transporter activity	MF	keyword match	siderophore	siderophores
+GO:0015344	siderophore uptake transmembrane transporter activity	MF	keyword match	siderophore	siderophores
+GO:0015474	autotransporter activity	MF	parent of GO:0015475	adhesi	biofilm
+GO:0015475	adhesin autotransporter activity	MF	keyword match	adhesi	biofilm
+GO:0015603	iron chelate transmembrane transporter activity	MF	keyword match	chelate	siderophores
+GO:0015620	ferric-enterobactin transmembrane transporter activity	MF	child of GO:0015343	siderophore	siderophores
+GO:0015623	ATPase-coupled iron-chelate transporter activity	MF	keyword match	chelate	siderophores
+GO:0015625	ATPase-coupled ferric-hydroxamate transmembrane transporter activity	MF	child of GO:0015603	chelate	siderophores
+GO:0015627	type II protein secretion system complex	CC	keyword match	secretion syst	secretion_system
+GO:0015628	protein secretion by the type II secretion system	BP	keyword match	secretion syst	secretion_system
+GO:0015685	ferric-enterobactin import into cell	BP	child of GO:0015891	siderophore	siderophores
+GO:0015687	ferric-hydroxamate import into cell	BP	child of GO:0015891	siderophore	siderophores
+GO:0015791	polyol transport	BP	parent of GO:1905887	autoindu	quorum_sensing
+GO:0015891	siderophore transport	BP	keyword match	siderophore	siderophores
+GO:0015968	stringent response	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0016036	cellular response to phosphate starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0016055	Wnt signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0016056	rhodopsin mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0016062	adaptation of rhodopsin mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0016139	glycoside catabolic process	BP	parent of GO:0030649	antibiotic catabolic process	antibiotic_degradation
+GO:0016301	kinase activity	MF	parent of GO:0071518	autoindu	quorum_sensing
+GO:0016462	pyrophosphatase activity	MF	parent of GO:0004309	exopoly	biofilm
+GO:0016723	"oxidoreductase activity, oxidizing metal ions, NAD or NADP as acceptor"	MF	parent of GO:0000293	chelate	siderophores
+GO:0016788	"hydrolase activity, acting on ester bonds"	MF	parent of GO:0008849	enterochelin	siderophores
+GO:0016812	"hydrolase activity, acting on carbon-nitrogen (but not peptide) bonds, in cyclic amides"	MF	parent of GO:0008800	beta-lactamase	antibiotic_degradation
+GO:0016999	antibiotic metabolic process	BP	parent of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0017001	antibiotic catabolic process	BP	parent of GO:0030655	beta-lactam antibiotic catabolic process	antibiotic_degradation
+GO:0017015	regulation of transforming growth factor beta receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0019062	virion attachment to host cell	BP	child of GO:0022610	adhesi	biofilm
+GO:0019184	nonribosomal peptide biosynthetic process	BP	parent of GO:0019290	siderophore	siderophores
+GO:0019221	cytokine-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0019226	transmission of nerve impulse	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0019227	neuronal action potential propagation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0019262	N-acetylneuraminate catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0019270	aerobactin biosynthetic process	BP	child of GO:0009237	siderophore	siderophores
+GO:0019271	aerobactin transport	BP	child of GO:0015891	siderophore	siderophores
+GO:0019289	rhizobactin 1021 biosynthetic process	BP	child of GO:0009237	siderophore	siderophores
+GO:0019290	siderophore biosynthetic process	BP	keyword match	siderophore	siderophores
+GO:0019338	pentachlorophenol catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0019380	3-phenylpropionate catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0019536	vibriobactin metabolic process	BP	child of GO:0009237	siderophore	siderophores
+GO:0019537	vibriobactin biosynthetic process	BP	child of GO:0009237	siderophore	siderophores
+GO:0019540	siderophore biosynthetic process from catechol	BP	keyword match	siderophore	siderophores
+GO:0019543	propionate catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0019596	mandelate catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0019629	"propionate catabolic process, 2-methylcitrate cycle"	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0019722	calcium-mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0019748	secondary metabolic process	BP	parent of GO:0009237	siderophore	siderophores
+GO:0019932	second-messenger-mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0019933	cAMP-mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0019934	cGMP-mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0019935	cyclic-nucleotide-mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0022407	regulation of cell-cell adhesion	BP	keyword match	adhesi	biofilm
+GO:0022408	negative regulation of cell-cell adhesion	BP	keyword match	adhesi	biofilm
+GO:0022409	positive regulation of cell-cell adhesion	BP	keyword match	adhesi	biofilm
+GO:0022411	cellular component disassembly	BP	parent of GO:0022617	extracellular matrix	biofilm
+GO:0022607	cellular component assembly	BP	parent of GO:0085029	extracellular matrix	biofilm
+GO:0022610	biological adhesion	BP	keyword match	adhesi	biofilm
+GO:0022617	extracellular matrix disassembly	BP	keyword match	extracellular matrix	biofilm
+GO:0022857	transmembrane transporter activity	MF	parent of GO:0015603	chelate	siderophores
+GO:0023014	signal transduction by protein phosphorylation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0023052	signaling	BP	parent of GO:0007267	cell signaling	quorum_sensing
+GO:0023058	adaptation of signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0023061	signal release	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030072	peptide hormone secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030073	insulin secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030111	regulation of Wnt signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030112	glycocalyx	CC	keyword match	glycocalyx	biofilm
+GO:0030114	slime layer	CC	child of GO:0030112	glycocalyx	biofilm
+GO:0030155	regulation of cell adhesion	BP	keyword match	adhesi	biofilm
+GO:0030177	positive regulation of Wnt signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030178	negative regulation of Wnt signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030197	"extracellular matrix constituent, lubricant activity"	MF	keyword match	extracellular matrix	biofilm
+GO:0030198	extracellular matrix organization	BP	keyword match	extracellular matrix	biofilm
+GO:0030199	collagen fibril organization	BP	child of GO:0030198	extracellular matrix	biofilm
+GO:0030253	protein secretion by the type I secretion system	BP	keyword match	secretion syst	secretion_system
+GO:0030254	protein secretion by the type III secretion system	BP	keyword match	secretion syst	secretion_system
+GO:0030255	protein secretion by the type IV secretion system	BP	keyword match	secretion syst	secretion_system
+GO:0030256	type I protein secretion system complex	CC	keyword match	secretion syst	secretion_system
+GO:0030257	type III protein secretion system complex	CC	keyword match	secretion syst	secretion_system
+GO:0030312	external encapsulating structure	CC	parent of GO:0030112	glycocalyx	biofilm
+GO:0030313	cell envelope	CC	parent of GO:0030112	glycocalyx	biofilm
+GO:0030330	"DNA damage response, signal transduction by p53 class mediator"	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030420	establishment of competence for transformation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030510	regulation of BMP signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030512	negative regulation of transforming growth factor beta receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030514	negative regulation of BMP signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030518	intracellular steroid hormone receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030520	intracellular estrogen receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030522	intracellular receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0030647	aminoglycoside antibiotic metabolic process	BP	parent of GO:0030649	antibiotic catabolic process	antibiotic_degradation
+GO:0030649	aminoglycoside antibiotic catabolic process	BP	keyword match	antibiotic catabolic process	antibiotic_degradation
+GO:0030653	beta-lactam antibiotic metabolic process	BP	parent of GO:0030655	beta-lactam antibiotic catabolic process	antibiotic_degradation
+GO:0030655	beta-lactam antibiotic catabolic process	BP	keyword match	beta-lactam antibiotic catabolic process	antibiotic_degradation
+GO:0030968	endoplasmic reticulum unfolded protein response	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0031012	extracellular matrix	CC	parent of GO:0062039	biofilm	biofilm
+GO:0031098	stress-activated protein kinase signaling cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0031152	aggregation involved in sorocarp development	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0031157	regulation of aggregate size involved in sorocarp development	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0031158	negative regulation of aggregate size involved in sorocarp development	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0031326	regulation of cellular biosynthetic process	BP	parent of GO:1900704	siderophore	siderophores
+GO:0031327	negative regulation of cellular biosynthetic process	BP	parent of GO:1900705	siderophore	siderophores
+GO:0031346	positive regulation of cell projection organization	BP	parent of GO:1903658	type IV pilus	biofilm
+GO:0031589	cell-substrate adhesion	BP	parent of GO:0043708	biofilm	biofilm
+GO:0031663	lipopolysaccharide-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0031664	regulation of lipopolysaccharide-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0031665	negative regulation of lipopolysaccharide-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0031666	positive regulation of lipopolysaccharide-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0031668	cellular response to extracellular stimulus	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0031669	cellular response to nutrient levels	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0031670	cellular response to nutrient	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0031929	TOR signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0032006	regulation of TOR signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0032007	negative regulation of TOR signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0032008	positive regulation of TOR signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0032012	regulation of ARF protein signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0032222	"regulation of synaptic transmission, cholinergic"	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0032482	Rab protein signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0032872	regulation of stress-activated MAPK cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0032873	negative regulation of stress-activated MAPK cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0032874	positive regulation of stress-activated MAPK cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0032925	regulation of activin receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0032933	SREBP signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0032940	secretion by cell	BP	parent of GO:0044097	secretion syst	secretion_system
+GO:0032991	protein-containing complex	CC	parent of GO:0098636	adhesi	biofilm
+GO:0032991	protein-containing complex	CC	parent of GO:0015627	secretion syst	secretion_system
+GO:0033103	protein secretion by the type VI secretion system	BP	keyword match	secretion syst	secretion_system
+GO:0033104	type VI protein secretion system complex	CC	keyword match	secretion syst	secretion_system
+GO:0033143	regulation of intracellular steroid hormone receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0033144	negative regulation of intracellular steroid hormone receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0033146	regulation of intracellular estrogen receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0033147	negative regulation of intracellular estrogen receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0033211	adiponectin-activated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0033212	iron import into cell	BP	parent of GO:0033214	siderophore	siderophores
+GO:0033214	siderophore-dependent iron import into cell	BP	keyword match	siderophore	siderophores
+GO:0033217	regulation of transcription from RNA polymerase II promoter in response to iron ion starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0033250	penicillinase activity	MF	child of GO:0008800	beta-lactamase	antibiotic_degradation
+GO:0033251	cephalosporinase activity	MF	child of GO:0008800	beta-lactamase	antibiotic_degradation
+GO:0033252	regulation of beta-lactamase activity	BP	keyword match	beta-lactamase	antibiotic_degradation
+GO:0033692	cellular polysaccharide biosynthetic process	BP	parent of GO:0045226	extracellular polysacch	biofilm
+GO:0034121	regulation of toll-like receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0034122	negative regulation of toll-like receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0034127	regulation of MyD88-independent toll-like receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0034128	negative regulation of MyD88-independent toll-like receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0034134	toll-like receptor 2 signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0034138	toll-like receptor 3 signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0034142	toll-like receptor 4 signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0034198	cellular response to amino acid starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0034224	cellular response to zinc ion starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0034248	regulation of cellular amide metabolic process	BP	parent of GO:1900704	siderophore	siderophores
+GO:0034249	negative regulation of cellular amide metabolic process	BP	parent of GO:1900705	siderophore	siderophores
+GO:0035023	regulation of Rho protein signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0035024	negative regulation of Rho protein signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0035103	sterol regulatory element binding protein cleavage	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0035235	ionotropic glutamate receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0035425	autocrine signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0035556	intracellular signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0035722	interleukin-12-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0036086	positive regulation of transcription from RNA polymerase II promoter in response to iron ion starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0038001	paracrine signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0038003	opioid receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0038127	ERBB signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0039531	regulation of viral-induced cytoplasmic pattern recognition receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0039532	negative regulation of viral-induced cytoplasmic pattern recognition receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0039533	regulation of MDA-5 signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0039534	negative regulation of MDA-5 signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0039666	virion attachment to host cell pilus	BP	child of GO:0022610	adhesi	biofilm
+GO:0042102	positive regulation of T cell proliferation	BP	child of GO:0007155	adhesi	biofilm
+GO:0042130	negative regulation of T cell proliferation	BP	child of GO:0007155	adhesi	biofilm
+GO:0042149	cellular response to glucose starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0042183	formate catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0042262	DNA protection	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0042509	regulation of tyrosine phosphorylation of STAT protein	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0042531	positive regulation of tyrosine phosphorylation of STAT protein	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0042603	capsule	CC	child of GO:0030112	glycocalyx	biofilm
+GO:0042626	"ATPase activity, coupled to transmembrane movement of substances"	MF	parent of GO:0015623	chelate	siderophores
+GO:0042631	cellular response to water deprivation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0042710	biofilm formation	BP	keyword match	biofilm	biofilm
+GO:0042744	hydrogen peroxide catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0042770	signal transduction in response to DNA damage	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0042863	pyochelin metabolic process	BP	child of GO:0009237	siderophore	siderophores
+GO:0042864	pyochelin biosynthetic process	BP	child of GO:0009237	siderophore	siderophores
+GO:0042928	ferrichrome import into cell	BP	child of GO:0015891	siderophore	siderophores
+GO:0042929	ferrichrome transmembrane transporter activity	MF	child of GO:0015603	chelate	siderophores
+GO:0042930	enterobactin transport	BP	child of GO:0015891	siderophore	siderophores
+GO:0042931	enterobactin transmembrane transporter activity	MF	child of GO:0015343	siderophore	siderophores
+GO:0043062	extracellular structure organization	BP	parent of GO:0030198	extracellular matrix	biofilm
+GO:0043107	type IV pilus-dependent motility	BP	keyword match	type IV pilus	biofilm
+GO:0043122	regulation of I-kappaB kinase/NF-kappaB signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043123	positive regulation of I-kappaB kinase/NF-kappaB signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043236	laminin binding	MF	child of GO:0050840	extracellular matrix	biofilm
+GO:0043401	steroid hormone mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043405	regulation of MAP kinase activity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043406	positive regulation of MAP kinase activity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043407	negative regulation of MAP kinase activity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043408	regulation of MAPK cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043409	negative regulation of MAPK cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043410	positive regulation of MAPK cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043506	regulation of JUN kinase activity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043508	negative regulation of JUN kinase activity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043516	"regulation of DNA damage response, signal transduction by p53 class mediator"	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043518	"negative regulation of DNA damage response, signal transduction by p53 class mediator"	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043562	cellular response to nitrogen levels	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043567	regulation of insulin-like growth factor receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043568	positive regulation of insulin-like growth factor receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043639	benzoate catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0043640	benzoate catabolic process via hydroxylation	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0043683	type IV pilus biogenesis	BP	keyword match	type IV pilus	biofilm
+GO:0043684	type IV secretion system complex	CC	keyword match	secretion syst	secretion_system
+GO:0043708	cell adhesion involved in biofilm formation	BP	keyword match	biofilm	biofilm
+GO:0043709	cell adhesion involved in single-species biofilm formation	BP	keyword match	biofilm	biofilm
+GO:0043900	regulation of multi-organism process	BP	parent of GO:1900190	biofilm	biofilm
+GO:0043901	negative regulation of multi-organism process	BP	parent of GO:1900191	biofilm	biofilm
+GO:0043902	positive regulation of multi-organism process	BP	parent of GO:1900192	biofilm	biofilm
+GO:0043949	regulation of cAMP-mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0043950	positive regulation of cAMP-mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0044002	acquisition of nutrients from host	BP	parent of GO:0052099	siderophore	siderophores
+GO:0044010	single-species biofilm formation	BP	keyword match	biofilm	biofilm
+GO:0044011	single-species biofilm formation on inanimate substrate	BP	keyword match	biofilm	biofilm
+GO:0044085	cellular component biogenesis	BP	parent of GO:0043683	type IV pilus	biofilm
+GO:0044087	regulation of cellular component biogenesis	BP	parent of GO:1901201	extracellular matrix	biofilm
+GO:0044089	positive regulation of cellular component biogenesis	BP	parent of GO:1903658	type IV pilus	biofilm
+GO:0044096	type IV pilus	CC	keyword match	type IV pilus	biofilm
+GO:0044097	secretion by the type IV secretion system	BP	keyword match	secretion syst	secretion_system
+GO:0044248	cellular catabolic process	BP	parent of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0044264	cellular polysaccharide metabolic process	BP	parent of GO:0046379	extracellular polysacch	biofilm
+GO:0044315	protein secretion by the type VII secretion system	BP	keyword match	secretion syst	secretion_system
+GO:0044403	symbiont process	BP	parent of GO:0044406	adhesi	biofilm
+GO:0044406	adhesion of symbiont to host	BP	parent of GO:0044407	biofilm	biofilm
+GO:0044407	single-species biofilm formation in or on host organism	BP	keyword match	biofilm	biofilm
+GO:0044419	interspecies interaction between organisms	BP	parent of GO:0052097	quorum sensing	quorum_sensing
+GO:0044420	extracellular matrix component	CC	keyword match	extracellular matrix	biofilm
+GO:0044421	extracellular region part	CC	parent of GO:0031012	extracellular matrix	biofilm
+GO:0044464	cell part	CC	parent of GO:0015627	secretion syst	secretion_system
+GO:0044550	secondary metabolite biosynthetic process	BP	parent of GO:0019290	siderophore	siderophores
+GO:0044650	adhesion of symbiont to host cell	BP	keyword match	adhesi	biofilm
+GO:0044651	adhesion of symbiont to host epithelial cell	BP	keyword match	adhesi	biofilm
+GO:0044718	siderophore transmembrane transport	BP	keyword match	siderophore	siderophores
+GO:0044764	multi-organism cellular process	BP	parent of GO:0042710	biofilm	biofilm
+GO:0044764	multi-organism cellular process	BP	parent of GO:0009372	quorum sensing	quorum_sensing
+GO:0045013	carbon catabolite repression of transcription	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0045014	carbon catabolite repression of transcription by glucose	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0045226	extracellular polysaccharide biosynthetic process	BP	parent of GO:0045228	slime layer	biofilm
+GO:0045227	capsule polysaccharide biosynthetic process	BP	keyword match	capsule	biofilm
+GO:0045228	slime layer polysaccharide biosynthetic process	BP	keyword match	slime layer	biofilm
+GO:0045229	external encapsulating structure organization	BP	parent of GO:0045231	slime layer	biofilm
+GO:0045230	capsule organization	BP	keyword match	capsule	biofilm
+GO:0045231	slime layer organization	BP	keyword match	slime layer	biofilm
+GO:0045296	cadherin binding	MF	child of GO:0050839	adhesi	biofilm
+GO:0045304	regulation of establishment of competence for transformation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0045581	negative regulation of T cell differentiation	BP	child of GO:0007155	adhesi	biofilm
+GO:0045582	positive regulation of T cell differentiation	BP	child of GO:0007155	adhesi	biofilm
+GO:0045733	acetate catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0045734	regulation of acetate catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0045744	negative regulation of G protein-coupled receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0045745	positive regulation of G protein-coupled receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0045785	positive regulation of cell adhesion	BP	keyword match	adhesi	biofilm
+GO:0045808	negative regulation of establishment of competence for transformation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0045809	positive regulation of establishment of competence for transformation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0045880	positive regulation of smoothened signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0045990	carbon catabolite regulation of transcription	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0045991	carbon catabolite activation of transcription	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0046007	negative regulation of activated T cell proliferation	BP	child of GO:0007155	adhesi	biofilm
+GO:0046199	cresol catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0046244	salicylic acid catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0046294	formaldehyde catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:0046328	regulation of JNK cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0046329	negative regulation of JNK cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0046379	extracellular polysaccharide metabolic process	BP	keyword match	extracellular polysacch	biofilm
+GO:0046425	regulation of receptor signaling pathway via JAK-STAT	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0046427	positive regulation of receptor signaling pathway via JAK-STAT	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0046442	aerobactin metabolic process	BP	child of GO:0009237	siderophore	siderophores
+GO:0046494	rhizobactin 1021 metabolic process	BP	child of GO:0009237	siderophore	siderophores
+GO:0046578	regulation of Ras protein signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0046580	negative regulation of Ras protein signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0046635	positive regulation of alpha-beta T cell activation	BP	child of GO:0007155	adhesi	biofilm
+GO:0046638	positive regulation of alpha-beta T cell differentiation	BP	child of GO:0007155	adhesi	biofilm
+GO:0046676	negative regulation of insulin secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0046810	host cell extracellular matrix binding	MF	keyword match	extracellular matrix	biofilm
+GO:0046813	receptor-mediated virion attachment to host cell	BP	child of GO:0022610	adhesi	biofilm
+GO:0046819	protein secretion by the type V secretion system	BP	keyword match	secretion syst	secretion_system
+GO:0046879	hormone secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0046883	regulation of hormone secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0046888	negative regulation of hormone secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0046928	regulation of neurotransmitter secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0046929	negative regulation of neurotransmitter secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0048008	platelet-derived growth factor receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0048015	phosphatidylinositol-mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0048017	inositol lipid-mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0048167	regulation of synaptic plasticity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0048384	retinoic acid receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0048385	regulation of retinoic acid receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0048518	positive regulation of biological process	BP	parent of GO:0045785	adhesi	biofilm
+GO:0048522	positive regulation of cellular process	BP	parent of GO:1900192	biofilm	biofilm
+GO:0048522	positive regulation of cellular process	BP	parent of GO:0010647	cell communication	quorum_sensing
+GO:0048523	negative regulation of cellular process	BP	parent of GO:1900191	biofilm	biofilm
+GO:0048523	negative regulation of cellular process	BP	parent of GO:0010648	cell communication	quorum_sensing
+GO:0048870	cell motility	BP	parent of GO:0043107	type IV pilus	biofilm
+GO:0050789	regulation of biological process	BP	parent of GO:0030155	adhesi	biofilm
+GO:0050794	regulation of cellular process	BP	parent of GO:1900190	biofilm	biofilm
+GO:0050794	regulation of cellular process	BP	parent of GO:0010646	cell communication	quorum_sensing
+GO:0050796	regulation of insulin secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0050804	modulation of chemical synaptic transmission	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0050805	negative regulation of synaptic transmission	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0050839	cell adhesion molecule binding	MF	keyword match	adhesi	biofilm
+GO:0050840	extracellular matrix binding	MF	keyword match	extracellular matrix	biofilm
+GO:0050848	regulation of calcium-mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0050849	negative regulation of calcium-mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0050850	positive regulation of calcium-mediated signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0050851	antigen receptor-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0050853	B cell receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0050868	negative regulation of T cell activation	BP	child of GO:0007155	adhesi	biofilm
+GO:0050870	positive regulation of T cell activation	BP	child of GO:0007155	adhesi	biofilm
+GO:0051056	regulation of small GTPase mediated signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0051058	negative regulation of small GTPase mediated signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0051128	regulation of cellular component organization	BP	parent of GO:1903053	extracellular matrix	biofilm
+GO:0051129	negative regulation of cellular component organization	BP	parent of GO:1903054	extracellular matrix	biofilm
+GO:0051181	cofactor transport	BP	parent of GO:0015891	siderophore	siderophores
+GO:0051184	cofactor transmembrane transporter activity	MF	parent of GO:0015343	siderophore	siderophores
+GO:0051186	cofactor metabolic process	BP	parent of GO:0009237	siderophore	siderophores
+GO:0051188	cofactor biosynthetic process	BP	parent of GO:0019290	siderophore	siderophores
+GO:0051193	regulation of cofactor metabolic process	BP	parent of GO:1900704	siderophore	siderophores
+GO:0051195	negative regulation of cofactor metabolic process	BP	parent of GO:1900705	siderophore	siderophores
+GO:0051336	regulation of hydrolase activity	BP	parent of GO:0033252	beta-lactamase	antibiotic_degradation
+GO:0051365	cellular response to potassium ion starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0051701	interaction with host	BP	parent of GO:0052106	quorum sensing	quorum_sensing
+GO:0051703	intraspecies interaction between organisms	BP	parent of GO:0044011	biofilm	biofilm
+GO:0051704	multi-organism process	BP	parent of GO:0044406	adhesi	biofilm
+GO:0051896	regulation of protein kinase B signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0051897	positive regulation of protein kinase B signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0052001	type IV pili-dependent localized adherence to host	BP	child of GO:0022610	adhesi	biofilm
+GO:0052047	interaction with other organism via secreted substance involved in symbiotic interaction	BP	parent of GO:0052211	secretion syst	secretion_system
+GO:0052048	interaction with host via secreted substance involved in symbiotic interaction	BP	parent of GO:0052051	secretion syst	secretion_system
+GO:0052051	interaction with host via protein secreted by type II secretion system	BP	keyword match	secretion syst	secretion_system
+GO:0052065	positive regulation by organism of defense-related calcium ion flux in other organism involved in symbiotic interaction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0052097	interspecies quorum sensing	BP	keyword match	quorum sensing	quorum_sensing
+GO:0052099	acquisition by symbiont of nutrients from host via siderophores	BP	keyword match	siderophore	siderophores
+GO:0052106	quorum sensing involved in interaction with host	BP	keyword match	quorum sensing	quorum_sensing
+GO:0052162	modulation by symbiont of defense-related host calcium ion flux	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0052211	interaction with other organism via protein secreted by type II secretion system involved in symbiotic interaction	BP	keyword match	secretion syst	secretion_system
+GO:0052265	induction by organism of defense-related calcium ion flux in other organism involved in symbiotic interaction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0052301	modulation by organism of defense-related calcium ion flux in other organism involved in symbiotic interaction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0052389	positive regulation by symbiont of defense-related host calcium ion flux	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0052391	induction by symbiont of defense-related host calcium ion flux	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0052851	ferric-chelate reductase (NADPH) activity	MF	keyword match	chelate	siderophores
+GO:0055085	transmembrane transport	BP	parent of GO:1905887	autoindu	quorum_sensing
+GO:0055085	transmembrane transport	BP	parent of GO:0044718	siderophore	siderophores
+GO:0060176	regulation of aggregation involved in sorocarp development	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0060314	regulation of ryanodine-sensitive calcium-release channel activity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0060315	negative regulation of ryanodine-sensitive calcium-release channel activity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0060390	regulation of SMAD protein signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0060392	negative regulation of SMAD protein signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0060393	regulation of pathway-restricted SMAD protein phosphorylation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0060394	negative regulation of pathway-restricted SMAD protein phosphorylation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0060491	regulation of cell projection assembly	BP	parent of GO:1903656	type IV pilus	biofilm
+GO:0060733	regulation of eIF2 alpha phosphorylation by amino acid starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0060828	regulation of canonical Wnt signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0061178	regulation of insulin secretion involved in cellular response to glucose stimulus	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0061179	negative regulation of insulin secretion involved in cellular response to glucose stimulus	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0061737	leukotriene signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0061984	catabolite repression	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0061985	carbon catabolite repression	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0062023	collagen-containing extracellular matrix	CC	keyword match	extracellular matrix	biofilm
+GO:0062039	biofilm matrix	CC	keyword match	biofilm	biofilm
+GO:0062040	fungal biofilm matrix	CC	keyword match	biofilm	biofilm
+GO:0070098	chemokine-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0070099	regulation of chemokine-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0070100	negative regulation of chemokine-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0070297	regulation of phosphorelay signal transduction system	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0070298	negative regulation of phosphorelay signal transduction system	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0070302	regulation of stress-activated protein kinase signaling cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0070303	negative regulation of stress-activated protein kinase signaling cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0070304	positive regulation of stress-activated protein kinase signaling cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0070372	regulation of ERK1 and ERK2 cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0070374	positive regulation of ERK1 and ERK2 cascade	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0070528	protein kinase C signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0071318	cellular response to ATP	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0071465	cellular response to desiccation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0071518	autoinducer-2 kinase activity	MF	keyword match	autoindu	quorum_sensing
+GO:0071526	semaphorin-plexin signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0071806	protein transmembrane transport	BP	parent of GO:0030253	secretion syst	secretion_system
+GO:0071875	adrenergic receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0071953	elastic fiber	CC	child of GO:0031012	extracellular matrix	biofilm
+GO:0072331	signal transduction by p53 class mediator	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0072332	intrinsic apoptotic signaling pathway by p53 class mediator	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0072340	cellular lactam catabolic process	BP	parent of GO:0030655	beta-lactam antibiotic catabolic process	antibiotic_degradation
+GO:0080040	positive regulation of cellular response to phosphate starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0085029	extracellular matrix assembly	BP	keyword match	extracellular matrix	biofilm
+GO:0090036	regulation of protein kinase C signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090038	negative regulation of protein kinase C signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090090	negative regulation of canonical Wnt signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090092	regulation of transmembrane receptor protein serine/threonine kinase signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090101	negative regulation of transmembrane receptor protein serine/threonine kinase signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090136	epithelial cell-cell adhesion	BP	keyword match	adhesi	biofilm
+GO:0090199	regulation of release of cytochrome c from mitochondria	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090200	positive regulation of release of cytochrome c from mitochondria	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090201	negative regulation of release of cytochrome c from mitochondria	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090242	retinoic acid receptor signaling pathway involved in somitogenesis	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090263	positive regulation of canonical Wnt signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090276	regulation of peptide hormone secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090278	negative regulation of peptide hormone secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090293	nitrogen catabolite regulation of transcription	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090294	nitrogen catabolite activation of transcription	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090295	nitrogen catabolite repression of transcription	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090520	sphingolipid mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0090604	surface biofilm formation	BP	keyword match	biofilm	biofilm
+GO:0090605	submerged biofilm formation	BP	keyword match	biofilm	biofilm
+GO:0090606	single-species surface biofilm formation	BP	keyword match	biofilm	biofilm
+GO:0090609	single-species submerged biofilm formation	BP	keyword match	biofilm	biofilm
+GO:0090650	cellular response to oxygen-glucose deprivation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0095500	acetylcholine receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0097190	apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0097191	extrinsic apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0097193	intrinsic apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0097311	bacterial biofilm matrix	CC	keyword match	biofilm	biofilm
+GO:0098046	type V protein secretion system complex	CC	keyword match	secretion syst	secretion_system
+GO:0098609	cell-cell adhesion	BP	keyword match	adhesi	biofilm
+GO:0098636	protein complex involved in cell adhesion	CC	keyword match	adhesi	biofilm
+GO:0098643	banded collagen fibril	CC	child of GO:0031012	extracellular matrix	biofilm
+GO:0098644	complex of collagen trimers	CC	child of GO:0031012	extracellular matrix	biofilm
+GO:0098670	entry receptor-mediated virion attachment to host cell	BP	child of GO:0022610	adhesi	biofilm
+GO:0098671	adhesion receptor-mediated virion attachment to host cell	BP	keyword match	adhesi	biofilm
+GO:0098742	cell-cell adhesion via plasma-membrane adhesion molecules	BP	keyword match	adhesi	biofilm
+GO:0098776	protein transport across the cell outer membrane	BP	parent of GO:0015628	secretion syst	secretion_system
+GO:0098916	anterograde trans-synaptic signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0098926	postsynaptic signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0099004	calmodulin dependent kinase signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0099177	regulation of trans-synaptic signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0099536	synaptic signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0099537	trans-synaptic signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0099601	regulation of neurotransmitter receptor activity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0099643	signal release from synapse	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0106070	regulation of adenylate cyclase-activating G protein-coupled receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0106071	positive regulation of adenylate cyclase-activating G protein-coupled receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0140255	regulation of cellular response to phosphate starvation	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:0198738	cell-cell signaling by wnt	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1900024	regulation of substrate adhesion-dependent cell spreading	BP	keyword match	adhesi	biofilm
+GO:1900025	negative regulation of substrate adhesion-dependent cell spreading	BP	keyword match	adhesi	biofilm
+GO:1900065	regulation of ethanol catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:1900073	regulation of neuromuscular synaptic transmission	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1900101	regulation of endoplasmic reticulum unfolded protein response	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1900102	negative regulation of endoplasmic reticulum unfolded protein response	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1900187	regulation of cell adhesion involved in single-species biofilm formation	BP	keyword match	biofilm	biofilm
+GO:1900189	positive regulation of cell adhesion involved in single-species biofilm formation	BP	keyword match	biofilm	biofilm
+GO:1900190	regulation of single-species biofilm formation	BP	keyword match	biofilm	biofilm
+GO:1900191	negative regulation of single-species biofilm formation	BP	keyword match	biofilm	biofilm
+GO:1900192	positive regulation of single-species biofilm formation	BP	keyword match	biofilm	biofilm
+GO:1900231	regulation of single-species biofilm formation on inanimate substrate	BP	keyword match	biofilm	biofilm
+GO:1900232	negative regulation of single-species biofilm formation on inanimate substrate	BP	keyword match	biofilm	biofilm
+GO:1900233	positive regulation of single-species biofilm formation on inanimate substrate	BP	keyword match	biofilm	biofilm
+GO:1900376	regulation of secondary metabolite biosynthetic process	BP	parent of GO:1900704	siderophore	siderophores
+GO:1900377	negative regulation of secondary metabolite biosynthetic process	BP	parent of GO:1900705	siderophore	siderophores
+GO:1900449	regulation of glutamate receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1900704	regulation of siderophore biosynthetic process	BP	keyword match	siderophore	siderophores
+GO:1900705	negative regulation of siderophore biosynthetic process	BP	keyword match	siderophore	siderophores
+GO:1901028	regulation of mitochondrial outer membrane permeabilization involved in apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1901029	negative regulation of mitochondrial outer membrane permeabilization involved in apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1901099	negative regulation of signal transduction in absence of ligand	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1901201	regulation of extracellular matrix assembly	BP	keyword match	extracellular matrix	biofilm
+GO:1901202	negative regulation of extracellular matrix assembly	BP	keyword match	extracellular matrix	biofilm
+GO:1901222	regulation of NIK/NF-kappaB signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1901224	positive regulation of NIK/NF-kappaB signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1901361	organic cyclic compound catabolic process	BP	parent of GO:0030655	beta-lactam antibiotic catabolic process	antibiotic_degradation
+GO:1901565	organonitrogen compound catabolic process	BP	parent of GO:0030655	beta-lactam antibiotic catabolic process	antibiotic_degradation
+GO:1901768	carbapenem catabolic process	BP	child of GO:0030655	beta-lactam antibiotic catabolic process	antibiotic_degradation
+GO:1901785	p-cresol catabolic process	BP	child of GO:0017001	antibiotic catabolic process	antibiotic_degradation
+GO:1901796	regulation of signal transduction by p53 class mediator	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1901797	negative regulation of signal transduction by p53 class mediator	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902041	regulation of extrinsic apoptotic signaling pathway via death domain receptors	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902042	negative regulation of extrinsic apoptotic signaling pathway via death domain receptors	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902165	regulation of intrinsic apoptotic signaling pathway in response to DNA damage by p53 class mediator	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902166	negative regulation of intrinsic apoptotic signaling pathway in response to DNA damage by p53 class mediator	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902175	regulation of oxidative stress-induced intrinsic apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902176	negative regulation of oxidative stress-induced intrinsic apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902177	positive regulation of oxidative stress-induced intrinsic apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902229	regulation of intrinsic apoptotic signaling pathway in response to DNA damage	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902230	negative regulation of intrinsic apoptotic signaling pathway in response to DNA damage	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902253	regulation of intrinsic apoptotic signaling pathway by p53 class mediator	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902254	negative regulation of intrinsic apoptotic signaling pathway by p53 class mediator	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902531	regulation of intracellular signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902532	negative regulation of intracellular signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902533	positive regulation of intracellular signal transduction	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902659	regulation of glucose mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1902660	negative regulation of glucose mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1903037	regulation of leukocyte cell-cell adhesion	BP	keyword match	adhesi	biofilm
+GO:1903038	negative regulation of leukocyte cell-cell adhesion	BP	keyword match	adhesi	biofilm
+GO:1903039	positive regulation of leukocyte cell-cell adhesion	BP	keyword match	adhesi	biofilm
+GO:1903053	regulation of extracellular matrix organization	BP	keyword match	extracellular matrix	biofilm
+GO:1903054	negative regulation of extracellular matrix organization	BP	keyword match	extracellular matrix	biofilm
+GO:1903236	regulation of leukocyte tethering or rolling	BP	child of GO:0007155	adhesi	biofilm
+GO:1903237	negative regulation of leukocyte tethering or rolling	BP	child of GO:0007155	adhesi	biofilm
+GO:1903577	cellular response to L-arginine	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1903656	regulation of type IV pilus biogenesis	BP	keyword match	type IV pilus	biofilm
+GO:1903658	positive regulation of type IV pilus biogenesis	BP	keyword match	type IV pilus	biofilm
+GO:1903831	signal transduction involved in cellular response to ammonium ion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1904892	regulation of receptor signaling pathway via STAT	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1904894	positive regulation of receptor signaling pathway via STAT	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1904994	regulation of leukocyte adhesion to vascular endothelial cell	BP	keyword match	adhesi	biofilm
+GO:1904995	negative regulation of leukocyte adhesion to vascular endothelial cell	BP	keyword match	adhesi	biofilm
+GO:1905114	cell surface receptor signaling pathway involved in cell-cell signaling	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:1905887	autoinducer AI-2 transmembrane transport	BP	keyword match	autoindu	quorum_sensing
+GO:2000047	regulation of cell-cell adhesion mediated by cadherin	BP	keyword match	adhesi	biofilm
+GO:2000312	regulation of kainate selective glutamate receptor activity	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2000322	regulation of glucocorticoid receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2000323	negative regulation of glucocorticoid receptor signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2000831	regulation of steroid hormone secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2000832	negative regulation of steroid hormone secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2000846	regulation of corticosteroid hormone secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2000847	negative regulation of corticosteroid hormone secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2000849	regulation of glucocorticoid secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2000850	negative regulation of glucocorticoid secretion	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001044	regulation of integrin-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001045	negative regulation of integrin-mediated signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001233	regulation of apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001234	negative regulation of apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001235	positive regulation of apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001236	regulation of extrinsic apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001237	negative regulation of extrinsic apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001238	positive regulation of extrinsic apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001239	regulation of extrinsic apoptotic signaling pathway in absence of ligand	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001240	negative regulation of extrinsic apoptotic signaling pathway in absence of ligand	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001241	positive regulation of extrinsic apoptotic signaling pathway in absence of ligand	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001242	regulation of intrinsic apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001243	negative regulation of intrinsic apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001244	positive regulation of intrinsic apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001267	regulation of cysteine-type endopeptidase activity involved in apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+GO:2001269	positive regulation of cysteine-type endopeptidase activity involved in apoptotic signaling pathway	BP	child of GO:0007154	cell communication	quorum_sensing
+NA	NA	NA	no match with keyword	chelation	siderophores
