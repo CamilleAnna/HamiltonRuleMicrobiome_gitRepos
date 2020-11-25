@@ -80,6 +80,9 @@ Output:
 - Sporulation scores table: ./output/sporulation_scores.txt
 
 
+9_relative_abundance.R: extract relative abundance per specie per host from the MIDAS per-sample species outputs.
+Output:
+- Table of relative abundance: ./output/relative_abundance.txt
 
 
 
