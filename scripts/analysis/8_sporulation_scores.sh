@@ -149,7 +149,7 @@ scores_final<- scores %>%
   select(species, score_30_raw) %>%
   rename(sporulation_score = score_30_raw)
 
-write.table(x = scores, file = paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/sporulation_scores.txt'), col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
+write.table(x = scores, file = paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/sporulation_scores.txt'), col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
 
 
 

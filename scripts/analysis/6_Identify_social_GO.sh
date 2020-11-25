@@ -81,7 +81,7 @@ done
 # ~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 cd $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/pannzer
-cat ./*/* | grep -v 'ontology' | cut -f 2-4 | sort | uniq > $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/bacteria_go_slim.txt
+cat ./*/* | grep -v 'ontology' | cut -f 2-4 | sort | uniq > $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/tables/bacteria_go_slim.txt
 
 
 
@@ -97,7 +97,7 @@ TI=((microb* OR bacter* OR microorganis* OR micro-organis*) AND (coop* OR social
 # All field
 # filter out reviews that were not included but were not specifically on microbial cooperation. 
 
-# --> Write a table in /HamiltonRuleMicrobiome_gitRepos/output/bacteria_social_keywords.txt
+# --> Write a table in /HamiltonRuleMicrobiome_gitRepos/output/tables/bacteria_social_keywords.txt
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -188,14 +188,14 @@ getGO<- function(keyword, allgos){
 
 
 # Get the bacteria GO slim
-bacteria_go_slim_new<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/bacteria_go_slim.txt'), header=FALSE, sep = '\t', colClasses = rep('character', 3))
+bacteria_go_slim_new<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/bacteria_go_slim.txt'), header=FALSE, sep = '\t', colClasses = rep('character', 3))
 colnames(bacteria_go_slim_new)<- c('ontology', 'GO_id', 'description')
 bacteria_go_slim_new$GO_id<- paste0('GO:', bacteria_go_slim_new$GO_id)
 bacteria_go_slim_new<- bacteria_go_slim_new[,c(2,3,1)]
 
 
 # Get the list of social keywords identified with Web of science search
-keywords<- read.table(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/bacteria_social_keywords.txt'), header=TRUE, sep = '\t')
+keywords<- read.table(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/bacteria_social_keywords.txt'), header=TRUE, sep = '\t')
 
 
 # Fetch the GOs
@@ -210,7 +210,7 @@ golistfinal2_UPDATED<- golistfinal2_UPDATED[order(golistfinal2_UPDATED$GO_id),]
 golistfinal_trim_goslim_UPDATED<- golistfinal2_UPDATED[which(duplicated(paste0(golistfinal2_UPDATED$GO_id, golistfinal2_UPDATED$behaviour)) == FALSE),]
 
 
-write.table(x = golistfinal_trim_goslim_UPDATED, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/social_go_list_wide.txt'), col.names = TRUE, row.names = FALSE, sep = '\t')
+write.table(x = golistfinal_trim_goslim_UPDATED, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/social_go_list_wide.txt'), col.names = TRUE, row.names = FALSE, sep = '\t')
 
 
 # This table of 'potential' social GO is then manually curated

@@ -20,5 +20,5 @@ d2<- do.call('rbind', tabs)
 d2<- d2[,c(1,5,4)]
 colnames(d2)<- c('species', 'host', 'relative_abundance')
 
-write.table(d2, file = paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/relative_abundance.txt'), sep = '\t', col.names = TRUE, row.names = FALSE)
+write.table(d2, file = paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/relative_abundance.txt'), sep = '\t', col.names = TRUE, row.names = FALSE)
 

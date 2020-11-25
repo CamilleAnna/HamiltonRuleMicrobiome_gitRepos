@@ -5,8 +5,7 @@
 
 
 # For the species included in the analysis (for which we computed relatedness in previous step)
-# We measure secretome size
-# That's 101 species, listed in ./data/species_info_files/species_list.txt
+# We now measure secretome size
 # We work with the representative genome of those species, as listed in MIDASdb
 
 # STEPS ARE:
@@ -22,7 +21,8 @@
 
 cd $local_project_dir/HamiltonRuleMicrobiome_gitRepos/data/patric/
 
-cat $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/species_list.txt | sed '1d' | while read line
+# take list of 101 species directly from the relatedness table
+cat /Users/s1687811/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/output/tables/relatedness.txt | cut -f 1 -d' ' | sort | uniq | grep -v 'species_id' | sed 's/"//g'| sed '1d' | while read line
 do
 SP_MIDAS=$line
 SP_PATRIC=$(grep $line $local_project_dir/HamiltonRuleMicrobiome_gitRepos/data/species_info_files/species_info.txt | cut -f 2)
@@ -60,7 +60,7 @@ psortb_install_dir='/Applications/psortDB/psortb'
 cd $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/psortb
 if [[ -f psortb_commands.sh ]]; then echo 'deleting existing psortb_commands.sh file' && rm psortb_commands.sh; fi
 
-cat $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/species_list.txt | sed '1d' | while read line
+cat /Users/s1687811/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/output/tables/relatedness.txt | cut -f 1 -d' ' | sort | uniq | grep -v 'species_id' | sed 's/"//g'| sed '1d' | while read line
 do
 FILE=$line
 GRAM=$(cat $local_project_dir/HamiltonRuleMicrobiome_gitRepos/data/species_info_files/gram_profiles_db.txt | grep $line | cut -f 2)
@@ -140,12 +140,8 @@ locfl<- locfl[which(locfl$location == 'Extracellular'),] %>%
 colnames(locfl)[1]<- 'species_id'
 
 # Write secretome_size table
-write.table(locfl, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/secretome.txt'), col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
+write.table(locfl, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/secretome.txt'), col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
 
-
-
-
-# ~~~~~~~~~~~~~~~~~ END OF SCRIPT 5_secretome ~~~~~~~~~~~~~~~~~~~~ #
 
 
 

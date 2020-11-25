@@ -121,11 +121,11 @@ quant_go_sociality_2<- function(species, focal_behaviour, social_go_list){
 
 # LOAD DATA
 # Final bacterial social GO list
-social_go_list<- as.data.frame(read_excel(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/social_go_list_final.xls')))
+social_go_list<- as.data.frame(read_excel(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/social_go_list_final.xls')))
 
 
 # Get list of final species from the relatedness table
-dat<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/relatedness.txt'), sep = ' ') %>%
+dat<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/relatedness.txt'), sep = ' ') %>%
   select(species_id, mean_relatedness) %>%
   unique()
 
@@ -202,7 +202,7 @@ traits_all<- cbind(qt_biofilm$trait_quantification[,c('species', "total_cds", "a
 colnames(traits_all)<- c('species', 'total_cds', 'annotated_cds', 'biofilm', 'ab_degradation', 'quorum_sensing', 'siderophores', 'secretion_system_no4')
 
 
-write.table(traits_all, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/go_cooperation_categories.txt'), col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
+write.table(traits_all, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/go_cooperation_categories.txt'), col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
 
 
 

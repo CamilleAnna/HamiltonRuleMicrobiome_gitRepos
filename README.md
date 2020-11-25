@@ -52,7 +52,7 @@ qsub -v user_dir='path/where/gitrepo/is/cloned',programs_install_dir='/path/to/i
 
 
 
-5_secretome.sh: for the 101 species included in the analysis, download the representative genome (as defined in MIDASdb) AA fasta file fromt PATRIC, run PSORTb on them, compute secretome size. Code to install psortb (based on docker image) included. Part of the script runs in R. Saves fasta and feature files in ./data/patric. Saves table of secretome sizes in ./output/secretome.txt
+5_secretome.sh: for the 101 species included in the analysis, download the representative genome (as defined in MIDASdb) AA fasta file fromt PATRIC, run PSORTb on them, compute secretome size. Code to install psortb (based on docker image) included. Part of the script runs in R. Saves fasta and feature files in ./data/patric. Saves table of secretome sizes in ./output/tables/secretome.txt
 
 
 
@@ -61,28 +61,28 @@ NOTE: the GO retreived when browsing the GO slim may differ as the GO.db gets up
 Output:
 - All MIDAS species fasta files saved in ./data/patric/fasta_all_midas (not git tracked)
 - All pannzer output saved in ./output/pannzer (not git tracked)
-- Assembled GO slim: ./output/bacteria_go_slim.txt
-- list of identified bacteria sociality keywords, identified across 10 top reviews in web of science search. Search string for Web of Science search  included in script. List of keywors in: ./output/bacteria_social_keywords.txt
-- Table of all potential bacterial sociality GOs identified by raw keyword matching  + inclusion of direct parent and all child terms: ./output/social_go_list_wide.txt
-- Manual curation of that table, with comments of decisions: ./output/social_go_list_curation.xls
-- Final retained set of bacteria social GO terms: ./output/social_go_list_final.xls
+- Assembled GO slim: ./output/tables/bacteria_go_slim.txt
+- list of identified bacteria sociality keywords, identified across 10 top reviews in web of science search. Search string for Web of Science search  included in script. List of keywors in: ./output/tables/bacteria_social_keywords.txt
+- Table of all potential bacterial sociality GOs identified by raw keyword matching  + inclusion of direct parent and all child terms: ./output/tables/social_go_list_wide.txt
+- Manual curation of that table, with comments of decisions: ./output/tables/social_go_list_curation.xls
+- Final retained set of bacteria social GO terms: ./output/tables/social_go_list_final.xls
 
 
 7_go_categories.R: computes the measure of cooperation based on GO annotation for each species, with the different cooperation split between the 5 cooperation categories. Runs in R. Uses the social_go_list_final.xls and the GO annotations (pannzer output) as input.
 output:
-- table of measure of cooperation based on GO categories /output/go_traits_quantification.txt 
+- table of measure of cooperation based on GO categories /output/tables/go_cooperation_categories.txt 
 
 
 8_sporulation_scores.sh: computes sporulation scores for the 101 species following method from Browne et al. We gathered (from NCBI) the AA fasta sequences of the 66 sporulation genes listed by Browne et al. Used this as target for a blastp with each species genes AA fasta files as query. Then compute sporulation score following Browne et al. Script include some exploration and visual output to check sensitivity to evalue. 
 Output:
 - blastp output: ./output/sporulation_genes_blast/ (not git tracked)
 - Some additional figures (not included in MS): ./output/figures/additional_figs 
-- Sporulation scores table: ./output/sporulation_scores.txt
+- Sporulation scores table: ./output/tables/sporulation_scores.txt
 
 
 9_relative_abundance.R: extract relative abundance per specie per host from the MIDAS per-sample species outputs.
 Output:
-- Table of relative abundance: ./output/relative_abundance.txt
+- Table of relative abundance: ./output/tables/relative_abundance.txt
 
 
 
