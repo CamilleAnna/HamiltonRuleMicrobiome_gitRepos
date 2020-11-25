@@ -5,10 +5,10 @@
 
 # For the species included in the analysis (for which we computed relatedness in previous step)
 # We now measure cooperativity split in 5 GO categories
-# To start, we must identify GO terms that fall capture bacterial social behaviour
+# To start, we must identify GO terms tha capture bacterial social behaviour
 # to do so, we:
 #  - annotate all representative genomes of MIDASdb species with GO using Pannzer
-#  - use a web of science search to identify keywords of bacterial social behaviour
+#  - use a web of science search to identify bacterial social behaviour keywords
 #  - look through all GO terms identified in bacteria for those matching keywords
 
 

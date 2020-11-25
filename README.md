@@ -25,6 +25,7 @@ $user_dir: path where repository HamiltonRuleMicrobiome_gitRepos is cloned
 
 Scripts 1-3 requires environmental variables:
 
+[...] user defined paths variables --> also local_project_dir
 
 ### analysis
 
@@ -40,14 +41,31 @@ run as:
 qsub -v user_dir='path/where/gitrepo/is/cloned',programs_install_dir='/path/to/install/dir/of/MOCAT_and_MIDAS' ./scripts/analysis/2_midas_merge.sh
 
 
-
 run as:
 qsub -v user_dir='path/where/gitrepo/is/cloned',programs_install_dir='/path/to/install/dir/of/MOCAT_and_MIDAS' -t1-XXX ./scripts/analysis/3_midas_diversity.sh
 
-5_cooperation
+3_midas_diversity.sh
 
-define $local_project_dir for directory within which repository is cloned
 
+
+4_relatedness.R
+
+
+
+5_secretome.sh: for the 101 species included in the analysis, download the representative genome (as defined in MIDASdb) AA fasta file fromt PATRIC, run PSORTb on them, compute secretome size. Code to install psortb (based on docker image) included. Part of the script runs in R. Saves fasta and feature files in ./data/patric. Saves table of secretome sizes in ./output/secretome.txt
+
+
+
+6_identify_social_GO.sh: creates a bacterial GO slim by annotated all representative genomes of MIDASdb with GO using Pannzer. Then use a list of keywords of bacterial social behaviour to browse this bacteria GO slim and retreive GO terms capturing cooperative behaviour categorised in 5 types of cooperation. The last part browsing the assembled GO  slim runs in R. Requires a working installation of Pannzer, specify path to installation directory with environemental variable programs_install_dir. The Pannzer step code is written to run iteratively through a loop working through all genomes one by one because large ammount of parrallels works launched on Pannzer at once (e.g. with task array job) seem to dramatically slow pannzer server (priority issue?) so the jobs never finish. When a single task is launched to Pannzer, it takes about 20min to process a genome. GO slim is simply the assembly of all unique GO terms identified across all >5900 genomes (taking all ARGOT ranks).
+NOTE: the GO retreived when browsing the GO slim may differ as the GO.db gets updated. This may give slightly different social_go_list_wide.txt output. Current table (used for analysis) ran August 2019.
+Output:
+- All MIDAS species fasta files saved in ./data/patric/fasta_all_midas (not git tracked)
+- All pannzer output saved in ./output/pannzer (not git tracked)
+- Assembled GO slim: ./output/bacteria_go_slim.txt
+- list of identified bacteria sociality keywords, identified across 10 top reviews in web of science search. Search string for Web of Science search  included in script. List of keywors in: ./output/bacteria_social_keywords.txt
+- Table of all potential bacterial sociality GOs identified by raw keyword matching  + inclusion of direct parent and all child terms: ./output/social_go_list_wide.txt
+- Manual curation of that table, with comments of decisions: ./output/social_go_list_curation.xls
+- Final retained set of bacteria social GO terms: ./output/social_go_list_final.xls
 
 
 
