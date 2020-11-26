@@ -84,6 +84,34 @@ length(unique(sims.HMPnew.MM$host)) # 239 hosts remain after filtering for [nb_h
 write.table(sims.HMPnew.MM, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/relatedness.txt'), col.names = TRUE, row.names = FALSE, sep = '\t')
 
 
+# Keep tables about pattern of diversity to add in supplementary dataset
+
+pi.within.keep<- pi.within %>%
+  rename(host = sample_id,
+         species_id = species,
+         nb_sites = sites) %>%
+  mutate(species.host = paste0(species_id, '.', host)) %>%
+  select(species_id, host, species.host, nb_sites, depth, snps, pi, snps_kb, pi_bp)
+
+
+pi.between.keep<- pi.between %>%
+  rename(species_id = species,
+         nb_host = samples,
+         nb_sites = sites) %>%
+  select(species_id, nb_host, nb_sites, snps, pi, snps_kb, pi_bp)
+
+
+colnames(pi.within.keep)[4:9]<- paste0(colnames(pi.within.keep)[4:9], '_within')
+colnames(pi.between.keep)[3:7]<- paste0(colnames(pi.between.keep)[3:7], '_between')
+
+pi.keep<- left_join(pi.within.keep, pi.between.keep, by = 'species_id')
+
+kept.species.host<- paste0(sims.HMPnew.MM$species_id, '.', sims.HMPnew.MM$host)
+pi.keep.trim<- pi.keep[pi.keep$species.host %in% kept.species.host,]
+
+
+write.table(pi.keep.trim, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/diversity_patterns.txt'), col.names = TRUE, row.names = FALSE, sep = '\t')
+
 
 
 

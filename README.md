@@ -66,8 +66,10 @@ qsub -v user_dir='path/where/gitrepo/is/cloned',programs_install_dir='/path/to/i
 
 
 
-4_relatedness.R: compute relatedness from the diversity.within and diversity.between output of MIDAS.
-Output: - relatedness table: /output/tables/relatedness.txt
+4_relatedness.R: compute relatedness from the diversity.within and diversity.between output of MIDAS. Also gather various diversity patterns statistics to compile an additional table fo SI dataset (SI table 7).
+Output:
+- relatedness table: /output/tables/relatedness.txt
+- diversity table (for SI dataset table 7): /output/tables/diversity_patterns.txt
 
 
 
@@ -88,8 +90,11 @@ Output:
 
 
 7_go_categories.R: computes the measure of cooperation based on GO annotation for each species, with the different cooperation split between the 5 cooperation categories. Runs in R. Uses the social_go_list_final.xls and the GO annotations (pannzer output) as input.
+Script update: following review, script now also output table with per-gene break down details of GO and secretome annotations.
+
 output:
 - table of measure of cooperation based on GO categories /output/tables/go_cooperation_categories.txt 
+- per-gene break down of GO categories + secretome: /output/tables/per_gene_annotation.txt 
 
 
 8_sporulation_scores.sh: computes sporulation scores for the 101 species following method from Browne et al. We gathered (from NCBI) the AA fasta sequences of the 66 sporulation genes listed by Browne et al. Used this as target for a blastp with each species genes AA fasta files as query. Then compute sporulation score following Browne et al. Script include some exploration and visual output to check sensitivity to evalue. 

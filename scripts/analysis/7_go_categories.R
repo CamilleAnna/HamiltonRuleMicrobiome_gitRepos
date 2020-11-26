@@ -9,6 +9,7 @@
 # 1) Define a function that will process the GO annotation of a given species, for a given focal cooperation category, from the list  of bacteria social GO, to output a table with the number of genes in that species falling into that focal cooperation cetagory
 # 2) Apply function on each species for each cooperation cetagories (101 * 5)
 # 3) Assemble & write table
+# + added following review: same code to output per gene breakdown. See second section of the script.
 
 
 
@@ -125,7 +126,7 @@ social_go_list<- as.data.frame(read_excel(paste0(local_project_dir, '/HamiltonRu
 
 
 # Get list of final species from the relatedness table
-dat<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/relatedness.txt'), sep = ' ') %>%
+dat<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/relatedness.txt'), sep = '\t') %>%
   select(species_id, mean_relatedness) %>%
   unique()
 
@@ -203,6 +204,150 @@ colnames(traits_all)<- c('species', 'total_cds', 'annotated_cds', 'biofilm', 'ab
 
 
 write.table(traits_all, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/go_cooperation_categories.txt'), col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+#                    Simonet & McNally 2020                     #
+#             Check per-gene break down of GO categories        #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+# Following reviews, adding the per-gene breakdown of the six measures of cooperation in the supplementary material tables and an associated supplementary figure.
+
+# This simply re-runs some intermediate steps of the secretome and go_categories scripts
+# to output a table with the per-gene details rather than collapsing at the species level
+
+
+#local_project_dir='/path/to/where/repo/is/cloned'
+setwd(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/'))
+dat<- read.table(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/ANALYSIS_DATA_ASSEMBLED.txt'), header=TRUE)
+dat<- unique(dat[,c(1:11, 18, 19)])
+
+
+social_go_list<- as.data.frame(read_excel('./output/tables/social_go_list_final.xls'))
+social_gos<- social_go_list
+cooperative_behaviours<- c('biofilm', 'antibiotic_degradation', 'quorum_sensing', 'siderophores', 'secretion_system')
+
+
+per_peg_annotations<- vector('list')
+
+for(s in 1:length(dat$species_id)){
+  
+  #for(s in 1:3){ # quick test
+  
+  species<- dat$species_id[s]
+  pegs_assignation<- vector('list')
+  
+  for(k in 1:length(cooperative_behaviours)){
+    
+    focal_behaviour<- cooperative_behaviours[k]
+    
+    
+    sp<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/pannzer/', species, '.GO.out'), header=TRUE, sep = '\t', colClasses = c(rep('character', 4), rep('numeric', 3)))
+    sp<- sp[sp$ARGOT_rank == 1,]
+    sp<- sp[,1:4]
+    colnames(sp)<- c('peg', 'Ontology', 'GO_id', 'Description')
+    sp$GO_id<- paste0('GO:', sp$GO_id)
+    
+    
+    # open PATRIC features table of that species [theone that came along the fasta file feeding into Pannzer]
+    sp_cds<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/data/patric/features/', species, '.features'), header = TRUE, sep = '\t')
+    sp_cds<- sp_cds[sp_cds$feature_type == 'CDS', c('patric_id', 'product', 'go')]
+    sp_cds$patric_id<- as.character(sp_cds$patric_id)
+    sp_cds$product<- as.character(sp_cds$product)
+    sp_cds$go<- as.character(sp_cds$go)
+    colnames(sp_cds)<- c('peg', 'product_patric', 'go_patric')
+    
+    
+    # Intersect with panzzer table to get for each peg, the GO assigned by panzzer
+    sp$peg<- paste0(do.call('rbind', strsplit(sp$peg, '\\|'))[,1], '|', do.call('rbind', strsplit(sp$peg, '\\|'))[,2])
+    
+    sp_cds_annot<- full_join(sp_cds, sp, 'peg')
+    
+    
+    sp_cds_annot$is_focal_behaviour <- sp_cds_annot$GO_id %in% social_gos[social_gos$behaviour == focal_behaviour,1]
+    sp_cds_annot2<- sp_cds_annot[,c('peg', 'Description', 'is_focal_behaviour')]
+    #test<- sp_cds_annot2 %>% group_by(peg) %>% summarise(focal_behaviour_counts = sum(is_focal_behaviour))
+    test<- sp_cds_annot2 %>% group_by(peg) %>% mutate(focal_behaviour_counts = sum(is_focal_behaviour)) %>% select(peg, focal_behaviour_counts) %>% unique()
+    test2<- data.frame(peg = test$peg, ifelse(test[,c('focal_behaviour_counts')] > 0, 1, 0))
+    colnames(test2)<- c('peg', focal_behaviour)
+    pegs_assignation[[k]]<- test2
+    rm(test2)
+    rm(test)
+    rm(sp_cds_annot)
+    rm(sp_cds_annot2)
+    rm(sp)
+    rm(sp_cds)
+  }
+  
+  all<- left_join(pegs_assignation[[1]], pegs_assignation[[2]], by = 'peg') %>%
+    left_join(pegs_assignation[[3]], 'peg') %>%
+    left_join(pegs_assignation[[4]], 'peg') %>%
+    left_join(pegs_assignation[[5]], 'peg')
+  
+  
+  # ADD PER-PEG SECRETOME ANNOTATION
+  
+  no_gram<- c('Clostridiales_bacterium_61057', 'Clostridiales_bacterium_56470', 'Lachnospiraceae_bacterium_56833', 'Lachnospiraceae_bacterium_51870', 'Guyana_massiliensis_60772')
+  
+  if(species %in% no_gram){
+    coop.keep<- data.frame(peg = all$peg,
+                           secretome = NA)
+  }else{
+    
+    
+    coop<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/psortb/psortb_output/', species, '.psortb.out'), sep='\t', row.names = NULL)
+    colnames(coop)<- c(colnames(coop)[-1], 'foo')
+    coop.keep<- coop[,c('SeqID', 'Final_Localization')]
+    colnames(coop.keep)<- c('peg', 'secretome')
+    
+    
+    coop.keep$peg<- paste0(do.call('rbind', strsplit(coop.keep$peg, '\\|'))[,1], '|', do.call('rbind', strsplit(coop.keep$peg, '\\|'))[,2])
+    
+    coop.keep$peg<- gsub(' ', '', coop.keep$peg)
+    
+    #head(coop.keep$peg)
+    #head(all$peg)
+    #sum(!coop.keep$peg %in% all$peg)
+    
+    
+    coop.keep$secretome<- ifelse(coop.keep$secretome == 'Extracellular', 1, 0)
+    
+  }
+  
+  all<- left_join(all, coop.keep, by = 'peg')
+  
+  all$sum_GO<- rowSums(all[,2:6])
+  all$sum_ANY<- rowSums(all[,2:7])
+  
+  
+  if(max(range(all$sum_GO)) > 1){
+    print(paste0(species, ' has peg(s) assigned to more than one GO'))
+  }else{
+    print(paste0(species, ' --- GO ok'))
+  }
+  
+  
+  if(is.na(max(range(all$sum_ANY))) == TRUE){
+    print(paste0(species, ' --- Secretome NA'))
+  }else{
+    if(max(range(all$sum_ANY)) > 1){
+      print(paste0(species, ' has peg(s) assigned to GO and Secretome'))
+    }else{
+      print(paste0(species, ' --- Secretome ok'))
+    }
+  }
+  
+  all<- cbind(species, all)
+  
+  per_peg_annotations[[s]]<- all
+  
+}
+
+per_peg_annotations_flat<- do.call('rbind', per_peg_annotations)
+length(unique(per_peg_annotations_flat$species))
+
+
+write.table(per_peg_annotations_flat, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/per_gene_annotation.txt'), col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
 
 
 
