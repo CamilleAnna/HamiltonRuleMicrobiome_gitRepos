@@ -1,14 +1,26 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# COMPUTE RELATEDNESS FROM DIVERSITY ESTIMATES #
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+#                    Simonet & McNally 2020                     #
+#            Compute relatedness from diversity estimates       #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-# Set path to directory containing output of script 1.3_RELATEDNESS_midas_snp_diversity
-# We use the within host and between host diversity measures to compute 1 - pi which is within and between hosts genomic similarity
-# And from this relatedness = (sim_within - sim_between)/(1 - sim_between)
+# Set path to directory containing the output of diversityanalysis (./output/midas/diversity)
+# We use the within host and between host diversity measures to compute 1 - pi which is within and between hosts genomic similarity, and from this relatedness = (sim_within - sim_between)/(1 - sim_between)
+
+# STEPS ARE:
+# 1) Assembling all the tables together
+# 2) Compute genomic similarity as  1 - diversity, do so for within and between
+# 3) Compute relatedness and assemble table
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~ #
+#  1) Assemble tables    #
+# ~~~~~~~~~~~~~~~~~~~~~~ #
+
 
 # Load within and between diversity tables
-setwd("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/output/diversity_sampleDepth5_siteDepth5_sitePrev090//")
-source("~/Documents/PhD/Research/background_scripts/basic_packages.R")
+#local_project_dir='/path/to/where/repo/is/cloned'
+setwd(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/midas/diversity/'))
+source(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/scripts/analysis/0_sourced_packages.R'))
 
 pi.within.files<- list.files(pattern = 'within')
 pi.between.files<- list.files(pattern = 'between')
@@ -27,9 +39,11 @@ pi.within<- do.call('rbind', pi.within.ls)
 pi.between<- do.call('rbind', pi.between.ls)
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+#  2) Compute genomic similarity    #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-
-# Compute within and between genomic similariti
+# Compute within and between genomic similarity
 sim.within.MM<- pi.within %>%
   mutate(sim_within = 1-pi_bp) %>%
   select(species, sample_id, sim_within, sites) %>%
@@ -42,7 +56,12 @@ sim.between.MM<- pi.between %>%
   rename(nb_host = samples,
          nb_site_between = sites)
 
-# Compute relatedness
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+#  3) Compute relatedness    #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
 sims.HMPnew.MM<- left_join(sim.within.MM, sim.between.MM, by = 'species') %>%
   mutate(within_host_relatedness = (sim_within - sim_between)/(1 - sim_between)) %>% # point estimate of relatedness (i.e. within sample)
   group_by(species) %>%
@@ -51,26 +70,25 @@ sims.HMPnew.MM<- left_join(sim.within.MM, sim.between.MM, by = 'species') %>%
   as.data.frame() %>%
   rename(species_id = species) %>%
   filter(
-    nb_site_within > 1000), # species for which no core-genome site could be identified
-    nb_host > 1 # need at least 2 hosts to estimate a between host diversity!)
-   ) 
+    nb_site_within > 1000, # species for which no core-genome site could be identified
+    nb_host > 1) # need at least 2 hosts to estimate a between host diversity!)
 
 
-length(unique(sims.HMPnew.MM$species_id)) # 141 species
-length(unique(sims.HMPnew.MM$species_id)) # 140 after filtering for number of core genomic sites
-length(unique(sims.HMPnew.MM$species_id)) # 101 after further filtering for at least two hosts
+length(unique(sims.HMPnew.MM$species_id)) # 141 species with no filtering at all 
+length(unique(sims.HMPnew.MM$species_id)) # 140 after filtering for number of core genomic sites [nb_site_within > 1000,]
+length(unique(sims.HMPnew.MM$species_id)) # 101 after further filtering for at least two hosts [nb_host > 1]
+
+length(unique(sims.HMPnew.MM$host)) # 239 hosts remain after filtering for [nb_host > 1] (means that that host contained only species that were present only in that host)
 
 
-length(unique(sims.HMPnew.MM$species_id))
+write.table(sims.HMPnew.MM, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/relatedness.txt'), col.names = TRUE, row.names = FALSE, sep = '\t')
 
 
-write.table(sims.HMPnew.MM, '~/Documents/GitHub/HamiltonRuleMicrobiome/output/RELATEDNESS.txt', col.names = TRUE, row.names = FALSE)
 
-# + write a "species_list.txt" file with list of species
 
-d<- read.table('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/output/RELATEDNESS.txt', header=TRUE, sep = ' ')
-d<- data.frame(unique(d$species_id))
-colnames(d)<- 'species_id'
-write.table(d, '~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/output/species_list.txt', col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
+
+
+
+
 
 

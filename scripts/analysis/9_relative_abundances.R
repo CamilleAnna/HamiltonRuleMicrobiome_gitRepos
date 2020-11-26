@@ -4,21 +4,36 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 # The species relative abundance is included in the phylogenetic mixed model
-# We extract these directly from MIDAS species_profiles output
+# We extract these directly from MIDAS merge output
 #local_project_dir='/path/to/where/repo/is/cloned'
 
-setwd(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/midas/per_sample/'))
 
-hosts<- list.files()
-tabs<- vector('list', length = length(hosts))
-for(i in 1:length(hosts)){
-  
-  tabs[[i]]<- read.table(paste0(hosts[i], '/species/species_profile.txt'), header=TRUE)
-  tabs[[i]]$host<- hosts[i]
-}
-d2<- do.call('rbind', tabs)
-d2<- d2[,c(1,5,4)]
-colnames(d2)<- c('species', 'host', 'relative_abundance')
+setwd(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/'))
 
-write.table(d2, file = paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/relative_abundance.txt'), sep = '\t', col.names = TRUE, row.names = FALSE)
+
+# relative abundance table from midas merge output
+ra.from.merge<- read.table('./output/midas/merge/species_merged/relative_abundance.txt', header=TRUE, sep = '\t')
+
+# use table of relatedness to get the 101 species
+rel<- read.table('./output/tables/relatedness.txt', header=TRUE, sep = '\t')
+sps<- unique(rel[,c('species_id', 'mean_relatedness')])
+
+# reformat
+ra.from.merge.long<- gather(ra.from.merge, 'host', 'within_host_relative_abundance', 2:241)
+
+# remove hosts that got filtered out by nb_host > 1 when computing relatedness
+ra.from.merge.long<- ra.from.merge.long[ra.from.merge.long$host %in% rel$host,]
+
+# keep only our 101 focus species
+rel$species.host<- paste0(rel$species_id, '.', rel$host)
+ra.from.merge.long$species.host<- paste0(ra.from.merge.long$species_id, '.', ra.from.merge.long$host)
+
+# intersect
+rel2<- select(rel, species_id, host, species.host)
+ra.trim<- left_join(rel2, ra.from.merge.long, by = 'species.host')
+ra.trim<- select(ra.trim, species_id.y, host.y, within_host_relative_abundance) %>%
+  rename(species_id = species_id.y,
+         host = host.y)
+
+write.table(ra.trim, file = paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/relative_abundance.txt'), sep = '\t', col.names = TRUE, row.names = FALSE)
 
