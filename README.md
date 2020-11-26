@@ -29,6 +29,24 @@ Scripts 1-3 requires environmental variables:
 
 ### analysis
 
+
+0_samples_data.R: parse the HMP portal manifest file to extarct unique sample/subject metagenome access link. This gives 251 samples. Out of these, 12 were filtered at different stage of the analysis. Hence, in the final analysis, 239 samples are included. Specifically:
+HMP_SRS013215_454	Download failed. Not a WGS file
+HMP_SRS015794_454	Download failed. Not a WGS file
+HMP_SRS016989_454	Download failed. Not a WGS file
+HMP_SRS057049	Quality filtering (MOCAT) left no read
+HMP_SRS011084	Large file cause pipeline crash
+HMP_SRS014235	Large file cause pipeline crash
+HMP_SRS015890	Large file cause pipeline crash
+HMP_SRS017433	Large file cause pipeline crash
+HMP_SRS018313	Large file cause pipeline crash
+HMP_SRS021219	Large file cause pipeline crash
+HMP_SRS019286	No species met minimum read depths for SNP calling (MIDAS)
+HMP_SRS045324	Contains only species unique to that host, hence filtered at relatedness computation step. Given the species found in that host, likely there were a mistake in the HMP metadata, those were all species commonly found in oral cavity. This must be an oral sample, not feces
+
+Output:
+- List of samples and access links: ./output/tables/HMP_first_visit_smaples.txt
+
 1_midas_per_sample.sh: download HMP metagenomes, process with MOCAT, run MIDAS. Task array jobs, using $SGE_TASK_ID env variable to process the $SGE_TASK_ID th sample. Run as many task as there are samples listed in ./data/HMP_samples_first_visit_available (251). Requires user defined environemental variables $programs_install_dir and $user_dir.
 
 run as: 

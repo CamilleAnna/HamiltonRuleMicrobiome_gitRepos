@@ -22,20 +22,14 @@
 echo 'PART 1: DOWNLOADING FILES:'
 du -sh $user_dir/HamiltonRuleMicrobiome_gitRepos
 
-# Available HMP stool metagenomes at HMP portal, accessed April 2020, under:
-# Project > HMP, Body Site > feces, Studies > WGS-PP1, File Type > WGS raw sequences set, File format > FASTQ
-# Get "manifest file" and corresponding metadata
-# filtered using below command to keep earliest time point collected per hosts
-# list of final samples: HMP_samples_first_visit_available
+
 # launch this script as a task array job to process each $SGE_TASK_ID th sample
 
-# cat ./data/metagenomes/HMP_manifest_metadata_1955206147.tsv | sed  1d | sort -k 2,5 |  awk '!seen[$2]++' > ./data/metagenomes/HMP_samples_first_visit_available
-
-
 # Download metagenome under a host-specific directory per host
-SAMPLE=$(cut -f 1 $user_dir/HamiltonRuleMicrobiome_gitRepos/data/metagenomes/HMP_samples_first_visit_available | awk "NR==$SGE_TASK_ID")
-LINK=$(grep $SAMPLE $user_dir/HamiltonRuleMicrobiome_gitRepos/data/metagenomes/HMP_manifest_68fb5dcb39.tsv | cut -f 4 | cut -f 1 -d',')
-HOST=$(echo HMP_$(echo $LINK | rev | cut -d '/' -f 1 | rev | cut -d '.' -f 1))
+HOST=$(echo 'HMP_'$(cut -f 2 $user_dir/HamiltonRuleMicrobiome_gitRepos/output/tables/HMP_first_visit_samples.txt | sed '1d' | awk "NR==$SGE_TASK_ID"))
+LINK=$(cut -f 5 $user_dir/HamiltonRuleMicrobiome_gitRepos/output/tables/HMP_first_visit_samples.txt | sed '1d' | awk "NR==$SGE_TASK_ID")
+
+
 mkdir -p $user_dir/HamiltonRuleMicrobiome_gitRepos/data/metagenomes/metagenomes/$HOST
 cd $user_dir/HamiltonRuleMicrobiome_gitRepos/data/metagenomes/metagenomes/$HOST
 echo Downloading: $LINK

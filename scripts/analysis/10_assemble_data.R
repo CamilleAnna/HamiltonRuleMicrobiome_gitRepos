@@ -53,11 +53,3 @@ dat<- sp.focus %>%
 
 write.table(dat, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/ANALYSIS_DATA_ASSEMBLED.txt'), col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
 
-
-
-
-
-
-
-
-

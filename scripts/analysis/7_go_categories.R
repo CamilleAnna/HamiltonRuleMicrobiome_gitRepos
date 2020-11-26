@@ -16,7 +16,7 @@
 
 
 setwd(local_project_dir)
-source(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/scripts/analysis/0_sourced_packages.R'))
+source(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/scripts/analysis/sourced_packages.R'))
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #

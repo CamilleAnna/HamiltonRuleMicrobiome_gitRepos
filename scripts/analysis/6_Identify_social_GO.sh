@@ -49,12 +49,20 @@ done
 # Have a working installation of Pannzer in $programs_install_dir
 # see installation instructions at: http://ekhidna2.biocenter.helsinki.fi/sanspanz/
 
+##### INSTALLING PANZZER ###### 
+wget http://ekhidna2.biocenter.helsinki.fi/sanspanz/SANSPANZ.3.tar.gz
+tar -zxvf SANSPANZ.3.tar.gz
+###### USE CONDA ENVIRONMENT TO GET REQUIRED DEPENDENCIES ###### 
+module load anaconda
+conda install --name mypythonMIDAS -c conda-forge fastcluster
+conda install  --name mypythonMIDAS -c anaconda requests
+conda install   --name mypythonMIDAS -c anaconda scipy
 
 # Initialise the environment modules
 . /etc/profile.d/modules.sh
 
 module load anaconda
-source activate mypythonMIDAS #anaconda environement with requirements for Pannzer
+source activate mypythonMIDAS
 
 cd $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/pannzer
 
@@ -82,7 +90,13 @@ done
 
 cd $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/pannzer
 cat ./*/* | grep -v 'ontology' | cut -f 2-4 | sort | uniq > $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/tables/bacteria_go_slim.txt
+cd $local_project_dir/HamiltonRuleMicrobiome_gitRepos/output/tables
 
+# Quick edit of table in R
+bacteria_go_slim_new<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/bacteria_go_slim.txt'), header=FALSE, sep = '\t', colClasses = rep('character', 3))
+colnames(bacteria_go_slim_new)<- c('ontology', 'GO_id', 'description')
+bacteria_go_slim_new$GO_id<- paste0('GO:', bacteria_go_slim_new$GO_id)
+write.table(bacteria_go_slim_new, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/bacteria_go_slim.txt'), col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
 
 
 
@@ -97,7 +111,8 @@ TI=((microb* OR bacter* OR microorganis* OR micro-organis*) AND (coop* OR social
 # All field
 # filter out reviews that were not included but were not specifically on microbial cooperation. 
 
-# --> Write a table in /HamiltonRuleMicrobiome_gitRepos/output/tables/bacteria_social_keywords.txt
+# --> Write a table of reference retreivedd: in /HamiltonRuleMicrobiome_gitRepos/output/tables/bacteria_cooperation_reviews.txt
+# --> Write table of keywords: in /HamiltonRuleMicrobiome_gitRepos/output/tables/bacteria_social_keywords.txt
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -188,9 +203,9 @@ getGO<- function(keyword, allgos){
 
 
 # Get the bacteria GO slim
-bacteria_go_slim_new<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/bacteria_go_slim.txt'), header=FALSE, sep = '\t', colClasses = rep('character', 3))
-colnames(bacteria_go_slim_new)<- c('ontology', 'GO_id', 'description')
-bacteria_go_slim_new$GO_id<- paste0('GO:', bacteria_go_slim_new$GO_id)
+bacteria_go_slim_new<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/bacteria_go_slim.txt'), header=TRUE, sep = '\t', colClasses = rep('character', 3))
+#colnames(bacteria_go_slim_new)<- c('ontology', 'GO_id', 'description')
+#bacteria_go_slim_new$GO_id<- paste0('GO:', bacteria_go_slim_new$GO_id)
 bacteria_go_slim_new<- bacteria_go_slim_new[,c(2,3,1)]
 
 

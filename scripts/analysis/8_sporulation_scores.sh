@@ -37,7 +37,8 @@ done
 #local_project_dir='/path/to/where/repo/is/cloned'
 
 setwd(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/sporulation_genes_blast'))
-source(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/scripts/analysis/0_sourced_packages_and_themes.R'))
+source(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/scripts/analysis/sourced_packages.R'))
+source(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/scripts/analysis/sourced_ggthemes.R'))
 
 
 # DEFINING A FUNCTION TO COMPUTE SPORULATION SCORE FOR A GIVEN SPECIES

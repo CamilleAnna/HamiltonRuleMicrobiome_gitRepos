@@ -20,7 +20,7 @@
 # Load within and between diversity tables
 #local_project_dir='/path/to/where/repo/is/cloned'
 setwd(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/midas/diversity/'))
-source(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/scripts/analysis/0_sourced_packages.R'))
+source(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/scripts/analysis/sourced_packages.R'))
 
 pi.within.files<- list.files(pattern = 'within')
 pi.between.files<- list.files(pattern = 'between')

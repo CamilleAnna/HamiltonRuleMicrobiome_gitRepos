@@ -1,0 +1,11 @@
+Title	first author	journal	date	time cited
+Social evolution theoy for microorganisms	S. West	Nature reviews microbiology	2006	551
+The social lives of microbes	S. West	Annual review of ecology evolution and systematics	2007	341
+Bacterial social engagement	JM. Henke	Trends in cell biology	2004	210
+Quorum sensing and social networking in the microbial world	S. Atkinson	Journal of the royal society interface	2009	198
+Social strife in the microbial world	GJ. Velicer	Trends in microbiology	2003	166
+Quorum sensing and bacterial social interactions in biofilms	L. Yung-Hua	Sensors	2012	162
+Kin discrimination and cooperation in microbes	J. Strassman	Annual review of microbiology	2011	93
+Social interaction in synthetic and natural microbial communities	X. Joao	Molecular systems biology	2011	89
+The genotypic view of social intractions in microbial communities	S. Mitri	Annual review of genetics	2013	81
+Cellular cooperation: insights from microbes	H. Celiker	Trends in cell biology	2013	37
