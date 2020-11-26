@@ -31,9 +31,7 @@ ra.from.merge.long$species.host<- paste0(ra.from.merge.long$species_id, '.', ra.
 # intersect
 rel2<- select(rel, species_id, host, species.host)
 ra.trim<- left_join(rel2, ra.from.merge.long, by = 'species.host')
-ra.trim<- select(ra.trim, species_id.y, host.y, within_host_relative_abundance) %>%
-  rename(species_id = species_id.y,
-         host = host.y)
+ra.trim<- select(ra.trim, species.host, within_host_relative_abundance)
 
 write.table(ra.trim, file = paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/relative_abundance.txt'), sep = '\t', col.names = TRUE, row.names = FALSE)
 

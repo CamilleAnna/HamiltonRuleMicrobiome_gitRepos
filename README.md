@@ -48,7 +48,8 @@ qsub -v user_dir='path/where/gitrepo/is/cloned',programs_install_dir='/path/to/i
 
 
 
-4_relatedness.R
+4_relatedness.R: compute relatedness from the diversity.within and diversity.between output of MIDAS.
+Output: - relatedness table: /output/tables/relatedness.txt
 
 
 
@@ -84,5 +85,7 @@ Output:
 Output:
 - Table of relative abundance: ./output/tables/relative_abundance.txt
 
+10_assemble_data.R: assemble all the tables in ./output/table to create a dataframe used in statistical analyses.
+Output: ./output/tables/ANALYSIS_DATA_ASSEMBLED.txt
 
 
