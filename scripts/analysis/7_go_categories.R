@@ -345,6 +345,7 @@ for(s in 1:length(dat$species_id)){
 
 per_peg_annotations_flat<- do.call('rbind', per_peg_annotations)
 length(unique(per_peg_annotations_flat$species))
+length(unique(per_peg_annotations_flat$peg))
 
 
 write.table(per_peg_annotations_flat, paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/per_gene_annotation.txt'), col.names = TRUE, row.names = FALSE, quote = FALSE, sep = '\t')
