@@ -1,15 +1,18 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-# FIGURES HAMILTON RULE MICROBIOME PROJECT #
+#         Simonet & McNally 2020           #
+#   Figures produced from  models output   #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-setwd("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/")
-source("~/Documents/PhD/Research/background_scripts/basic_packages.R")
-source("~/Documents/PhD/Research/background_scripts/ggplot_themes.R")
+
+#local_project_dir='/path/to/where/repo/is/cloned'
+setwd(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/'))
+source('./scripts/analysis/sourced_ggthemes.R')
+source('./scripts/analysis/sourced_packages.R')
 library("ape")
 
 # GET DATA ----
 
-d<- read.table('/Users/s1687811/Documents/GitHub/HamiltonRuleMicrobiome/output/ANALYSIS_DATA_ASSEMBLED.txt', header=TRUE, stringsAsFactors = FALSE) %>% mutate(first = !duplicated(species_id)) %>% rename(species = species_id)
+d<- read.table('./output/tables/ANALYSIS_DATA_ASSEMBLED.txt', header=TRUE, stringsAsFactors = FALSE) %>% mutate(first = !duplicated(species_id)) %>% rename(species = species_id)
 
 d_mean<- d %>%
   group_by(species) %>%
@@ -19,7 +22,7 @@ d_mean<- d %>%
   ungroup() %>%
   as.data.frame()
 
-midas.tree<- read.tree('~/Documents/GitHub/HamiltonRuleMicrobiome/data/species_info_files/midas_tree_renamed.newick')
+midas.tree<- read.tree('./data/species_info_files/midas_tree_renamed.newick')
 phylogeny<- drop.tip(midas.tree, midas.tree$tip.label[which(!is.element(midas.tree$tip.label, d_mean$species))])
 phylogeny<- chronopl(phylogeny, lambda = 0)
 phylogeny<-makeNodeLabel(phylogeny)
@@ -507,7 +510,7 @@ marknode = FALSE
 cex = 0.4
 
 
-nodes_and_genus<- read.table('/Users/s1687811/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/data/species_info_files/nodes_genus.txt', colClasses = c('numeric', 'character','numeric'),sep = '\t', header=TRUE)
+nodes_and_genus<- read.table('./data/species_info_files/nodes_genus.txt', colClasses = c('numeric', 'character','numeric'),sep = '\t', header=TRUE)
 
 
 nodes_and_genus$text.offset<- 1.02#+(nchar(nodes_and_genus$genus)*0.015)
@@ -683,7 +686,7 @@ dev.off()
 
  # FIGURE 3 ----
 
-load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL1_CHAIN_1.RData")
+load("./output/analyses/MODEL1_CHAIN_1.RData")
 
 # Code wrapper to do one plot per GO cooperative trait
 plotLM<- function(response, D, col, length.yseq, cex.axis = 0.6, cex = 0.6, tck = -0.05, line.x = -1, line.y = -0.7){
@@ -778,7 +781,7 @@ plotLM('ab_degradation', D = d_mean, col = 'magenta', length.yseq = 3)
 mtext(side = 2, text = expression(bold(paste("Proportion of cooperative genes (10"^" -03", ")"))), cex = 0.4, line = 1.2)
 
 D<-d_mean
-mod<-lm(I(nb_extracellular/total_cds)~ mean_relatedness+gram_profile,data=D)
+mod<-lm(I(nb_extracellular/total_cds)~ mean_relatedness+gram_profile,data=D[D$gram_profile != 'gram0',])
 
 
 yseq<- seq(range(D$nb_extracellular/D$total_cds, na.rm = TRUE)[1],
@@ -826,14 +829,13 @@ dev.off()
 
  # FIGURE 4 ----
 
-load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL3_CHAIN_1.RData")
+load("./output/analyses/MODEL3_CHAIN_1.RData")
 
 intercept = mean(m3$Sol[,1])
 b_sporulation = mean(m3$Sol[,'sporulation_score'])
 b_abundance = mean(m3$Sol[,'within_host_relative_abundance'])
 
 
-#png('./output/figures/FIGURE_4.png', width=(8.7/2.54)*ppi, height=(8.7/2.54)*ppi, res=ppi)
 
 pdf('./output/figures/FIGURE_4.pdf', width=(8.7/2.54), height=(8.7/2.54))
 

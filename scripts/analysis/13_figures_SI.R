@@ -1,29 +1,34 @@
-# Supplements
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#         Simonet & McNally 2020           #
+#           SI file figures                #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-source("~/Documents/PhD/Research/background_scripts/basic_packages.R")
-source("~/Documents/PhD/Research/background_scripts/ggplot_themes.R")
 
+#local_project_dir='/path/to/where/repo/is/cloned'
+setwd(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/'))
+source('./scripts/analysis/sourced_ggthemes.R')
+source('./scripts/analysis/sourced_packages.R')
 library(kableExtra)
-setwd('/Users/s1687811/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/output/figures/')
+
 
 
 # GO TRAITS CONTRIBUTION HEAMAPS ----
 
-quant_go_sociality_2<- function(species, focal_behaviour, social_go_list, path_to_panzzer_output, path_to_patric_features){
+quant_go_sociality_2<- function(species, focal_behaviour, social_go_list){
   
   social_gos<- social_go_list
   
   # Reading panzzer output (i.e. GO annotation of CDS), keep best hit only, do some housekeeping
   # Each peg can be present in the table up to three times: once for each of the three GO ontologies
-  sp<- read.csv(paste0(path_to_panzzer_output, species, '.GO.out'), header=TRUE, sep = '\t', colClasses = c(rep('character', 4), rep('numeric', 3)))
+  sp<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/pannzer/', species, '.GO.out'), header=TRUE, sep = '\t', colClasses = c(rep('character', 4), rep('numeric', 3)))
   sp<- sp[sp$ARGOT_rank == 1,]
   sp<- sp[,1:4]
   colnames(sp)<- c('peg', 'Ontology', 'GO_id', 'Description')
   sp$GO_id<- paste0('GO:', sp$GO_id)
   
   
-  # open original PATRIC table of that species
-  sp_cds<- read.csv(paste0(path_to_patric_features, species, '.features'), header = TRUE, sep = '\t')
+  # open PATRIC features table of that species [theone that came along the fasta file feeding into Pannzer]
+  sp_cds<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/data/patric/features/', species, '.features'), header = TRUE, sep = '\t')
   sp_cds<- sp_cds[sp_cds$feature_type == 'CDS', c('patric_id', 'product', 'go')]
   sp_cds$patric_id<- as.character(sp_cds$patric_id)
   sp_cds$product<- as.character(sp_cds$product)
@@ -68,7 +73,7 @@ quant_go_sociality_2<- function(species, focal_behaviour, social_go_list, path_t
   # Each peg can be present up to three times, because we retain the top hit GO match for all three ontologies
   # But when a peg is assigned to e.g. biofilm by both its BP and CC for example, we don't count it as twice biofilm
   # basically if either of the ontologies GO of a given peg falls in one social behaviour this peg is counted as being part of that social behaviour
-  # The following thus converts those potential 'multiple hits' into binary 0/1
+  # The following thus converts those potential 'multiple hits' ACROSS THE 3 ONTOLOGIES into binary 0/1
   
   
   test<- sp_cds_annot2 %>% group_by(peg) %>% summarise(focal_behaviour_counts = sum(is_focal_behaviour),
@@ -89,23 +94,22 @@ quant_go_sociality_2<- function(species, focal_behaviour, social_go_list, path_t
   
 }
 
-path_to_panzzer_output = "~/Documents/PhD/Research/Hostexploitation/data/PANZZER/"
-path_to_patric_features = "~/Documents/PhD/Research/Hostexploitation/data/PATRIC/features/"
+social_go_list<- as.data.frame(read_excel(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/social_go_list_final.xls')))
 
-social_go_list<- as.data.frame(read_excel('~/Documents/PhD/Research/Hamilton_project/MPGS_December18/data/GO/Social_go_list_FINAL.xls'))
-
-
-dat<- read.table('~/Documents/GitHub/HamiltonRuleMicrobiome/output/RELATEDNESS.txt', header=TRUE, stringsAsFactors = FALSE) %>% mutate(first = !duplicated(species_id)) %>% filter(first == TRUE)
-mysp<- dat$species_id
+dat<- read.csv(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/relatedness.txt'), sep = '\t') %>%
+  select(species_id, mean_relatedness) %>%
+  unique()
+colnames(dat)<- c('species', 'mean_relatedness')
 
 
+# Code wrapper to apply the previous function and runs plotting commands on each species/cooperation category
 run_trait_quantification<- function(focal_behaviour){
   
   trait_quantification<- vector('list', length = nrow(dat))
   trait_go_terms_contribution<- vector('list', length = nrow(dat))
   for(i in 1:nrow(dat)){
-    trait_quantification[[i]]<- quant_go_sociality_2(dat$species[i], focal_behaviour, social_go_list, path_to_panzzer_output, path_to_patric_features)[[1]]
-    trait_go_terms_contribution[[i]]<- quant_go_sociality_2(dat$species[i], focal_behaviour, social_go_list, path_to_panzzer_output, path_to_patric_features)[[2]]
+    trait_quantification[[i]]<- quant_go_sociality_2(dat$species[i], focal_behaviour, social_go_list)[[1]]
+    trait_go_terms_contribution[[i]]<- quant_go_sociality_2(dat$species[i], focal_behaviour, social_go_list)[[2]]
     print(i)
   }
   
@@ -126,8 +130,7 @@ run_trait_quantification<- function(focal_behaviour){
   trait_go_terms_contribution_df$species<- rownames(trait_go_terms_contribution_df)
   trait_go_terms_contribution_df2<- gather(trait_go_terms_contribution_df, 'GO_id', 'hits', 1:(ncol(trait_go_terms_contribution_df)-1))
   
-  
-  plot_ids<- read.table("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/data/species_info_files/species_plot_names.txt", header=TRUE, sep = '\t')
+  plot_ids<- read.table("./data/species_info_files/species_plot_names.txt", header=TRUE, sep = '\t')
   
   trait_go_terms_contribution_df2<- left_join(trait_go_terms_contribution_df2, plot_ids, 'species')
   
@@ -149,55 +152,169 @@ run_trait_quantification<- function(focal_behaviour){
       plot.title = element_text(lineheight=.8, face="bold", hjust = 0.5))
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   return(list('contribution_heatmap' = heatmap,
               'trait_quantification' = trait_quantification_df))
 }
 
-
-qt_ab_degradation<- run_trait_quantification(unique(social_go_list$behaviour)[1])
-qt_biofilm<- run_trait_quantification(unique(social_go_list$behaviour)[2])
-qt_quorum_sensing<- run_trait_quantification(unique(social_go_list$behaviour)[3])
-qt_secretion_system_no4<- run_trait_quantification(unique(social_go_list$behaviour)[4])
-qt_siderophores<- run_trait_quantification(unique(social_go_list$behaviour)[5])
-
+qt_biofilm<- run_trait_quantification('biofilm')
+qt_ab_degradation<- run_trait_quantification('antibiotic_degradation')
+qt_quorum_sensing<- run_trait_quantification('quorum_sensing')
+qt_siderophores<- run_trait_quantification('siderophores')
+qt_secretion_system_no4<- run_trait_quantification('secretion_system')
 
 
-pdf("SI_FIG_ContribBiofilm.pdf", width = 17.3/2.54, height = 25/2.54) 
-#print(qt_biofilm$contribution_heatmap)
+
+
+pdf("./output/figures/SI_FIG_ContribBiofilm.pdf", width = 17.3/2.54, height = 25/2.54) 
 print(qt_biofilm$contribution_heatmap)
 dev.off()
 
-pdf("SI_FIG_ContribQuorumSensing.pdf", width = 17.3/2.54, height = 25/2.54) 
+pdf("./output/figures/SI_FIG_ContribQuorumSensing.pdf", width = 17.3/2.54, height = 25/2.54) 
 print(qt_quorum_sensing$contribution_heatmap)
 dev.off()
 
-pdf("SI_FIG_ContribABdegradation.pdf", width = 17.3/2.54, height = 25/2.54) 
+pdf("./output/figures/SI_FIG_ContribABdegradation.pdf", width = 17.3/2.54, height = 25/2.54) 
 print(qt_ab_degradation$contribution_heatmap)
 dev.off()
 
-pdf("SI_FIG_ContribSiderophores.pdf", width = 17.3/2.54, height = 25/2.54) 
+pdf("./output/figures/SI_FIG_ContribSiderophores.pdf", width = 17.3/2.54, height = 25/2.54) 
 print(qt_siderophores$contribution_heatmap)
 dev.off()
 
-pdf("SI_FIG_ContribSecretionSyst.pdf", width = 17.3/2.54, height = 25/2.54) 
+pdf("./output/figures/SI_FIG_ContribSecretionSyst.pdf", width = 17.3/2.54, height = 25/2.54) 
 print(qt_secretion_system_no4$contribution_heatmap)
 dev.off()
+
+
+
+
+
+
+
+
+
+
+# PER GENES ANNOTATION VENN DIAGRAMS ----
+
+
+per_gene<- read.table('./output/tables/per_gene_annotation.txt', header=TRUE)
+test<- per_gene[!is.na(per_gene$secretome),] # remove the four species for which there is no secretome data
+test<- test[test$sum_ANY != 0,] # focus on overlap among genes that are annotated
+
+pegs.biofilm<- test[test$biofilm == 1, 'peg']
+pegs.ab<- test[test$antibiotic_degradation == 1, 'peg']
+pegs.qs<- test[test$quorum_sensing == 1, 'peg']
+pegs.sid<- test[test$siderophores == 1, 'peg']
+pegs.ss<- test[test$secretion_system == 1, 'peg']
+pegs.secretome<- test[test$secretome == 1, 'peg']
+
+
+
+# We know from SUM_GO that the GO do not overlap with each other at all
+# So figure out the overlaps between secretome and the 5 GO categories
+length(pegs.secretome)
+length(pegs.biofilm)
+length(pegs.ab)
+length(pegs.qs)
+length(pegs.sid)
+length(pegs.ss)
+
+length(intersect(pegs.secretome, pegs.biofilm))
+length(intersect(pegs.secretome, pegs.ab))
+length(intersect(pegs.secretome, pegs.qs))
+length(intersect(pegs.secretome, pegs.sid))
+length(intersect(pegs.secretome, pegs.ss))
+# only Biofilm and AB overalp with secretome
+
+# Use above to fill in a VennDiagram
+# Do it this way and nto with venn.diagram() because with >2 sets, this is the only way to have a scale diagram.
+
+library(eulerr)
+
+
+# OVERALL DIAGRAM
+pdf(file = paste0("./output/figures/SI_Fig_VennsDiagrams.pdf"), width=(11.3/2.54), height=(6.5/2.54))
+
+VennDiag <- euler(c("Secretome" = length(pegs.secretome),
+                    "Biofilm" = length(pegs.biofilm),
+                    "Antibiotic" = length(pegs.ab),
+                    "Quorum-sensing" = length(pegs.qs),
+                    "Siderophores" = length(pegs.sid),
+                    "Sec.Syst." = length(pegs.ss),
+                    "Secretome&Biofilm" = length(intersect(pegs.secretome, pegs.biofilm)),
+                    "Secretome&Antibiotic" = length(intersect(pegs.secretome, pegs.ab))))
+
+plot(VennDiag,
+     counts = TRUE,
+     edges = TRUE,#quantities = TRUE, 
+     font=2,
+     labels = list(cex = .5),
+     quantities = list(cex = .5),
+     cex=2,
+     alpha=0.5,
+     fill=c("darkorchid", "forestgreen", "magenta", "yellow", "darkorange", "navy"))
+
+
+dev.off()
+
+
+
+
+# PER SPECIES DIAGRAM
+
+
+test<- per_gene[!is.na(per_gene$secretome),] # remove the four species for which there is no secretome data
+test<- test[test$sum_ANY != 0,] # focus on overlap among genes that are annotated
+mysp = unique(test$species)
+
+pdf(file = paste0("./output/figures/additional_figs/VennsDiagrams_per_species.pdf"), width=(11.3/2.54), height=(6.5/2.54))
+for(s in 1:length(mysp)){
+  
+  
+  print(s) 
+  
+  
+  test.s = test[test$species == mysp[s],]
+  
+  
+  pegs.biofilm<- test.s[test.s$biofilm == 1, 'peg']
+  pegs.ab<- test.s[test.s$antibiotic_degradation == 1, 'peg']
+  pegs.qs<- test.s[test.s$quorum_sensing == 1, 'peg']
+  pegs.sid<- test.s[test.s$siderophores == 1, 'peg']
+  pegs.ss<- test.s[test.s$secretion_system == 1, 'peg']
+  pegs.secretome<- test.s[test.s$secretome == 1, 'peg']
+  
+  # we know from the overall dataframe that overlap always happen between secretome/biofilm or secretome/antibiotic, never between seceretome and anything else, or the GO categories between each other
+  # so we can simply re-apply this code looping over each species
+  
+  VennDiag <- euler(c("Secretome" = length(pegs.secretome),
+                      "Biofilm" = length(pegs.biofilm),
+                      "Antibiotic" = length(pegs.ab),
+                      "Quorum-sensing" = length(pegs.qs),
+                      "Siderophores" = length(pegs.sid),
+                      "Sec.Syst." = length(pegs.ss),
+                      "Secretome&Biofilm" = length(intersect(pegs.secretome, pegs.biofilm)),
+                      "Secretome&Antibiotic" = length(intersect(pegs.secretome, pegs.ab))))
+  
+  
+  print(plot(VennDiag,
+             counts = TRUE,
+             edges = TRUE,#quantities = TRUE, 
+             font=2,
+             labels = list(cex = .5),
+             quantities = list(cex = .5),
+             cex=1,
+             alpha=0.5,
+             main = list(cex = 0.7, label = mysp[s], font = 2),
+             fill=c("darkorchid", "forestgreen", "magenta", "yellow", "darkorange", "navy")))
+  
+  
+}
+dev.off()
+
+
+
+
 
 
 
@@ -365,13 +482,13 @@ format_full_summary_model2<- function(model, trait){
   
 }
 
+library(kableExtra)
 
-
-load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL1_CHAIN_1.RData")
-load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL2_CHAIN_1.RData")
-load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL3_CHAIN_1.RData")
-load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL4_CHAIN_1.RData")
-load("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_1.RData")
+load("./output/analyses/MODEL1_CHAIN_1.RData")
+load("./output/analyses/MODEL2_CHAIN_1.RData")
+load("./output/analyses/MODEL3_CHAIN_1.RData")
+load("./output/analyses/MODEL4_CHAIN_1.RData")
+load("./output/analyses/MODEL5_CHAIN_1.RData")
 
 
 # MODEL 1
@@ -400,7 +517,7 @@ tab.s1<- kable(tab, "latex", booktabs = T, caption = 'Model summaries for the ph
   pack_rows("Quorum sensing", 27, 31)
 
 
-fileConn<-file("TABLE_S1.tex")
+fileConn<-file("./output/figures/TABLE_S1.tex")
 writeLines(tab.s1, fileConn)
 close(fileConn)
 
@@ -436,7 +553,7 @@ tab.s2<- kable(tab.model2, "latex", longtable = T, booktabs = T, caption = 'Mode
   pack_rows("Quorum sensing", 52, 61)
 
 
-fileConn<-file("TABLE_S2.tex")
+fileConn<-file("./output/figures/TABLE_S2.tex")
 writeLines(tab.s2, fileConn)
 close(fileConn)
 
@@ -485,7 +602,7 @@ tab.s3<- kable(tab.model3, "latex", booktabs = T, caption = 'Model summary for t
            fixed_small_size = TRUE, general_title = "")
 
 
-fileConn<-file("TABLE_S3.tex")
+fileConn<-file("./output/figures/TABLE_S3.tex")
 writeLines(tab.s3, fileConn)
 close(fileConn)
 
@@ -514,7 +631,7 @@ tab.s4<- kable(tab.model4, "latex", booktabs = T, caption = 'Model summaries for
   pack_rows("Quorum sensing", 37, 43)
 
 
-fileConn<-file("TABLE_S4.tex")
+fileConn<-file("./output/figures/TABLE_S4.tex")
 writeLines(tab.s4, fileConn)
 close(fileConn)
 
@@ -563,7 +680,7 @@ tab.s5<- kable(tab.model5, "latex", booktabs = T, caption = 'Model summary for t
              "pMCMC: taken as twice the posterior probability that the estimate is negative"),
            fixed_small_size = TRUE, general_title = "")
 
-fileConn<-file("TABLE_S5.tex")
+fileConn<-file("./output/figures/TABLE_S5.tex")
 writeLines(tab.s5, fileConn)
 close(fileConn)
 
@@ -599,7 +716,7 @@ tab.s6<- kable(tab.meta, "latex", booktabs = T, caption = 'Meta-analysis model s
 
 
 
-fileConn<-file("TABLE_S6.tex")
+fileConn<-file("./output/figures/TABLE_S6.tex")
 writeLines(tab.s6, fileConn)
 close(fileConn)
 

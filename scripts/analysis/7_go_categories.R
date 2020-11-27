@@ -161,15 +161,31 @@ run_trait_quantification<- function(focal_behaviour){
   trait_go_terms_contribution_df$species<- rownames(trait_go_terms_contribution_df)
   trait_go_terms_contribution_df2<- gather(trait_go_terms_contribution_df, 'GO_id', 'hits', 1:(ncol(trait_go_terms_contribution_df)-1))
   
-  heatmap<- ggplot(trait_go_terms_contribution_df2, aes(x = GO_id, y = species))+
+  plot_ids<- read.table("./data/species_info_files/species_plot_names.txt", header=TRUE, sep = '\t')
+  
+  trait_go_terms_contribution_df2<- left_join(trait_go_terms_contribution_df2, plot_ids, 'species')
+  
+  heatmap<- ggplot(trait_go_terms_contribution_df2, aes(x = GO_id, y = plot_names))+
     geom_tile(aes(fill = log(1+hits))) +
     scale_fill_gradient(low = "white", high = "darkred")+xlab('')+ylab('')+
-    mytheme_45_leg_medium
+    theme(#legend.position="none",
+      legend.title = element_text(size = 6),
+      legend.text = element_text(size = 6),
+      legend.key.size = unit(0.7, "cm"),
+      legend.key.width = unit(0.4,"cm") ,
+      panel.border= element_blank(),
+      axis.text.y = element_text(colour="black", size=5),
+      axis.text.x = element_text(colour="black", face = "bold", size=5, angle = 45, vjust=1, hjust=1),
+      axis.line.y = element_line(color="black", size = 0.3),
+      axis.line.x = element_line(color="black", size = 0.3),
+      axis.ticks.y = element_line(color="black", size = 0.3),
+      axis.ticks.x = element_line(color="black", size = 0.3),
+      plot.title = element_text(lineheight=.8, face="bold", hjust = 0.5))
+  
   
   return(list('contribution_heatmap' = heatmap,
               'trait_quantification' = trait_quantification_df))
 }
-
 
 qt_biofilm<- run_trait_quantification('biofilm')
 qt_ab_degradation<- run_trait_quantification('antibiotic_degradation')
@@ -232,7 +248,6 @@ per_peg_annotations<- vector('list')
 
 for(s in 1:length(dat$species_id)){
   
-  #for(s in 1:3){ # quick test
   
   species<- dat$species_id[s]
   pegs_assignation<- vector('list')

@@ -1,19 +1,44 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# RUNNING PHYLOGENETIC MIXED MODELS #
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+#                    Simonet & McNally 2020                     #
+#                     Statistical analyses                      #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-setwd("~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_gitRepos/")
-source("~/Documents/PhD/Research/background_scripts/basic_packages.R")
+# We run 5 models:
+# (1) mean relatedness
+# (1.2) meta-analysis on models 1
+# --> saved as MODEL1_CHAIN_X.RData
 
+# (2) Within host relatedness (uncertainty)
+# (2.2) meta-analysis on models 2
+# --> saved as MODEL2_CHAIN_X.RData
+
+# (3) Drivers of relatedness
+# --> saved as MODEL3_CHAIN_X.RData
+
+# (4) mean relatedness, with sporulation and relative abundance
+# (4.2) meta-analysis on models 4
+# --> saved as MODEL4_CHAIN_X.RData
+
+# (5) Drivers of relatedness, with cooperative measures included
+# --> saved as MODEL5_CHAIN_X.RData
+
+
+#local_project_dir='/path/to/where/repo/is/cloned'
+setwd(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/'))
+source(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/scripts/analysis/sourced_packages.R'))
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # PREP DATA ----
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 # d: full dataset, to use for models using within host values, i.e. (#2) uncertainty model and (#3) drivers of relatedness
-# d_109: same as d but to use when having secretome size as response. We remove species for which gram profile could not be determined and thus psortB could not be run.
+# d_109: same as d but for models with secretome size as response: we remove species for which PSORTb courld not be run because gram profile is not be determined.
 # d_mean: relatedness and abundance averaged by species, for model (#1) and (#4)
-# d_mean_109: same as d_mean but to use for the model where secretome size is the response
+# d_mean_109: same as d_mean but for models with secretome size as response
 
 
-d<- read.table('/Users/s1687811/Documents/GitHub/HamiltonRuleMicrobiome/output/ANALYSIS_DATA_ASSEMBLED.txt', header=TRUE, stringsAsFactors = FALSE) %>% mutate(first = !duplicated(species_id)) %>% rename(species = species_id)
+d<- read.table(paste0(local_project_dir, '/HamiltonRuleMicrobiome_gitRepos/output/tables/ANALYSIS_DATA_ASSEMBLED.txt'), header=TRUE, stringsAsFactors = FALSE) %>% mutate(first = !duplicated(species_id)) %>% rename(species = species_id)
+
 
 toremove<- unique(d[d$gram_profile == 'gram0','species'])
 
@@ -35,7 +60,7 @@ d_mean_109<- d_mean %>% filter(!is.element(species, toremove)) %>% as.data.frame
 library("ape")
 library('MCMCglmm')
 
-midas.tree<- read.tree('~/Documents/GitHub/HamiltonRuleMicrobiome/data/species_info_files/midas_tree_renamed.newick')
+midas.tree<- read.tree('./data/species_info_files/midas_tree_renamed.newick')
 
 phylogeny<- drop.tip(midas.tree, midas.tree$tip.label[which(!is.element(midas.tree$tip.label, d_mean$species))])
 phylogeny<- chronopl(phylogeny, lambda = 0)
@@ -49,7 +74,11 @@ Ainv<-inverseA(phylogeny, scale=FALSE)$Ainv
 Ainv_109<-inverseA(phylogeny_109, scale=FALSE)$Ainv
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # 1) MEAN R ----
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+
 # RESPONSE: number of genes involved in a cooperative trait, either secretome size, biofilm, siderophores, QS, antibiotic degradation, secretion systems
 # PREDICTORS:  mean relatedness, log(genome_size), gram_profile. Genome_size is the number of CDS NOT involved in the cooperative trait. Gram_profile is included only when the response is the secretome size (because of PSORTb)
 
@@ -156,7 +185,9 @@ mods.R<- list(ab_degradation = pmm.new.ab_degradation.R,
               secretome = pmm.new.secretome.R)
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # META-ANALYSIS ON #1 ----
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 #load('output/MODELS_1_chain1.RData')
 
@@ -226,11 +257,12 @@ rm(pmm.new.siderophores.R)
 rm(pmm.new.ab_degradation.R)
 
 
-#save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL1_CHAIN_1.RData')
-save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL1_CHAIN_2.RData')
+save.image('./output/analyses/MODEL1_CHAIN_2.RData')
 print('Section 1 done!')
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # 2) WITHIN HOST R (UNCERTAINTY MODEL) ----
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # This asks exactly the same question as model (#1) but accounts for the uncertainty in the estimates of relatedness. 
 # EXPLAINED IN SHORT: We use a bivariate model formulation to estimate (i) the covariance matrix between the species level variance for relatedness and the residual variance for secretome size and (ii) the covariance matrix between the inter-species phylogenetic variance for relatedness and the response cooperative trait. This gives two regression coefficient of the response cooperative trait and relatedness: the covariance from (i) divided by the residual variance in the response cooperative trait gives the non-phylogenetic regression coefficient and the covariance divided by the phylogenetic variance on the response cooperative trait gives the phylogenetic regression coefficient. The total regression coefficient is [cov(i) + cov(ii)]/[phylogenetic variance in Y + residual variance in Y]
 # RESPONSE: number of genes involved in a cooperative trait, either secretome size, biofilm, siderophores, QS, antibiotic degradation, secretion systems
@@ -364,8 +396,9 @@ mods.R.UNCERTAINTY<- list(ab_degradation = pmm_ab_degradation,
 
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # META-ANALYSIS ON #2 ----
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 extract_mev.genomeSize<-function(model, cooperative_trait){
   post = model$Sol[,grep('nb_cds_not_involved_in_response', colnames(model$Sol))]
   effect = mean(post)
@@ -420,13 +453,13 @@ rm(pmm_siderophores)
 rm(pmm_ab_degradation)
 
 
-#save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL2_CHAIN_1.RData')
-save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL2_CHAIN_2.RData')
+save.image('./output/analyses/MODEL2_CHAIN_2.RData')
 print('section 2 done!')
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # 3) DRIVERS OF RELATEDNESS ----
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 # Estimate:
 # residual variance (R1)
@@ -465,14 +498,15 @@ m3<- MCMCglmm(within_host_relatedness ~ 1 + sporulation_score + within_host_rela
 
 summary(m3)
 
-#save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL3_CHAIN_1.RData')
-save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL3_CHAIN_2.RData')
+
+save.image('./output/analyses/MODEL3_CHAIN_2.RData')
 
 print('section 3 done!')
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # 4) MEAN R RA SPO ----
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # As in (1), uses mean relatedness as predictor BUT HERE ALSO INCLUDES ecological factors as predictors
 # RESPONSE: number of genes involved in a cooperative trait, either secretome size, biofilm, siderophores, QS, antibiotic degradation, secretion systems
 # PREDICTORS:  mean relatedness, log(genome_size), gram_profile AND sporulation score AND mean_relative_abundance
@@ -514,8 +548,9 @@ summary(pmm.new.secretion_system_no4.R.RA.SPO)
 
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # META-ANALYSIS ON #4 ----
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # Extract effects and sd from posterior of the models
 dat.R.RA.SPO<- rbind(extract_mev.2(mods.R.RA.SPO$secretome, 'secretome', 'mean_relatedness'),
                      extract_mev.2(mods.R.RA.SPO$secretion_system_no4, 'secretion_system', 'mean_relatedness'),
@@ -566,13 +601,15 @@ rm(pmm.new.quorum_sensing.R.RA.SPO)
 rm(pmm.new.siderophores.R.RA.SPO)
 rm(pmm.new.ab_degradation.R.RA.SPO)
 
-#save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL4_CHAIN_1.RData')
-save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL4_CHAIN_2.RData')
+
+save.image('./output/analyses/MODEL4_CHAIN_2.RData')
 
 print('section 4 done!')
 
 
-# 5) MODEL 5 ----
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# 5) DRIVERS AND COOPERATIVE TRAITS ----
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # Same as model 3 but adding the cooperative traits along with the ecological factors
 # We run it on d_109 thought because NA values in secretome size (97 species instead of 101)
 # The prior remains the same
@@ -581,7 +618,7 @@ print('section 4 done!')
 # host effects variances  (G2)
 # Species phylogenetics effects variance (G3)
 
-nitt<-1005000
+nitt<- 1005000
 burnin<-5000
 thin<-50
 
@@ -649,7 +686,7 @@ plot(foo[,8] ~ foo[,9], pch = 16, col = adjustcolor('black', alpha = .1)); ablin
 
 m5.joint.test<- aod::wald.test(cov(m5$Sol), colMeans(m5$Sol), Terms=4:9)$result$chi2
 
-#save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_1.RData')
-save.image('~/Documents/PhD/Research/HamiltonRuleMicrobiome/HamiltonRuleMicrobiome_work/output/MODEL5_CHAIN_2.RData')
+
+save.image('./output/analyses/MODEL5_CHAIN_2.RData')
 
 print("section 5 done :)")

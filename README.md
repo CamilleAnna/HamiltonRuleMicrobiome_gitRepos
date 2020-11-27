@@ -112,3 +112,11 @@ Output:
 Output: ./output/tables/ANALYSIS_DATA_ASSEMBLED.txt
 
 
+11_statistical_analyses.R: all code for statistical analyses.
+Output: modems RData output in ./output/analyses/
+
+12_figures_main.R: code for main manuscript figures
+
+
+13_figures_SI.R: code for supplementary dataset figures
+
