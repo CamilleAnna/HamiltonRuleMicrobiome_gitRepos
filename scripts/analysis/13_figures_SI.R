@@ -504,7 +504,7 @@ tab<-rbind(
 
 
 
-tab.s1<- kable(tab, "latex", booktabs = T, caption = 'Model summaries for the phylogenetic mixed models of cooperative traits') %>%
+tab.s1<- kable(tab, "latex", booktabs = T, caption = 'Model summaries for the phylogenetic mixed models of cooperation') %>%
   footnote(c("CI95%: 95% credible interval of the posterior distribution",
              "pMCMC: taken as twice the posterior probability that the estimate is negative"),
            fixed_small_size = TRUE, general_title = "") %>%
@@ -540,7 +540,7 @@ tab.model2 <- tab.model2 %>%
   mutate(Structure = gsub('Phylogenetic', 'Phyl.', Structure, fixed = TRUE))
 
 
-tab.s2<- kable(tab.model2, "latex", longtable = T, booktabs = T, caption = 'Model summaries for phylogenetic mixed models of cooperative traits accounting for uncertainty in relatedness estimates. The total regression coefficient of the response trait over relatedness is the sum of the phylogenetic and non-phylogenetic (residual) covariances divided by the sum of the phylogenetic and non-phylogenetic (residual) variances') %>%
+tab.s2<- kable(tab.model2, "latex", longtable = T, booktabs = T, caption = 'Model summaries for phylogenetic mixed models of cooperation, for the six forms of cooperation, when accounting for uncertainty in relatedness estimates. The total regression coefficient of the response trait over relatedness is the sum of the phylogenetic and non-phylogenetic (residual) covariances divided by the sum of the phylogenetic and non-phylogenetic (residual) variances') %>%
   kable_styling(latex_options = c("HOLD_position", "repeat_header")) %>%
   footnote(c("CI95%: 95% credible interval of the posterior distribution",
              "pMCMC: taken as twice the posterior probability that the estimate is negative"),
@@ -618,7 +618,7 @@ tab.model4<-rbind(
   format_full_summary(mods.R.RA.SPO$quorum_sensing, '')
 )
 
-tab.s4<- kable(tab.model4, "latex", booktabs = T, caption = 'Model summaries for the phylogenetic mixed models of cooperative traits when including sporulation scores and relative abundance as predictors') %>%
+tab.s4<- kable(tab.model4, "latex", booktabs = T, caption = 'Model summaries for the phylogenetic mixed models of cooperation when including sporulation scores and relative abundance as predictors') %>%
   footnote(c("CI95%: 95% credible interval of the posterior distribution",
              "pMCMC: taken as twice the posterior probability that the estimate is negative"),
            fixed_small_size = TRUE, general_title = "")%>%
@@ -675,7 +675,7 @@ tab.model5<- rbind(fixed, random, unit) %>%
 tab.model5<- tab.model5[c(1:9,10,12,11,13),]
 
 
-tab.s5<- kable(tab.model5, "latex", booktabs = T, caption = 'Model summary for the phylogenetic mixed model of relatedness (drivers of relatedness) with cooperative traits included as fixed predictors', row.names = FALSE, linesep = "") %>%
+tab.s5<- kable(tab.model5, "latex", booktabs = T, caption = 'Model summary for the phylogenetic mixed model of relatedness (drivers of relatedness) with cooperation (all six forms) included as fixed predictors', row.names = FALSE, linesep = "") %>%
   footnote(c("CI95%: 95% credible interval of the posterior distribution",
              "pMCMC: taken as twice the posterior probability that the estimate is negative"),
            fixed_small_size = TRUE, general_title = "")

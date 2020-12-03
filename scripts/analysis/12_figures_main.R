@@ -50,7 +50,8 @@ ylim = c(1, length(unique(d$species)))
 xlim = c(-1, 1)
 
 # Output figure
-ppi <- 800
+ppi <- 1200# 800
+
 png('./output/figures/FIG_1C.png', width=(8/2.54)*ppi, height=(17.8/2.54)*ppi, res=ppi)
 
 # Set the plot
@@ -95,9 +96,10 @@ dev.off()
 # Load images and assemble panel 1
 library(magick)
 
-fig1A <- image_read("./output/figures/FIG_1A.png")
+fig1A <- image_read("./output/figures/Fig_1A.png")
 fig1B <- image_read("./output/figures/FIG_1B.png")
 fig1C <- image_read("./output/figures/FIG_1C.png")
+
 
 width_1A<- round(((8.8)*100)/17.8)
 width_1C<- 100 - width_1A
@@ -479,6 +481,7 @@ coltoplot2<- map2color2('snow', 'darkorchid4', 0.01, 'nb_extracellular')
 
 #pdf(file = './output/figures/Fig2_tree_and_clades2.pdf', width = (11.3/2.54), height = (11.3/2.54))
 
+ppi=800
 png('./output/figures/FIG_2.tree.png', width=(11.3/2.54)*ppi, height=(11.3/2.54)*ppi, res=ppi)
 
 par(mar = c(0,0,0,0),
@@ -758,16 +761,36 @@ axis(2, at = seq(1,7,1),
 
 cols = c('yellow', 'navy', 'darkorchid4', 'magenta', 'forestgreen', 'darkorange', 'black')
 
+# to add pvalues
+p.secretome = round(summary(mods.R$secretome)$solutions['mean_relatedness','pMCMC'], 3)
+p.biofilm = round(summary(mods.R$biofilm)$solutions['mean_relatedness','pMCMC'], 3)
+p.sid = summary(mods.R$siderophores)$solutions['mean_relatedness','pMCMC']
+p.qs = round(summary(mods.R$quorum_sensing)$solutions['mean_relatedness','pMCMC'], 3)
+p.ab = round(summary(mods.R$ab_degradation)$solutions['mean_relatedness','pMCMC'], 3)
+p.ssyst = round(summary(mods.R$secretion_system_no4)$solutions['mean_relatedness','pMCMC'], 3)
+p.overall = format(as.numeric(MA.MODELS_1[1,'p.value']), digits = 2)
+
+
+ps<- c(round(p.qs, 2), round(p.ssyst, 2), format(p.secretome, scientific = T, digits = 2), round(p.ab, 2), format(p.biofilm, scientific = T, digits = 2), format(p.sid, scientific = T, digits = 2), p.overall)
+
+
 for(i in 1:nrow(dat.R.relatedness)){
   points(x = dat.R.relatedness$effect[i], y = i, pch = 16, cex = 0.8, col = cols[i]) 
   lines(x = dat.R.relatedness[i,c('hpd_lower', 'hpd_higher')], y = rep(i,2), col =  cols[i])
   lines(x = rep(dat.R.relatedness[i,c('hpd_lower')], 2), y = c(i+0.05, i-0.05), col =  cols[i])
   lines(x = rep(dat.R.relatedness[i,c('hpd_higher')], 2), y = c(i+0.05, i-0.05), col =  cols[i])
+
+  
+  ptext = ifelse(i<7, 'pval: ', 'pval: ')
+  
+  #text(paste0('(', ptext, ps[i], ')'), x = dat.R.relatedness[i,c('hpd_higher')], y  = i+0.15, cex = 0.4)
+  
 }
 
 
 abline(v = 0, lty = 'dotted')
 mtext(side = 3, 'A', font = 2, at = -4.5, cex = 0.5)
+
 
 
 par(mar = c(1, 2.5, 0.15, 0.5))
@@ -835,6 +858,8 @@ intercept = mean(m3$Sol[,1])
 b_sporulation = mean(m3$Sol[,'sporulation_score'])
 b_abundance = mean(m3$Sol[,'within_host_relative_abundance'])
 
+p_sporulation = round(summary(m3)$solutions['sporulation_score','pMCMC'], 2)
+p_abundance = round(summary(m3)$solutions['within_host_relative_abundance','pMCMC'], 2)
 
 
 pdf('./output/figures/FIGURE_4.pdf', width=(8.7/2.54), height=(8.7/2.54))
@@ -890,6 +915,8 @@ axis(1, at = seq(0,0.5, 0.1), labels = rep('', 6), tck = -0.02)
 axis(1, at = seq(0,0.5, 0.1), lwd = 0, line  = -1, cex.axis =  0.5)
 axis(2, at = seq(-1,1,0.5), labels = rep('', 5), tck = -0.02)
 axis(2, at = seq(-1,1,0.5), lwd = 0, line  = -0.7, cex.axis =  0.5)
+text(paste0('(pMCMC = ', p_sporulation, ')'), x = 0.48, y = 0.43, cex = 0.4)
+
 
 # EMPIRICAL PLOT #2
 
@@ -913,6 +940,8 @@ axis(1, at = seq(0,0.8, 0.1), lwd = 0, line  = -1, cex.axis =  0.5)
 
 axis(2, at = seq(-1,1,0.5), labels = rep('', 5), tck = -0.02)
 axis(2, at = seq(-1,1,0.5), lwd = 0, line  = -0.7, cex.axis =  0.5)
+
+text(paste0('(pMCMC = ', p_abundance, ')'), x = 0.71, y = 0.69, cex = 0.4)
 
 
 dev.off()
